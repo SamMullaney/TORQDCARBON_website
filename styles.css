@@ -80,6 +80,28 @@ body {
     width: 100%;
 }
 
+/* Customize button highlight */
+.nav-link[href="customize.html"] {
+    background: linear-gradient(45deg, #00ff88, #00cc6a);
+    color: #000000 !important;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+}
+
+.nav-link[href="customize.html"]:hover {
+    background: linear-gradient(45deg, #00cc6a, #00ff88);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+    color: #000000 !important;
+}
+
+.nav-link[href="customize.html"]::after {
+    display: none;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
