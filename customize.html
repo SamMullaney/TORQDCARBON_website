@@ -15,21 +15,18 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="index.html">
-                    <h2>TORQD CARBON</h2>
+                    <img src="images/logo_no_bg.png" alt="TORQD CARBON" class="logo-image">
                 </a>
             </div>
             <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="customize.html" class="nav-link active">CUSTOMIZE</a>
+                </li>
                 <li class="nav-item">
                     <a href="index.html#bmw" class="nav-link">BMW</a>
                 </li>
                 <li class="nav-item">
                     <a href="index.html#audi" class="nav-link">AUDI</a>
-                </li>
-                <li class="nav-item">
-                    <a href="index.html#mercedes" class="nav-link">MERCEDES</a>
-                </li>
-                <li class="nav-item">
-                    <a href="customize.html" class="nav-link active">CUSTOMIZE</a>
                 </li>
                 <li class="nav-item">
                     <a href="index.html#gallery" class="nav-link">GALLERY</a>
@@ -61,218 +58,153 @@
     <section class="customize-interface">
         <div class="container">
             <div class="customize-layout">
-                <!-- Left Panel - Part Selection -->
-                <div class="parts-panel">
-                    <h3>Steering Wheel Parts</h3>
-                    <div class="parts-list">
-                        <div class="part-item active" data-part="rim">
-                            <i class="fas fa-circle"></i>
-                            <span>Rim</span>
-                        </div>
-                        <div class="part-item" data-part="spokes">
-                            <i class="fas fa-star"></i>
-                            <span>Spokes</span>
-                        </div>
-                        <div class="part-item" data-part="center">
-                            <i class="fas fa-dot-circle"></i>
-                            <span>Center</span>
-                        </div>
-                        <div class="part-item" data-part="grips">
-                            <i class="fas fa-hand-paper"></i>
-                            <span>Grips</span>
-                        </div>
-                        <div class="part-item" data-part="buttons">
-                            <i class="fas fa-square"></i>
-                            <span>Buttons</span>
-                        </div>
-                        <div class="part-item" data-part="paddles">
-                            <i class="fas fa-chevron-left"></i>
-                            <span>Paddles</span>
+                <!-- Center Panel - Jukebox Viewer -->
+                <div class="jukebox-viewer">
+                    <div class="jukebox-container">
+                        <!-- Single Carousel Area with Layered Images -->
+                        <div class="carousel-area">
+                            <!-- Previous Container -->
+                            <div class="carousel-container prev-container" id="prev-container">
+                                <img src="" alt="Base" class="carousel-base" id="prev-base">
+                                <img src="" alt="Sides" class="carousel-sides" id="prev-sides">
+                                <img src="" alt="Top/Bottom" class="carousel-topbottom" id="prev-topbottom">
+                            </div>
+                            <!-- Current Container -->
+                            <div class="carousel-container current-container" id="current-container">
+                                <img src="" alt="Base" class="carousel-base" id="current-base">
+                                <img src="" alt="Sides" class="carousel-sides" id="current-sides">
+                                <img src="" alt="Top/Bottom" class="carousel-topbottom" id="current-topbottom">
+                            </div>
+                            <!-- Next Container -->
+                            <div class="carousel-container next-container" id="next-container">
+                                <img src="" alt="Base" class="carousel-base" id="next-base">
+                                <img src="" alt="Sides" class="carousel-sides" id="next-sides">
+                                <img src="" alt="Top/Bottom" class="carousel-topbottom" id="next-topbottom">
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Center Panel - 3D View -->
-                <div class="viewer-panel">
-                    <div class="viewer-controls">
-                        <button class="rotate-btn" id="rotate-left">
+                    
+                    <!-- Navigation Buttons -->
+                    <div class="jukebox-controls">
+                        <button class="jukebox-btn prev-btn" id="prev-btn">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        <h3>Steering Wheel View</h3>
-                        <button class="rotate-btn" id="rotate-right">
+                        <button class="jukebox-btn lock-btn" id="lock-btn">
+                            <i class="fas fa-lock-open"></i>
+                            <span>Lock Selection</span>
+                        </button>
+                        <button class="jukebox-btn next-btn" id="next-btn">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
-                    <div class="steering-wheel-viewer">
-                        <div class="steering-wheel" id="steering-wheel">
-                            <div class="wheel-rim">
-                                <div class="wheel-spokes">
-                                    <div class="spoke spoke-1"></div>
-                                    <div class="spoke spoke-2"></div>
-                                    <div class="spoke spoke-3"></div>
-                                </div>
-                                <div class="wheel-center">
-                                    <div class="center-logo">TC</div>
-                                </div>
-                                <div class="wheel-grips">
-                                    <div class="grip grip-1"></div>
-                                    <div class="grip grip-2"></div>
-                                    <div class="grip grip-3"></div>
-                                </div>
-                                <div class="wheel-buttons">
-                                    <div class="button button-left"></div>
-                                    <div class="button button-right"></div>
-                                </div>
-                                <div class="wheel-paddles">
-                                    <div class="paddle paddle-left"></div>
-                                    <div class="paddle paddle-right"></div>
-                                </div>
+                    
+                    <div class="viewer-info">
+                        <p>Use arrow buttons or click options to navigate</p>
+                    </div>
+                    
+                    <!-- Additional Customization Widgets -->
+                    <div class="additional-widgets">
+                        <div class="widget-group">
+                            <h4>Style</h4>
+                            <div class="widget-buttons">
+                                <button class="widget-btn active" data-option="style" data-value="comfort">
+                                    <span>Comfort</span>
+                                </button>
+                                <button class="widget-btn" data-option="style" data-value="sport">
+                                    <span>Sport</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="viewer-info">
-                            <p>Click and drag to rotate • Use arrow keys to navigate</p>
+                        
+                        <div class="widget-group">
+                            <h4>Badge</h4>
+                            <div class="widget-buttons">
+                                <button class="widget-btn active" data-option="badge" data-value="s">
+                                    <span class="badge">S</span>
+                                    <span>S</span>
+                                </button>
+                                <button class="widget-btn" data-option="badge" data-value="rs">
+                                    <span class="badge">RS</span>
+                                    <span>RS</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-group">
+                            <h4>Airbag Materials</h4>
+                            <div class="widget-buttons">
+                                <button class="widget-btn active" data-option="airbag" data-value="smooth-leather">
+                                    <span>Smooth Leather</span>
+                                </button>
+                                <button class="widget-btn" data-option="airbag" data-value="alcantara">
+                                    <span>Alcantara</span>
+                                </button>
+                                <button class="widget-btn" data-option="airbag" data-value="no-airbag">
+                                    <span>No Airbag</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-group">
+                            <h4>Top Stripe</h4>
+                            <div class="widget-buttons">
+                                <button class="widget-btn active" data-option="top-stripe" data-value="yes">
+                                    <span>Yes</span>
+                                </button>
+                                <button class="widget-btn" data-option="top-stripe" data-value="no">
+                                    <span>No</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Panel - Options -->
-                <div class="options-panel">
-                    <h3>Customization Options</h3>
-                    <div class="options-content">
-                        <!-- Rim Options -->
-                        <div class="option-group active" data-part="rim">
-                            <h4>Rim Material</h4>
-                            <div class="option-items">
-                                <div class="option-item active" data-option="carbon-fiber">
-                                    <div class="option-preview carbon-fiber"></div>
-                                    <span>Carbon Fiber</span>
-                                </div>
-                                <div class="option-item" data-option="alcantara">
-                                    <div class="option-preview alcantara"></div>
-                                    <span>Alcantara</span>
-                                </div>
-                                <div class="option-item" data-option="leather">
-                                    <div class="option-preview leather"></div>
-                                    <span>Leather</span>
-                                </div>
-                                <div class="option-item" data-option="suede">
-                                    <div class="option-preview suede"></div>
-                                    <span>Suede</span>
-                                </div>
+                <!-- Right Panel - Parts & Options -->
+                <div class="right-panel">
+                    <!-- Parts Selection -->
+                    <div class="parts-panel">
+                        <h3>Steering Wheel Parts</h3>
+                        <div class="parts-list">
+                            <div class="part-item active" data-part="base">
+                                <i class="fas fa-circle"></i>
+                                <span>Base Wheel</span>
+                            </div>
+                            <div class="part-item" data-part="sides">
+                                <i class="fas fa-arrows-alt-h"></i>
+                                <span>Sides</span>
+                            </div>
+                            <div class="part-item" data-part="topbottom">
+                                <i class="fas fa-arrows-alt-v"></i>
+                                <span>Top/Bottom</span>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Spokes Options -->
-                        <div class="option-group" data-part="spokes">
-                            <h4>Spoke Design</h4>
-                            <div class="option-items">
-                                <div class="option-item active" data-option="3-spoke">
-                                    <div class="option-preview spoke-3"></div>
-                                    <span>3-Spoke</span>
-                                </div>
-                                <div class="option-item" data-option="4-spoke">
-                                    <div class="option-preview spoke-4"></div>
-                                    <span>4-Spoke</span>
-                                </div>
-                                <div class="option-item" data-option="5-spoke">
-                                    <div class="option-preview spoke-5"></div>
-                                    <span>5-Spoke</span>
-                                </div>
-                                <div class="option-item" data-option="flat-bottom">
-                                    <div class="option-preview flat-bottom"></div>
-                                    <span>Flat Bottom</span>
+                    <!-- Options Panel -->
+                    <div class="options-panel">
+                        <h3>Customization Options</h3>
+                        <div class="options-content">
+                            <!-- Base Wheel Options -->
+                            <div class="option-group active" data-part="base">
+                                <h4>Base Wheel Style</h4>
+                                <div class="option-items" id="base-options">
+                                    <!-- Options will be populated by JavaScript -->
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Center Options -->
-                        <div class="option-group" data-part="center">
-                            <h4>Center Design</h4>
-                            <div class="option-items">
-                                <div class="option-item active" data-option="carbon-center">
-                                    <div class="option-preview carbon-center"></div>
-                                    <span>Carbon Center</span>
-                                </div>
-                                <div class="option-item" data-option="leather-center">
-                                    <div class="option-preview leather-center"></div>
-                                    <span>Leather Center</span>
-                                </div>
-                                <div class="option-item" data-option="alcantara-center">
-                                    <div class="option-preview alcantara-center"></div>
-                                    <span>Alcantara Center</span>
-                                </div>
-                                <div class="option-item" data-option="custom-logo">
-                                    <div class="option-preview custom-logo"></div>
-                                    <span>Custom Logo</span>
+                            <!-- Sides Options -->
+                            <div class="option-group" data-part="sides">
+                                <h4>Side Grips</h4>
+                                <div class="option-items" id="sides-options">
+                                    <!-- Options will be populated by JavaScript -->
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Grips Options -->
-                        <div class="option-group" data-part="grips">
-                            <h4>Grip Style</h4>
-                            <div class="option-items">
-                                <div class="option-item active" data-option="standard-grip">
-                                    <div class="option-preview standard-grip"></div>
-                                    <span>Standard</span>
-                                </div>
-                                <div class="option-item" data-option="perforated-grip">
-                                    <div class="option-preview perforated-grip"></div>
-                                    <span>Perforated</span>
-                                </div>
-                                <div class="option-item" data-option="thick-grip">
-                                    <div class="option-preview thick-grip"></div>
-                                    <span>Thick</span>
-                                </div>
-                                <div class="option-item" data-option="thin-grip">
-                                    <div class="option-preview thin-grip"></div>
-                                    <span>Thin</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Buttons Options -->
-                        <div class="option-group" data-part="buttons">
-                            <h4>Button Style</h4>
-                            <div class="option-items">
-                                <div class="option-item active" data-option="carbon-buttons">
-                                    <div class="option-preview carbon-buttons"></div>
-                                    <span>Carbon Buttons</span>
-                                </div>
-                                <div class="option-item" data-option="chrome-buttons">
-                                    <div class="option-preview chrome-buttons"></div>
-                                    <span>Chrome Buttons</span>
-                                </div>
-                                <div class="option-item" data-option="black-buttons">
-                                    <div class="option-preview black-buttons"></div>
-                                    <span>Black Buttons</span>
-                                </div>
-                                <div class="option-item" data-option="no-buttons">
-                                    <div class="option-preview no-buttons"></div>
-                                    <span>No Buttons</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Paddles Options -->
-                        <div class="option-group" data-part="paddles">
-                            <h4>Paddle Shifters</h4>
-                            <div class="option-items">
-                                <div class="option-item active" data-option="carbon-paddles">
-                                    <div class="option-preview carbon-paddles"></div>
-                                    <span>Carbon Paddles</span>
-                                </div>
-                                <div class="option-item" data-option="aluminum-paddles">
-                                    <div class="option-preview aluminum-paddles"></div>
-                                    <span>Aluminum Paddles</span>
-                                </div>
-                                <div class="option-item" data-option="extended-paddles">
-                                    <div class="option-preview extended-paddles"></div>
-                                    <span>Extended Paddles</span>
-                                </div>
-                                <div class="option-item" data-option="no-paddles">
-                                    <div class="option-preview no-paddles"></div>
-                                    <span>No Paddles</span>
+                            <!-- Top/Bottom Options -->
+                            <div class="option-group" data-part="topbottom">
+                                <h4>Top/Bottom Grips</h4>
+                                <div class="option-items" id="topbottom-options">
+                                    <!-- Options will be populated by JavaScript -->
                                 </div>
                             </div>
                         </div>
@@ -290,37 +222,44 @@
                     <h3>Your Custom Steering Wheel</h3>
                     <div class="specs-list">
                         <div class="spec-item">
-                            <span class="spec-label">Rim:</span>
-                            <span class="spec-value" id="rim-spec">Carbon Fiber</span>
+                            <span class="spec-label">Base Wheel:</span>
+                            <span class="spec-value" id="base-spec">Sport B9.5</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Spokes:</span>
-                            <span class="spec-value" id="spokes-spec">3-Spoke</span>
+                            <span class="spec-label">Sides:</span>
+                            <span class="spec-value" id="sides-spec">None</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Center:</span>
-                            <span class="spec-value" id="center-spec">Carbon Center</span>
+                            <span class="spec-label">Top/Bottom:</span>
+                            <span class="spec-value" id="topbottom-spec">None</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Grips:</span>
-                            <span class="spec-value" id="grips-spec">Standard</span>
+                            <span class="spec-label">Style:</span>
+                            <span class="spec-value" id="style-spec">Comfort</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Buttons:</span>
-                            <span class="spec-value" id="buttons-spec">Carbon Buttons</span>
+                            <span class="spec-label">Badge:</span>
+                            <span class="spec-value" id="badge-spec">S</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Paddles:</span>
-                            <span class="spec-value" id="paddles-spec">Carbon Paddles</span>
+                            <span class="spec-label">Airbag:</span>
+                            <span class="spec-value" id="airbag-spec">Smooth Leather</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Top Stripe:</span>
+                            <span class="spec-value" id="topstripe-spec">Yes</span>
                         </div>
                     </div>
                 </div>
                 <div class="summary-actions">
                     <div class="price-display">
-                        <span class="price-label">Estimated Price:</span>
-                        <span class="price-value" id="total-price">$2,499</span>
+                        <span class="price-label">Price:</span>
+                        <span class="price-value" id="total-price">$799.99</span>
                     </div>
-                    <button class="cta-button" id="get-quote-btn">Get Quote</button>
+                    <div class="customization-note">
+                        <p>DM @torqd.carbon for more customization options such as LEDs</p>
+                    </div>
+                    <button class="cta-button" id="customize-btn">Customize</button>
                     <button class="secondary-button" id="save-design-btn">Save Design</button>
                 </div>
             </div>
@@ -340,14 +279,12 @@
                     <ul>
                         <li><a href="index.html#bmw">BMW</a></li>
                         <li><a href="index.html#audi">Audi</a></li>
-                        <li><a href="index.html#mercedes">Mercedes</a></li>
                         <li><a href="customize.html">Customize</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Contact</h4>
-                    <p>info@torqdcarbon.com</p>
-                    <p>+1 (555) 123-4567</p>
+                    <p>torqdcarbon@gmail.com</p>
                 </div>
             </div>
             <div class="footer-bottom">
