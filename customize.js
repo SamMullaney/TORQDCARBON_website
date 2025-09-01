@@ -42,16 +42,60 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     };
     
+    // Cart functionality
+    let cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
+    
     // Additional customization options
     let additionalSelections = {
-        style: 'comfort',
         badge: 's',
         airbag: 'smooth-leather',
-        topStripe: 'yes'
+        topStripe: 'yes',
+        stripeColor: '#FFFFFF',
+        heating: 'yes',
+        trimColor: 'chrome',
+        paddleShifters: 'long-pick',
+        additionalSpecs: ''
     };
     
     // Setup additional option buttons
     setupAdditionalOptions();
+    
+    // Setup color selector
+    setupColorSelector();
+    
+    // Setup chat input
+    setupChatInput();
+    
+    // Setup cart buttons
+    setupCartButtons();
+    
+    function setupChatInput() {
+        const textarea = document.getElementById('additional-specs');
+        const charCount = document.getElementById('char-count');
+        
+        if (textarea && charCount) {
+            // Update character count on input
+            textarea.addEventListener('input', function() {
+                const length = this.value.length;
+                charCount.textContent = length;
+                
+                // Change color when approaching limit
+                if (length > 450) {
+                    charCount.style.color = '#ff6b6b';
+                } else if (length > 400) {
+                    charCount.style.color = '#ffa500';
+                } else {
+                    charCount.style.color = '#666666';
+                }
+            });
+            
+            // Save text to additional selections
+            textarea.addEventListener('blur', function() {
+                additionalSelections.additionalSpecs = this.value;
+                console.log('Additional specs updated:', this.value);
+            });
+        }
+    }
     
     function setupAdditionalOptions() {
         const widgetButtons = document.querySelectorAll('.widget-btn');
@@ -68,20 +112,115 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('active');
                 
                 // Update selections
-                if (option === 'style') {
-                    additionalSelections.style = value;
-                } else if (option === 'badge') {
+                if (option === 'badge') {
                     additionalSelections.badge = value;
                 } else if (option === 'airbag') {
                     additionalSelections.airbag = value;
                 } else if (option === 'top-stripe') {
                     additionalSelections.topStripe = value;
+                } else if (option === 'heating') {
+                    additionalSelections.heating = value;
+                } else if (option === 'trim-color') {
+                    additionalSelections.trimColor = value;
+                } else if (option === 'paddle-shifters') {
+                    additionalSelections.paddleShifters = value;
                 }
                 
                 console.log('Additional option selected:', option, value);
                 updateSummary();
             });
         });
+    }
+    
+    function setupColorSelector() {
+        const colorOptions = document.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const color = this.getAttribute('data-color');
+                
+                // Update active state
+                const colorSelector = this.closest('.color-selector');
+                colorSelector.querySelectorAll('.color-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Update selections
+                additionalSelections.stripeColor = color;
+                
+                console.log('Stripe color selected:', color);
+                updateSummary();
+            });
+        });
+    }
+    
+    function setupCartButtons() {
+        const saveDesignBtn = document.getElementById('save-design-btn');
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+
+        if (saveDesignBtn) {
+            saveDesignBtn.addEventListener('click', function() {
+                saveDesignToCart();
+            });
+        }
+
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', function() {
+                addToCart();
+            });
+        }
+    }
+
+    function saveDesignToCart() {
+        const design = {
+            base: options.base[currentIndexes.base].name,
+            sides: options.sides[currentIndexes.sides].name,
+            topbottom: options.topbottom[currentIndexes.topbottom].name,
+            badge: additionalSelections.badge,
+            airbag: additionalSelections.airbag,
+            topStripe: additionalSelections.topStripe,
+            stripeColor: additionalSelections.stripeColor,
+            heating: additionalSelections.heating,
+            trimColor: additionalSelections.trimColor,
+            paddleShifters: additionalSelections.paddleShifters,
+            additionalSpecs: additionalSelections.additionalSpecs
+        };
+        cart.push(design);
+        localStorage.setItem('torqdCart', JSON.stringify(cart));
+        
+        // Update cart count
+        if (typeof updateCartCount === 'function') {
+            updateCartCount();
+        }
+        
+        alert('Design saved to cart!');
+        console.log('Design saved to cart:', design);
+    }
+
+    function addToCart() {
+        const design = {
+            base: options.base[currentIndexes.base].name,
+            sides: options.sides[currentIndexes.sides].name,
+            topbottom: options.topbottom[currentIndexes.topbottom].name,
+            badge: additionalSelections.badge,
+            airbag: additionalSelections.airbag,
+            topStripe: additionalSelections.topStripe,
+            stripeColor: additionalSelections.stripeColor,
+            heating: additionalSelections.heating,
+            trimColor: additionalSelections.trimColor,
+            paddleShifters: additionalSelections.paddleShifters,
+            additionalSpecs: additionalSelections.additionalSpecs
+        };
+        cart.push(design);
+        localStorage.setItem('torqdCart', JSON.stringify(cart));
+        
+        // Update cart count
+        if (typeof updateCartCount === 'function') {
+            updateCartCount();
+        }
+        
+        alert('Design added to cart!');
+        console.log('Design added to cart:', design);
     }
     
     // Initialize
@@ -612,10 +751,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const baseSpec = document.getElementById('base-spec');
         const sidesSpec = document.getElementById('sides-spec');
         const topbottomSpec = document.getElementById('topbottom-spec');
-        const styleSpec = document.getElementById('style-spec');
         const badgeSpec = document.getElementById('badge-spec');
         const airbagSpec = document.getElementById('airbag-spec');
         const topstripeSpec = document.getElementById('topstripe-spec');
+        const stripeColorSpec = document.getElementById('stripe-color-spec');
+        const heatingSpec = document.getElementById('heating-spec');
+        const trimColorSpec = document.getElementById('trim-color-spec');
+        const paddleShiftersSpec = document.getElementById('paddle-shifters-spec');
         const totalPrice = document.getElementById('total-price');
         
         // Use locked selections or current selections
@@ -628,14 +770,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (topbottomSpec) topbottomSpec.textContent = options.topbottom[topbottomIndex].name;
         
         // Update additional options
-        if (styleSpec) {
-            const styleDisplay = {
-                'comfort': 'Comfort',
-                'sport': 'Sport'
-            };
-            styleSpec.textContent = styleDisplay[additionalSelections.style] || 'Comfort';
-        }
-        
         if (badgeSpec) {
             const badgeDisplay = {
                 's': 'S',
@@ -661,8 +795,57 @@ document.addEventListener('DOMContentLoaded', function() {
             topstripeSpec.textContent = topstripeDisplay[additionalSelections.topStripe] || 'Yes';
         }
         
-        // Fixed price of $799.99
-        if (totalPrice) totalPrice.textContent = '$799.99';
+        if (stripeColorSpec) {
+            const colorDisplay = {
+                '#FFFFFF': 'White',
+                '#A80000': 'Red',
+                '#118DFF': 'Blue',
+                '#12239E': 'Navy',
+                '#480091': 'Purple',
+                '#0AAC00': 'Green',
+                '#F17925': 'Orange',
+                '#ECC846': 'Yellow'
+            };
+            stripeColorSpec.textContent = colorDisplay[additionalSelections.stripeColor] || 'White';
+        }
+        
+        if (heatingSpec) {
+            const heatingDisplay = {
+                'yes': 'Yes',
+                'no': 'No'
+            };
+            heatingSpec.textContent = heatingDisplay[additionalSelections.heating] || 'Yes';
+        }
+        
+        if (trimColorSpec) {
+            const trimColorDisplay = {
+                'chrome': 'Chrome',
+                'gloss-black': 'Gloss Black'
+            };
+            trimColorSpec.textContent = trimColorDisplay[additionalSelections.trimColor] || 'Chrome';
+        }
+        
+        if (paddleShiftersSpec) {
+            const paddleShiftersDisplay = {
+                'long-pick': 'Long Pick',
+                'short-pick': 'Short Pick'
+            };
+            paddleShiftersSpec.textContent = paddleShiftersDisplay[additionalSelections.paddleShifters] || 'Long Pick';
+        }
+        
+        // Calculate total price
+        let basePrice = 799.99;
+        let totalPriceValue = basePrice;
+        
+        // Add heating cost if selected
+        if (additionalSelections.heating === 'yes') {
+            totalPriceValue += 50;
+        }
+        
+        // Update price display
+        if (totalPrice) {
+            totalPrice.textContent = `$${totalPriceValue.toFixed(2)}`;
+        }
     }
 });
 

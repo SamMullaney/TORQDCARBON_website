@@ -37,6 +37,12 @@
                 <li class="nav-item">
                     <a href="index.html#contact" class="nav-link">CONTACT</a>
                 </li>
+                <li class="nav-item">
+                    <a href="checkout.html" class="nav-link cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count">0</span>
+                    </a>
+                </li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -105,18 +111,6 @@
                     <!-- Additional Customization Widgets -->
                     <div class="additional-widgets">
                         <div class="widget-group">
-                            <h4>Style</h4>
-                            <div class="widget-buttons">
-                                <button class="widget-btn active" data-option="style" data-value="comfort">
-                                    <span>Comfort</span>
-                                </button>
-                                <button class="widget-btn" data-option="style" data-value="sport">
-                                    <span>Sport</span>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="widget-group">
                             <h4>Badge</h4>
                             <div class="widget-buttons">
                                 <button class="widget-btn active" data-option="badge" data-value="s">
@@ -154,6 +148,87 @@
                                 <button class="widget-btn" data-option="top-stripe" data-value="no">
                                     <span>No</span>
                                 </button>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-group">
+                            <h4>Stripe Color</h4>
+                            <div class="color-selector">
+                                <div class="color-option active" data-color="#FFFFFF" style="background-color: #FFFFFF; border: 2px solid #333;">
+                                    <span class="color-label">White</span>
+                                </div>
+                                <div class="color-option" data-color="#A80000" style="background-color: #A80000;">
+                                    <span class="color-label">Red</span>
+                                </div>
+                                <div class="color-option" data-color="#118DFF" style="background-color: #118DFF;">
+                                    <span class="color-label">Blue</span>
+                                </div>
+                                <div class="color-option" data-color="#12239E" style="background-color: #12239E;">
+                                    <span class="color-label">Navy</span>
+                                </div>
+                                <div class="color-option" data-color="#480091" style="background-color: #480091;">
+                                    <span class="color-label">Purple</span>
+                                </div>
+                                <div class="color-option" data-color="#0AAC00" style="background-color: #0AAC00;">
+                                    <span class="color-label">Green</span>
+                                </div>
+                                <div class="color-option" data-color="#F17925" style="background-color: #F17925;">
+                                    <span class="color-label">Orange</span>
+                                </div>
+                                <div class="color-option" data-color="#ECC846" style="background-color: #ECC846;">
+                                    <span class="color-label">Yellow</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-group">
+                            <h4>Heating <span class="price-note">(+$50)</span></h4>
+                            <div class="widget-buttons">
+                                <button class="widget-btn" data-option="heating" data-value="no">
+                                    <span>No</span>
+                                </button>
+                                <button class="widget-btn active" data-option="heating" data-value="yes">
+                                    <span>Yes</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-group">
+                            <h4>Trim Color</h4>
+                            <div class="widget-buttons">
+                                <button class="widget-btn active" data-option="trim-color" data-value="chrome">
+                                    <span>Chrome</span>
+                                </button>
+                                <button class="widget-btn" data-option="trim-color" data-value="gloss-black">
+                                    <span>Gloss Black</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-group">
+                            <h4>Carbon Fiber Magnetic Paddle Shifters</h4>
+                            <div class="widget-buttons">
+                                <button class="widget-btn active" data-option="paddle-shifters" data-value="long-pick">
+                                    <span>Long Pick</span>
+                                </button>
+                                <button class="widget-btn" data-option="paddle-shifters" data-value="short-pick">
+                                    <span>Short Pick</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-group">
+                            <h4>Additional Specifications</h4>
+                            <div class="chat-input-container">
+                                <textarea 
+                                    id="additional-specs" 
+                                    placeholder="Add any other specifications you're interested in (e.g., LED lighting, custom colors, etc.)"
+                                    rows="3"
+                                    maxlength="500"
+                                ></textarea>
+                                <div class="char-count">
+                                    <span id="char-count">0</span>/500
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -234,10 +309,6 @@
                             <span class="spec-value" id="topbottom-spec">None</span>
                         </div>
                         <div class="spec-item">
-                            <span class="spec-label">Style:</span>
-                            <span class="spec-value" id="style-spec">Comfort</span>
-                        </div>
-                        <div class="spec-item">
                             <span class="spec-label">Badge:</span>
                             <span class="spec-value" id="badge-spec">S</span>
                         </div>
@@ -249,6 +320,22 @@
                             <span class="spec-label">Top Stripe:</span>
                             <span class="spec-value" id="topstripe-spec">Yes</span>
                         </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Stripe Color:</span>
+                            <span class="spec-value" id="stripe-color-spec">White</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Heating:</span>
+                            <span class="spec-value" id="heating-spec">Yes</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Trim Color:</span>
+                            <span class="spec-value" id="trim-color-spec">Chrome</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Paddle Shifters:</span>
+                            <span class="spec-value" id="paddle-shifters-spec">Long Pick</span>
+                        </div>
                     </div>
                 </div>
                 <div class="summary-actions">
@@ -259,9 +346,18 @@
                     <div class="customization-note">
                         <p>DM @torqd.carbon for more customization options such as LEDs</p>
                     </div>
-                    <button class="cta-button" id="customize-btn">Customize</button>
+                    <button class="cta-button" id="add-to-cart-btn">Add to Cart</button>
                     <button class="secondary-button" id="save-design-btn">Save Design</button>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="disclaimer-section">
+        <div class="container">
+            <div class="disclaimer-content">
+                <p><strong>DISCLAIMER:</strong> Torqd Carbon is not affiliated with Audi, all Torqd Carbon products are aftermarket but handcrafted to perfection for all enthusiasts!</p>
             </div>
         </div>
     </section>

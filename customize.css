@@ -789,6 +789,109 @@
     color: #00ff88;
 }
 
+/* Color Selector Styles */
+.color-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.color-option {
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.color-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.color-option.active {
+    border-color: #00ff88;
+    box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3);
+}
+
+.color-label {
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.color-option:hover .color-label,
+.color-option.active .color-label {
+    opacity: 1;
+}
+
+/* Special styling for white color to make it visible */
+.color-option[data-color="#FFFFFF"] {
+    border: 2px solid #333;
+}
+
+.color-option[data-color="#FFFFFF"]:hover,
+.color-option[data-color="#FFFFFF"].active {
+    border-color: #00ff88;
+}
+
+/* Price note styling */
+.price-note {
+    color: #00ff88;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+/* Chat Input Styling */
+.chat-input-container {
+    position: relative;
+}
+
+.chat-input-container textarea {
+    width: 100%;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 0.8rem;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.3s ease;
+}
+
+.chat-input-container textarea:focus {
+    outline: none;
+    border-color: #00ff88;
+}
+
+.chat-input-container textarea::placeholder {
+    color: #666666;
+}
+
+.char-count {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.8rem;
+    font-size: 0.7rem;
+    color: #666666;
+    background: #2a2a2a;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+}
+
 /* Responsive Design */
 @media (min-width: 1600px) {
     .customize-layout {
@@ -1025,4 +1128,91 @@
     color: #000000;
     border-color: #00ff88;
     font-weight: 600;
+} 
+
+/* Mobile Viewport Fixes for Customize Page */
+@media (max-width: 768px) {
+    .customize-interface {
+        padding: 30px 0;
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
+    }
+    
+    .customize-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 100%;
+        width: 100%;
+        padding: 0 15px;
+    }
+    
+    .jukebox-viewer {
+        max-width: 100%;
+        width: 100%;
+        padding: 1rem;
+        overflow-x: hidden;
+    }
+    
+    .carousel-area {
+        max-width: 100%;
+        width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .carousel-container {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .right-panel {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .parts-panel,
+    .options-panel {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .additional-widgets {
+        max-width: 100%;
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    .widget-group {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .widget-buttons {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .widget-btn {
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .color-selector {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .summary-panel {
+        max-width: 100%;
+        width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .summary-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 100%;
+        width: 100%;
+        padding: 0 15px;
+    }
 } 

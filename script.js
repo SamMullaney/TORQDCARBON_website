@@ -110,7 +110,7 @@ window.addEventListener('load', () => {
     document.body.style.opacity = '1';
 });
 
-// Initialize page
+// FAQ functionality
 document.addEventListener('DOMContentLoaded', () => {
     // Add loading class to body
     document.body.style.opacity = '0';
@@ -120,4 +120,40 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         document.body.style.opacity = '1';
     }, 100);
+    
+    // Update cart count
+    updateCartCount();
+    
+    // FAQ toggle functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            // Close other FAQ items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            item.classList.toggle('active');
+        });
+    });
+});
+
+// Update cart count in navigation
+function updateCartCount() {
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        const cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
+        cartCount.textContent = cart.length;
+    }
+}
+
+// Listen for storage changes to update cart count
+window.addEventListener('storage', function(e) {
+    if (e.key === 'torqdCart') {
+        updateCartCount();
+    }
 }); 

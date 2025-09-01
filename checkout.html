@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - TORQD CARBON</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="checkout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/logo_no_bg.png" alt="TORQD CARBON" class="logo-image">
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="customize.html" class="nav-link">CUSTOMIZE</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#bmw" class="nav-link">BMW</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#audi" class="nav-link">AUDI</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#gallery" class="nav-link">GALLERY</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">CONTACT</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Header -->
+    <section class="checkout-header">
+        <div class="container">
+            <h1>Checkout</h1>
+            <p>Complete your order for custom carbon fiber steering wheels</p>
+        </div>
+    </section>
+
+    <!-- Checkout Content -->
+    <section class="checkout-content">
+        <div class="container">
+            <div class="checkout-layout">
+                <!-- Cart Items -->
+                <div class="cart-section">
+                    <h2>Your Cart</h2>
+                    <div id="cart-items" class="cart-items">
+                        <!-- Cart items will be populated by JavaScript -->
+                    </div>
+                    <div class="cart-summary">
+                        <div class="cart-total">
+                            <span>Total:</span>
+                            <span id="cart-total">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkout Section -->
+                <div class="checkout-section">
+                    <h2>Complete Your Order</h2>
+                    <div class="checkout-info">
+                        <div class="info-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h3>Secure Payment</h3>
+                                <p>Your payment information is protected with bank-level security</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-truck"></i>
+                            <div>
+                                <h3>Fast Delivery</h3>
+                                <p>Expect your custom steering wheel within 3-5 weeks</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-tools"></i>
+                            <div>
+                                <h3>Handcrafted Quality</h3>
+                                <p>Each wheel is custom-made with premium materials</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="checkout-button" class="checkout-button">
+                        <i class="fas fa-lock"></i>
+                        Proceed to Checkout
+                    </button>
+                    
+                    <div class="checkout-note">
+                        <p>You'll be redirected to Stripe's secure checkout page to complete your payment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TORQD CARBON</h3>
+                    <p>Premium carbon fiber steering wheel customization</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#bmw">BMW</a></li>
+                        <li><a href="index.html#audi">Audi</a></li>
+                        <li><a href="customize.html">Customize</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>torqdcarbon@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TORQD CARBON. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html> 
