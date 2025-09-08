@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return `
                 <div class="cart-item">
                     <div class="cart-item-header">
-                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-title">${item.name}${item.variant ? ' - ' + item.variant : ''}</div>
                         <div class="cart-item-price">$${itemPrice.toFixed(2)}</div>
                     </div>
                     <div class="cart-item-actions">

@@ -202,6 +202,7 @@ function setupAudiAddToCartButtons() {
         const nameElement = item.querySelector('h3');
         const priceElement = item.querySelector('.audi-product-price');
         const button = item.querySelector('.add-to-cart-btn');
+        const variantSelect = item.querySelector('.preset-variant-select');
         if (!nameElement || !priceElement || !button) return;
 
         const name = nameElement.textContent.trim();
@@ -213,14 +214,15 @@ function setupAudiAddToCartButtons() {
             const presetItem = {
                 type: 'preset',
                 name: name,
-                price: price
+                price: price,
+                variant: variantSelect ? variantSelect.value : 'Sport'
             };
             cart.push(presetItem);
             localStorage.setItem('torqdCart', JSON.stringify(cart));
             if (typeof updateCartCount === 'function') {
                 updateCartCount();
             }
-            alert('Added to cart: ' + name);
+            alert('Added to cart: ' + name + (presetItem.variant ? ' (' + presetItem.variant + ')' : ''));
         });
     });
 }
