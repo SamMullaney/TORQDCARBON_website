@@ -508,8 +508,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Left container: only previous sides option (no base wheel)
                 updateContainerImages(prevContainer, '', prevSidesSrc, '');
-                // Center container: locked base + current sides option
-                updateContainerImages(currentContainer, baseImageSrc, currentSidesSrc, '');
+                // Center container: only current sides option (no base wheel)
+                updateContainerImages(currentContainer, '', currentSidesSrc, '');
                 // Right container: only next sides option (no base wheel)
                 updateContainerImages(nextContainer, '', nextSidesSrc, '');
             } else if (currentPart === 'topbottom') {
@@ -520,8 +520,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Left container: only previous top/bottom option (no base or sides)
                 updateContainerImages(prevContainer, '', '', prevTopBottomSrc);
-                // Center container: locked base + locked sides + current top/bottom option
-                updateContainerImages(currentContainer, baseImageSrc, lockedSidesSrc, currentTopBottomSrc);
+                // Center container: only current top/bottom option (no base or sides)
+                updateContainerImages(currentContainer, '', '', currentTopBottomSrc);
                 // Right container: only next top/bottom option (no base or sides)
                 updateContainerImages(nextContainer, '', '', nextTopBottomSrc);
             }
@@ -627,8 +627,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Left container: only previous sides option (no base wheel)
             updateContainerImages(prevContainer, '', prevSidesSrc, '');
-            // Center container: locked base + current sides option
-            updateContainerImages(currentContainer, baseImageSrc, currentSidesSrc, '');
+            // Center container: only current sides option (no base wheel)
+            updateContainerImages(currentContainer, '', currentSidesSrc, '');
             // Right container: only next sides option (no base wheel)
             updateContainerImages(nextContainer, '', nextSidesSrc, '');
         } else if (currentPart === 'topbottom') {
@@ -640,8 +640,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Left container: only previous top/bottom option (no base or sides)
             updateContainerImages(prevContainer, '', '', prevTopBottomSrc);
-            // Center container: locked base + locked sides + current top/bottom option
-            updateContainerImages(currentContainer, baseImageSrc, lockedSidesSrc, currentTopBottomSrc);
+            // Center container: only current top/bottom option (no base or sides)
+            updateContainerImages(currentContainer, '', '', currentTopBottomSrc);
             // Right container: only next top/bottom option (no base or sides)
             updateContainerImages(nextContainer, '', '', nextTopBottomSrc);
         }

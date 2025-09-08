@@ -1,0 +1,291 @@
+/* Audi Page Specific Styles */
+/* Cache bust: $(date +%s) */
+
+/* Audi Products Section */
+.audi-products-section {
+    padding: 80px 0;
+    background: #0f0f0f;
+}
+
+.audi-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.audi-product-item {
+    background: #1a1a1a;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.audi-product-item:hover {
+    border-color: #00ff88;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+}
+
+.audi-product-item .audi-product-image {
+    height: 300px;
+    background: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.audi-product-item .audi-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    transition: transform 0.3s ease;
+}
+
+.audi-product-item:hover .audi-product-img {
+    transform: scale(1.05);
+}
+
+.audi-product-item .audi-product-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.audi-product-item .audi-product-info h3 {
+    color: #ffffff;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.audi-product-item .audi-product-info p {
+    color: #cccccc;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.audi-product-item .audi-product-price {
+    color: #00ff88;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.audi-product-item .audi-product-button {
+    background: #00ff88;
+    color: #000000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.audi-product-item .audi-product-button:hover:not(:disabled) {
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+}
+
+.audi-product-item .audi-product-button:disabled {
+    background: #666;
+    color: #999;
+    cursor: not-allowed;
+}
+
+/* Audi Navigation Arrows */
+.audi-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 255, 136, 0.9);
+    border: none;
+    color: #000;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    z-index: 10;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.audi-nav-arrow:hover {
+    background: #00ff88;
+    transform: translateY(-50%) scale(1.1);
+    opacity: 1;
+}
+
+.audi-nav-left {
+    left: 10px;
+}
+
+.audi-nav-right {
+    right: 10px;
+}
+
+/* Audi Placeholder styling */
+.audi-product-item.audi-placeholder {
+    opacity: 0.7;
+}
+
+.audi-product-item.audi-placeholder:hover {
+    opacity: 0.9;
+}
+
+.audi-placeholder-image {
+    font-size: 4rem;
+    color: #00ff88;
+    opacity: 0.7;
+}
+
+/* Audi Mobile responsive */
+@media (max-width: 768px) {
+    .audi-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .audi-product-item .audi-product-image {
+        height: 200px;
+    }
+    
+    .audi-product-item .audi-product-info {
+        padding: 1rem;
+    }
+    
+    .audi-product-item .audi-product-info h3 {
+        font-size: 1.1rem;
+    }
+    
+    .audi-product-item .audi-product-price {
+        font-size: 1.3rem;
+    }
+    
+    .audi-nav-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    
+    .audi-nav-left {
+        left: 5px;
+    }
+    
+    .audi-nav-right {
+        right: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .audi-products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .audi-product-item .audi-product-image {
+        height: 250px;
+    }
+}
+
+/* Audi Product Description Dropdown */
+.audi-description-toggle {
+    background: #333;
+    color: #ffffff;
+    border: 1px solid #555;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.audi-description-toggle:hover {
+    background: #444;
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+.audi-description-toggle i {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.audi-description-toggle.active i {
+    transform: rotate(180deg);
+}
+
+.audi-description-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: #2a2a2a;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.audi-description-content.active {
+    max-height: 200px;
+    padding: 1rem;
+}
+
+.audi-description-content p {
+    color: #cccccc;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Audi Mobile responsive for description */
+@media (max-width: 768px) {
+    .audi-description-toggle {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .audi-description-content.active {
+        max-height: 150px;
+        padding: 0.8rem;
+    }
+    
+    .audi-description-content p {
+        font-size: 0.8rem;
+    }
+}
+/* Cache bust: 1757295374 - Added Audi product description dropdown with arrow */
+/* Cache bust: 1757299798 - Made Audi page function like BMW with models dropdown */
+/* Cache bust: 1757299986 - Fixed Audi models dropdown placement and price */
+/* Cache bust: 1757302404 - Added 6 new Audi presets with full functionality */
+/* Cache bust: 1757302559 - Final clean implementation of 6 new Audi presets */
+
+/* Carbon King image positioning fix */
+#carbonking-image {
+    transform: translateY(-20px);
+}
+/* Cache bust: 1757303632 - Fixed Carbon King image position and removed placeholders */

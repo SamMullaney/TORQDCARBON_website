@@ -36,7 +36,7 @@
 
 .customize-layout {
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: minmax(700px, 1fr) minmax(300px, 350px);
     gap: 2rem;
     max-width: 1400px;
     margin: 0 auto;
@@ -1216,3 +1216,519 @@
         padding: 0 15px;
     }
 } 
+/* Ensure hamburger menu is visible on customize page */
+@media (max-width: 768px) {
+    .hamburger {
+    .hamburger .bar {
+        background-color: #ff0000 !important;
+        width: 30px !important;
+        height: 4px !important;
+
+/* Responsive layout for computer view - dynamic sizing */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .customize-layout {
+        grid-template-columns: 1fr 300px;
+        gap: 1.5rem;
+        max-width: 100%;
+        padding: 0 15px;
+    }
+    
+    .jukebox-container {
+        height: 350px;
+    }
+    
+    .carousel-area {
+        height: 350px;
+    }
+    
+    .parts-panel,
+    .options-panel {
+        padding: 1rem;
+    }
+    
+    .parts-panel h3,
+    .options-panel h3 {
+        font-size: 1.1rem;
+    }
+    
+    .parts-panel p,
+    .options-panel p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 1201px) and (max-width: 1400px) {
+    .customize-layout {
+        grid-template-columns: 1fr 320px;
+        gap: 1.8rem;
+    }
+    
+    .jukebox-container {
+        height: 380px;
+    }
+    
+    .carousel-area {
+        height: 380px;
+    }
+}
+
+@media (min-width: 1401px) {
+    .customize-layout {
+        grid-template-columns: minmax(700px, 1fr) minmax(300px, 350px);
+        gap: 2rem;
+    }
+}
+
+/* Make buttons and widgets scale with container */
+.parts-panel button,
+.options-panel button {
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    padding: clamp(8px, 1vw, 12px) clamp(12px, 1.5vw, 16px);
+}
+
+.parts-panel h3,
+.options-panel h3 {
+    font-size: clamp(1rem, 1.5vw, 1.3rem);
+}
+
+.parts-panel p,
+.options-panel p {
+    font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+}
+
+/* Ensure carousel image stays within bounds */
+.carousel-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Scale jukebox controls */
+.jukebox-prev,
+.jukebox-next {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    padding: clamp(8px, 1vw, 12px);
+}
+
+.jukebox-current {
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+}
+
+}
+
+/* Fix carousel sizing - ensure it never gets too small and elements stay contained */
+@media (min-width: 769px) {
+    .customize-layout {
+        grid-template-columns: minmax(700px, 1fr) minmax(300px, 350px);
+        gap: 2rem;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    
+    /* Ensure carousel container maintains proper size */
+    .jukebox-viewer {
+        min-width: 600px;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .jukebox-container {
+        min-width: 600px;
+        width: 100%;
+        height: 400px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .carousel-area {
+        min-width: 600px;
+        width: 100%;
+        height: 400px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Ensure images stay within bounds */
+    .carousel-area img {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Position navigation arrows within container */
+    .jukebox-prev,
+    .jukebox-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        background: rgba(0, 255, 136, 0.8);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+    
+    .jukebox-prev {
+        left: 10px;
+    }
+    
+    .jukebox-next {
+        right: 10px;
+    }
+    
+    /* Position lock button within container */
+    .jukebox-current {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        background: rgba(0, 255, 136, 0.9);
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+    
+    /* Scale right panel to fit available space */
+    .right-panel {
+        min-width: 300px;
+        max-width: 350px;
+    }
+}
+
+/* For very wide screens, give more space to carousel */
+@media (min-width: 1400px) {
+    .customize-layout {
+        grid-template-columns: minmax(800px, 1fr) 350px;
+    }
+    
+    .jukebox-container,
+    .carousel-area {
+        min-width: 700px;
+        height: 450px;
+    }
+}
+
+/* AGGRESSIVE carousel sizing - force proper proportions */
+.customize-layout {
+    grid-template-columns: minmax(700px, 1fr) minmax(300px, 350px) !important;
+    gap: 2rem !important;
+}
+
+.jukebox-viewer {
+    min-width: 700px !important;
+    width: 100% !important;
+    max-width: none !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+.jukebox-container {
+    min-width: 700px !important;
+    width: 100% !important;
+    height: 400px !important;
+    max-width: none !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+.carousel-area {
+    min-width: 700px !important;
+    width: 100% !important;
+    height: 400px !important;
+    max-width: none !important;
+    overflow: hidden !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Force images to stay within bounds */
+.carousel-area img {
+    max-width: 80% !important;
+    max-height: 80% !important;
+    object-fit: contain !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Force buttons to stay within carousel bounds */
+.jukebox-prev,
+.jukebox-next {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 10 !important;
+    background: rgba(0, 255, 136, 0.8) !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #000 !important;
+    font-size: 1.2rem !important;
+    cursor: pointer !important;
+}
+
+.jukebox-prev {
+    left: 10px !important;
+}
+
+.jukebox-next {
+    right: 10px !important;
+}
+
+.jukebox-current {
+    position: absolute !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10 !important;
+    background: rgba(0, 255, 136, 0.9) !important;
+    color: #000 !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: 25px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+    max-width: 200px !important;
+    white-space: nowrap !important;
+}
+
+/* Ensure right panel doesn't take too much space */
+.right-panel {
+    min-width: 300px !important;
+    max-width: 350px !important;
+    width: 100% !important;
+}
+
+/* FIXED: Restructure layout to give carousel priority */
+.customize-layout {
+    display: grid !important;
+    grid-template-columns: 1fr 300px !important;
+    grid-template-rows: auto auto !important;
+    gap: 2rem !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+}
+
+/* Carousel gets its own row with priority space */
+.jukebox-viewer {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 300px !important;
+    gap: 2rem !important;
+    min-height: 500px !important;
+}
+
+/* Carousel container gets priority space */
+.jukebox-container {
+    grid-column: 1 !important;
+    min-width: 600px !important;
+    height: 400px !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.carousel-area {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Additional widgets get their own column */
+.additional-widgets {
+    grid-column: 2 !important;
+    margin-top: 0 !important;
+    padding: 1rem !important;
+    background: #1a1a1a !important;
+    border-radius: 10px !important;
+    border: 1px solid #333 !important;
+    height: fit-content !important;
+    overflow-y: auto !important;
+    max-height: 400px !important;
+}
+
+/* Right panel gets second row */
+.right-panel {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+}
+
+/* Ensure images stay within carousel bounds */
+.carousel-area img {
+    max-width: 80% !important;
+    max-height: 80% !important;
+    object-fit: contain !important;
+}
+
+/* Position navigation controls within carousel */
+.jukebox-controls {
+    position: absolute !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10 !important;
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: center !important;
+}
+
+.jukebox-btn {
+    background: rgba(0, 255, 136, 0.9) !important;
+    color: #000 !important;
+    border: none !important;
+    border-radius: 25px !important;
+    padding: 8px 16px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+}
+
+.prev-btn,
+.next-btn {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.prev-btn {
+    position: absolute !important;
+    left: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+.next-btn {
+    position: absolute !important;
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+/* NUCLEAR OPTION: Force jukebox-viewer to NEVER get pushed to the side */
+.customize-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+}
+
+/* Jukebox-viewer gets FULL WIDTH and priority */
+.jukebox-viewer {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 2rem !important;
+    min-height: 500px !important;
+    flex: 1 !important;
+}
+
+/* Carousel gets priority space - grows to fill available space */
+.jukebox-container {
+    flex: 1 !important;
+    min-width: 600px !important;
+    height: 400px !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.carousel-area {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Additional widgets get fixed width - never push carousel */
+.additional-widgets {
+    width: 300px !important;
+    min-width: 300px !important;
+    max-width: 300px !important;
+    flex-shrink: 0 !important;
+    margin-top: 0 !important;
+    padding: 1rem !important;
+    background: #1a1a1a !important;
+    border-radius: 10px !important;
+    border: 1px solid #333 !important;
+    height: fit-content !important;
+    overflow-y: auto !important;
+    max-height: 400px !important;
+}
+
+/* Right panel goes below - full width */
+.right-panel {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+}
+
+/* If screen gets too narrow, switch to vertical mode */
+@media (max-width: 1000px) {
+    .jukebox-viewer {
+        flex-direction: column !important;
+    }
+    
+    .jukebox-container {
+        min-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    .additional-widgets {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Ensure carousel NEVER gets smaller than 600px */
+@media (min-width: 1001px) {
+    .jukebox-container {
+        min-width: 600px !important;
+    }
+    
+    .carousel-area {
+        min-width: 600px !important;
+    }
+}

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audi Steering Wheels - TORQD CARBON</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="audi-styles.css">    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="audi-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/logo_no_bg.png" alt="TORQD CARBON" class="logo-image">
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="customize.html" class="nav-link">CUSTOMIZE</a>
+                </li>
+                <li class="nav-item">
+                    <a href="bmw.html" class="nav-link">BMW</a>
+                </li>
+                <li class="nav-item">
+                    <a href="audi.html" class="nav-link active">AUDI</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#gallery" class="nav-link">GALLERY</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">CONTACT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="checkout.html" class="nav-link cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count">0</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Audi Hero Section -->
+    <section class="brand-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Audi Steering Wheels</h1>
+                <p>Premium carbon fiber steering wheels designed specifically for Audi vehicles. Each wheel is handcrafted with the finest materials and precision engineering to enhance your driving experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audi Products Section -->
+    <section class="audi-products-section">
+        <div class="container">
+            <div class="audi-products-grid">
+                <!-- B8-B8.5 Preset Audi Wheel -->
+                <div class="audi-product-item">
+                    <div class="audi-product-image">
+                        <button class="audi-nav-arrow audi-nav-left" onclick="changeAudiImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/b8-b8.5 preset1.JPG" alt="B8-B8.5 Preset Audi Wheel" class="audi-product-img" id="audi-image">
+                        <button class="audi-nav-arrow audi-nav-right" onclick="changeAudiImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="audi-product-info">
+                        <h3>B8-B8.5 Preset</h3>
+                        <button class="audi-description-toggle" onclick="toggleAudiDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="audi-description-content" id="audi-description">
+                            <p>Carbon fiber magnetic paddle shifters, top white stripe, wheel cover, perforated leather grips, and more!</p>
+                        </div>
+                        <button class="audi-description-toggle" onclick="toggleAudiModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="audi-description-content" id="audi-models">
+                            <p>A4, A5, A6, A7, A8, Q5, RS5, RS7, S5, S4, S6, S7, (2008-Present)</p>
+                        </div>
+                        <p class="audi-product-price">$799.99</p>                        <button class="audi-product-button">Customize</button>
+                    </div>
+                </div>
+                
+                <!-- The Carbon King Audi Wheel -->
+                <div class="audi-product-item">
+                    <div class="audi-product-image">
+                        <button class="audi-nav-arrow audi-nav-left" onclick="changeCarbonKingImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/carbonking1.JPG" alt="The Carbon King Audi Wheel" class="audi-product-img" id="carbonking-image">
+                        <button class="audi-nav-arrow audi-nav-right" onclick="changeCarbonKingImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="audi-product-info">
+                        <h3>The Carbon King</h3>
+                        <button class="audi-description-toggle" onclick="toggleCarbonKingDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="audi-description-content" id="carbonking-description">
+                            <p>Features a full carbon fiber flat bottom wheel, with an Alcantara airbag, magnetic shifters, carbon fiber trim, and more!</p>
+                        </div>
+                        <button class="audi-description-toggle" onclick="toggleCarbonKingModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="audi-description-content" id="carbonking-models">
+                            <p>b8.5-b9 Audi models with matching airbag</p>
+                        </div>
+                        <p class="audi-product-price">$819.99</p>
+                        <button class="audi-product-button">Customize</button>
+                    </div>
+                </div>
+                
+                <!-- The Perfect Daily Audi Wheel -->
+                <div class="audi-product-item">
+                    <div class="audi-product-image">
+                        <button class="audi-nav-arrow audi-nav-left" onclick="changePerfectDailyImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/perfectdaily1.JPG" alt="The Perfect Daily Audi Wheel" class="audi-product-img" id="perfectdaily-image">
+                        <button class="audi-nav-arrow audi-nav-right" onclick="changePerfectDailyImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="audi-product-info">
+                        <h3>The Perfect Daily</h3>
+                        <button class="audi-description-toggle" onclick="togglePerfectDailyDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="audi-description-content" id="perfectdaily-description">
+                            <p>Features Alcantara top and bottom grips, with perforated leather side grips, magnetic paddle shifters, red stitching, and more!</p>
+                        </div>
+                        <button class="audi-description-toggle" onclick="togglePerfectDailyModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="audi-description-content" id="perfectdaily-models">
+                            <p>b8.5-b9 Audi models with matching airbag</p>
+                        </div>
+                        <p class="audi-product-price">$799.99</p>
+                        <button class="audi-product-button">Customize</button>
+                    </div>
+                </div>
+                
+                <!-- The Sleeper Audi Wheel -->
+                <div class="audi-product-item">
+                    <div class="audi-product-image">
+                        <button class="audi-nav-arrow audi-nav-left" onclick="changeSleeperImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/sleeper1.JPG" alt="The Sleeper Audi Wheel" class="audi-product-img" id="sleeper-image">
+                        <button class="audi-nav-arrow audi-nav-right" onclick="changeSleeperImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="audi-product-info">
+                        <h3>The Sleeper</h3>
+                        <button class="audi-description-toggle" onclick="toggleSleeperDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="audi-description-content" id="sleeper-description">
+                            <p>Features a full Alcantara flat bottom wheel, carbon fiber trim, magnetic paddles, Alcantara airbag, white stitching, and more!</p>
+                        </div>
+                        <button class="audi-description-toggle" onclick="toggleSleeperModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="audi-description-content" id="sleeper-models">
+                            <p>b8.5-b9 Audi models with the matching airbag</p>
+                        </div>
+                        <p class="audi-product-price">$799.99</p>
+                        <button class="audi-product-button">Customize</button>
+                    </div>
+                </div>
+                
+                <!-- The Autobahn Special Audi Wheel -->
+                <div class="audi-product-item">
+                    <div class="audi-product-image">
+                        <button class="audi-nav-arrow audi-nav-left" onclick="changeAutobanImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/autoban1.JPG" alt="The Autobahn Special Audi Wheel" class="audi-product-img" id="autoban-image">
+                        <button class="audi-nav-arrow audi-nav-right" onclick="changeAutobanImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="audi-product-info">
+                        <h3>The Autobahn Special</h3>
+                        <button class="audi-description-toggle" onclick="toggleAutobanDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="audi-description-content" id="autoban-description">
+                            <p>Features perforated leather side grips, carbon fiber trim, magnetic paddle shifters, German tricolor stripe, and more!</p>
+                        </div>
+                        <button class="audi-description-toggle" onclick="toggleAutobanModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="audi-description-content" id="autoban-models">
+                            <p>b8.5-b9 Audi models</p>
+                        </div>
+                        <p class="audi-product-price">$799.99</p>
+                        <button class="audi-product-button">Customize</button>
+                    </div>
+                </div>
+                
+                <!-- The Spyder Audi Wheel -->
+                <div class="audi-product-item">
+                    <div class="audi-product-image">
+                        <button class="audi-nav-arrow audi-nav-left" onclick="changeSpyderImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/spyder1.JPG" alt="The Spyder Audi Wheel" class="audi-product-img" id="spyder-image">
+                        <button class="audi-nav-arrow audi-nav-right" onclick="changeSpyderImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="audi-product-info">
+                        <h3>The Spyder</h3>
+                        <button class="audi-description-toggle" onclick="toggleSpyderDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="audi-description-content" id="spyder-description">
+                            <p>Features R8 style design, top white stripe, magnetic shifters, carbon fiber trim, white stitching, Alcantara grips, and more!</p>
+                        </div>
+                        <button class="audi-description-toggle" onclick="toggleSpyderModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="audi-description-content" id="spyder-models">
+                            <p>b8.5-b9 Audi models with matching airbag</p>
+                        </div>
+                        <p class="audi-product-price">$799.99</p>
+                        <button class="audi-product-button">Customize</button>
+                    </div>
+                </div>
+                
+                <!-- The Flat Top Audi Wheel -->
+                <div class="audi-product-item">
+                    <div class="audi-product-image">
+                        <button class="audi-nav-arrow audi-nav-left" onclick="changeFlattopImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/flattop1.JPG" alt="The Flat Top Audi Wheel" class="audi-product-img" id="flattop-image">
+                        <button class="audi-nav-arrow audi-nav-right" onclick="changeFlattopImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="audi-product-info">
+                        <h3>The Flat Top</h3>
+                        <button class="audi-description-toggle" onclick="toggleFlattopDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="audi-description-content" id="flattop-description">
+                            <p>Features white top stripe, perforated leather grips, white stitching, magnetic paddles, and more!</p>
+                        </div>
+                        <button class="audi-description-toggle" onclick="toggleFlattopModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="audi-description-content" id="flattop-models">
+                            <p>b9-b9.5 Audi models with matching aibag</p>
+                        </div>
+                        <p class="audi-product-price">$799.99</p>
+                        <button class="audi-product-button">Customize</button>
+                    </div>
+                </div>
+                                <!-- Placeholder for Future Audi Wheels -->
+                    
+                </div>
+            </div>
+        </div>
+    </section>        </div>
+    </section>
+
+    <!-- Customization Widget Section -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TORQD CARBON</h4>
+                    <p>Premium carbon fiber steering wheels for performance cars.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="customize.html">Customize</a></li>
+                        <li><a href="bmw.html">BMW</a></li>
+                        <li><a href="audi.html">Audi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>torqdcarbon@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TORQD CARBON. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="script.js"></script>
+    <script src="audi-script.js"></script>
+</body>
+</html>

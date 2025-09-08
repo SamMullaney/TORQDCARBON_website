@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TORQD CARBON - Premium Steering Wheel Customization</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="homepage-styles.css">    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -20,10 +20,10 @@
                   <a href="customize.html" class="nav-link active">CUSTOMIZE</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#bmw" class="nav-link">BMW</a>
+                  <a href="bmw.html" class="nav-link">BMW</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#audi" class="nav-link">AUDI</a>
+                  <a href="audi.html" class="nav-link">AUDI</a>
                 </li>
                 <li class="nav-item">
                   <a href="#gallery" class="nav-link">GALLERY</a>
@@ -53,7 +53,7 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Premium Carbon Fiber Steering Wheels</h1>
-            <p>Transform your driving experience with custom carbon fiber steering wheels. All wheels are made with 3K carbon fiber!</p>
+            <p>Transform your driving experience with custom carbon fiber steering wheels. All wheels are made with 3K carbon fiber! Free shipping within the United States!</p>
             <a href="customize.html" class="cta-button">Start Customizing</a>
         </div>
         <div class="hero-image">
@@ -72,6 +72,35 @@
     </section>
 
     <!-- Customize Section -->
+    <!-- Brand Selection Section -->
+    <section id="brands" class="homepage-brand-selection-section">
+        <div class="container">
+            <h2>Choose Your Brand</h2>
+            <p class="section-subtitle">Select from our premium steering wheel collections</p>
+            <div class="homepage-brand-cards">
+                <div class="homepage-brand-card" data-title="BMW" onclick="window.location.href='bmw.html'">
+                    <div class="homepage-brand-image">
+                        <img src="images/bmw_image.jpeg" alt="BMW Steering Wheels">
+                        <div class="homepage-brand-overlay">
+                            <h3>BMW</h3>
+                            <p>Premium BMW steering wheels</p>
+                            <button class="homepage-brand-button">View Collection</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="homepage-brand-card" data-title="AUDI" onclick="window.location.href='audi.html'">
+                    <div class="homepage-brand-image">
+                        <img src="images/audi_image.jpeg" alt="Audi Steering Wheels">
+                        <div class="homepage-brand-overlay">
+                            <h3>AUDI</h3>
+                            <p>Premium Audi steering wheels</p>
+                            <button class="homepage-brand-button">View Collection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    <!-- Customize Section -->
     <section id="customize" class="customize-section">
         <div class="container">
             <h2>Customize Your Steering Wheel</h2>
@@ -94,101 +123,73 @@
             </div>
             <a href="customize.html" class="cta-button">Customize</a>
         </div>
-    </section>
+    </section>    
+    
 
-    <!-- BMW Section -->
-    <section id="bmw" class="brand-section">
-        <div class="container">
-            <h2>BMW Steering Wheels</h2>
-            <div class="brand-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-car-side"></i>
-                    </div>
-                    <h3>M3/M4 Carbon Wheel</h3>
-                    <p>Premium carbon fiber steering wheel for BMW M3/M4</p>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-car-side"></i>
-                    </div>
-                    <h3>X5/X6 Carbon Wheel</h3>
-                    <p>Luxury carbon fiber steering wheel for BMW X5/X6</p>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-car-side"></i>
-                    </div>
-                    <h3>3 Series Carbon Wheel</h3>
-                    <p>Sport carbon fiber steering wheel for BMW 3 Series</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Audi Section -->
-    <section id="audi" class="brand-section">
-        <div class="container">
-            <h2>Audi Steering Wheels</h2>
-            <div class="brand-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-car-side"></i>
-                    </div>
-                    <h3>b8.5</h3>
-                    <p>Performance carbon fiber steering wheel for Audi</p>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-car-side"></i>
-                    </div>
-                    <h3>b9</h3>
-                    <p>Premium carbon fiber steering wheel for Audi</p>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-car-side"></i>
-                    </div>
-                    <h3>b9.5</h3>
-                    <p>Luxury carbon fiber steering wheel for Audi</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
+    
+    
     <section id="gallery" class="gallery-section">
         <div class="container">
             <h2>Gallery</h2>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
+                    <img src="images/bmw1.JPG" alt="BMW Steering Wheel 1" class="gallery-image">
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
+                    <img src="images/bmw2.JPG" alt="BMW Steering Wheel 2" class="gallery-image">
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
+                    <img src="images/bmw3.JPG" alt="BMW Steering Wheel 3" class="gallery-image">
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
+                    <img src="images/bmw4.JPG" alt="BMW Steering Wheel 4" class="gallery-image">
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
+                    <img src="images/bmw5.JPG" alt="BMW Steering Wheel 5" class="gallery-image">
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
+                    <img src="images/bmw6.JPG" alt="BMW Steering Wheel 6" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/bmw7.JPG" alt="BMW Steering Wheel 7" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/bmw8.JPG" alt="BMW Steering Wheel 8" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/audi1.JPG" alt="Audi Steering Wheel 1" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/audi2.JPG" alt="Audi Steering Wheel 2" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/audi3.JPG" alt="Audi Steering Wheel 3" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/audi4.JPG" alt="Audi Steering Wheel 4" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/audi5.JPG" alt="Audi Steering Wheel 5" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/bmwbmw1.JPG" alt="BMW Steering Wheel 9" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/bmwbmw2.JPG" alt="BMW Steering Wheel 10" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/bmwbmw3.JPG" alt="BMW Steering Wheel 11" class="gallery-image">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/bmwbmw4.JPG" alt="BMW Steering Wheel 12" class="gallery-image">
+                </div>
+            </div>
+        </div>
+    </section>                    </div>
+                </div>
+            </div>
+        </div>
+    </section>                        </div>
                     </div>
                 </div>
             </div>
@@ -267,7 +268,14 @@
                         <i class="fab fa-instagram"></i>
                         <div>
                             <h3>Instagram</h3>
-                            <p>@torqd.carbon</p>
+                            <p>@torqdcarbon</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-tiktok"></i>
+                        <div>
+                            <h3>TikTok</h3>
+                            <p>@torqdcarbon</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -302,8 +310,8 @@
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#bmw">BMW</a></li>
-                        <li><a href="#audi">Audi</a></li>
+                        <li><a href="bmw.html">BMW</a></li>
+                        <li><a href="audi.html">Audi</a></li>
                         <li><a href="#customize">Customize</a></li>
                     </ul>
                 </div>

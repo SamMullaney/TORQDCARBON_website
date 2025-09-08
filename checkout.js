@@ -2,8 +2,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Checkout page initialized');
     
-    // Stripe configuration with your test publishable key
+    // Stripe configuration - Update this to your live publishable key when deploying
+    // For development: use test key, for production: use live key
     const stripe = Stripe('pk_test_51S09SAR78C1ToqZL9GmXlwr7bQHdtzbZbJSgx8Aax8MWJZAJCYDiIGAjZB2zbKzZEz9yVud7RxTcbW2LKnuSXE2p00UN1aftmZ');
+    // TODO: Replace with live key: 'pk_live_YOUR_LIVE_PUBLISHABLE_KEY'
     
     // Cart data
     let cart = JSON.parse(localStorage.getItem('torqdCart')) || [];

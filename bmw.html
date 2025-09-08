@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Steering Wheels - TORQD CARBON</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="bmw-styles.css">    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bmw-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/logo_no_bg.png" alt="TORQD CARBON" class="logo-image">
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="customize.html" class="nav-link">CUSTOMIZE</a>
+                </li>
+                <li class="nav-item">
+                    <a href="bmw.html" class="nav-link active">BMW</a>
+                </li>
+                <li class="nav-item">
+                    <a href="audi.html" class="nav-link">AUDI</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#gallery" class="nav-link">GALLERY</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">CONTACT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="checkout.html" class="nav-link cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count">0</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BMW Hero Section -->
+    <section class="brand-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>BMW Steering Wheels</h1>
+                <p>Premium carbon fiber steering wheels designed specifically for BMW vehicles. Each wheel is handcrafted with the finest materials and precision engineering to enhance your driving experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BMW Products Section -->
+    <section class="bmw-products-section">
+        <div class="container">
+            <div class="bmw-products-grid">
+                <!-- The G BMW Wheel -->
+                <div class="bmw-product-item">
+                    <div class="bmw-product-image">
+                        <button class="bmw-nav-arrow bmw-nav-left" onclick="changeBmwGImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/bmw1.JPG" alt="The G BMW Wheel" class="bmw-product-img" id="bmw-image">
+                        <button class="bmw-nav-arrow bmw-nav-right" onclick="changeBmwGImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="bmw-product-info">
+                        <h3>The G</h3>
+                        <button class="bmw-description-toggle" onclick="toggleDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="bmw-description-content" id="bmw-description">
+                            <p>Features a tricolor BMW stripe at the top, with BMW color switching, alcantara airbag, perforated leather, sanzicp carbon fiber magnetic paddle shifters, and more!</p>
+                        </div>
+                        <button class="bmw-description-toggle" onclick="toggleBmwModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="bmw-description-content" id="bmw-models">
+                            <p>G series models and any model with the M sport package after 2019</p>
+                        </div>
+                        <p class="bmw-product-price">$799.99</p>                        <button class="bmw-product-button">Customize</button>
+                    </div>
+                </div>
+                
+                <!-- BMW Basic Wheel -->
+                <div class="bmw-product-item">
+                    <div class="bmw-product-image">
+                        <button class="bmw-nav-arrow bmw-nav-left" onclick="changeBmwBasicImage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <img src="images/bmw6.JPG" alt="BMW Basic Wheel" class="bmw-product-img" id="bmw-basic-image">
+                        <button class="bmw-nav-arrow bmw-nav-right" onclick="changeBmwBasicImage(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="bmw-product-info">
+                        <h3>The Dynamic Daily</h3>
+                        <button class="bmw-description-toggle" onclick="toggleBmwBasicDescription()">
+                            <i class="fas fa-chevron-down"></i> Product Details
+                        </button>
+                        <div class="bmw-description-content" id="bmw-basic-description">
+                            <p>It features nonmagnetic carbon fiber paddles shifters, white top stripe, M emblem. perforated leather, white stitching, and more!</p>
+                        </div>
+                        <button class="bmw-description-toggle" onclick="toggleBmwBasicModels()">
+                            <i class="fas fa-chevron-down"></i> Models wheel fits
+                        </button>
+                        <div class="bmw-description-content" id="bmw-basic-models">
+                            <p>F18 5 series models</p>
+                        </div>
+                        <p class="bmw-product-price">$799.99</p>
+                        <button class="bmw-product-button">Customize</button>
+                    </div>
+                </div>
+                                <!-- Placeholder for Future BMW Wheels -->
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TORQD CARBON</h4>
+                    <p>Premium carbon fiber steering wheels for performance cars.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="customize.html">Customize</a></li>
+                        <li><a href="bmw.html">BMW</a></a></li>
+                        <li><a href="audi.html">Audi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>torqdcarbon@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TORQD CARBON. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+let currentBmwBasicImageIndex = 0;
+const bmwBasicImages = ["images/bmw6.JPG", "images/bmw5.JPG", "images/bmw7.JPG", "images/bmw8.JPG"];
+
+function changeBmwBasicImage(direction) {
+    currentBmwBasicImageIndex += direction;
+    
+    if (currentBmwBasicImageIndex < 0) {
+        currentBmwBasicImageIndex = bmwBasicImages.length - 1;
+    } else if (currentBmwBasicImageIndex >= bmwBasicImages.length) {
+        currentBmwBasicImageIndex = 0;
+    }
+    
+    document.getElementById("bmw-basic-image").src = bmwBasicImages[currentBmwBasicImageIndex];
+    <script src="script.js"></script>
+
+<script>
+    // --- BMW Basic Image Carousel ---
+    let currentBmwBasicImageIndex = 0;
+    const bmwBasicImages = ["images/bmw6.JPG", "images/bmw5.JPG", "images/bmw7.JPG", "images/bmw8.JPG"];
+
+    function changeBmwBasicImage(direction) {
+        currentBmwBasicImageIndex += direction;
+        if (currentBmwBasicImageIndex < 0) {
+            currentBmwBasicImageIndex = bmwBasicImages.length - 1;
+        } else if (currentBmwBasicImageIndex >= bmwBasicImages.length) {
+            currentBmwBasicImageIndex = 0;
+        }
+        document.getElementById("bmw-basic-image").src = bmwBasicImages[currentBmwBasicImageIndex];
+    }
+
+    // --- The G Image Carousel ---
+    let currentBmwGImageIndex = 0;
+    const bmwGImages = ['images/bmw1.JPG', 'images/bmw2.JPG', 'images/bmw3.JPG', 'images/bmw4.JPG'];
+
+    function changeBmwGImage(direction) {
+        currentBmwGImageIndex += direction;
+        if (currentBmwGImageIndex < 0) {
+            currentBmwGImageIndex = bmwGImages.length - 1;
+        } else if (currentBmwGImageIndex >= bmwGImages.length) {
+            currentBmwGImageIndex = 0;
+        }
+        document.getElementById("bmw-image").src = bmwGImages[currentBmwGImageIndex];
+    }
+
+    // --- Toggle Descriptions & Models ---
+    function toggleBmwBasicDescription() {
+        const description = document.getElementById("bmw-basic-description");
+        const button = description.previousElementSibling;
+        description.classList.toggle("active");
+        button.classList.toggle("active");
+    }
+
+    function toggleBmwBasicModels() {
+        const models = document.getElementById("bmw-basic-models");
+        const button = models.previousElementSibling;
+        models.classList.toggle("active");
+        button.classList.toggle("active");
+    }
+
+    function toggleDescription() {
+        const description = document.getElementById("bmw-description");
+        const button = description.previousElementSibling;
+        description.classList.toggle("active");
+        button.classList.toggle("active");
+    }
+
+    function toggleBmwModels() {
+        const models = document.getElementById("bmw-models");
+        const button = models.previousElementSibling;
+        models.classList.toggle("active");
+        button.classList.toggle("active");
+    }
+</script>
+
+</body>
+</html>
