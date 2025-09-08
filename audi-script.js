@@ -194,3 +194,37 @@ function toggleFlattopModels() {
     models.classList.toggle("active");
     button.classList.toggle("active");
 }
+
+// --- Add to Cart for Audi Presets ---
+function setupAudiAddToCartButtons() {
+    const productItems = document.querySelectorAll('.audi-product-item');
+    productItems.forEach(item => {
+        const nameElement = item.querySelector('h3');
+        const priceElement = item.querySelector('.audi-product-price');
+        const button = item.querySelector('.add-to-cart-btn');
+        if (!nameElement || !priceElement || !button) return;
+
+        const name = nameElement.textContent.trim();
+        const priceText = priceElement.textContent.trim().replace('$', '').replace(',', '');
+        const price = parseFloat(priceText) || 0;
+
+        button.addEventListener('click', function() {
+            const cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
+            const presetItem = {
+                type: 'preset',
+                name: name,
+                price: price
+            };
+            cart.push(presetItem);
+            localStorage.setItem('torqdCart', JSON.stringify(cart));
+            if (typeof updateCartCount === 'function') {
+                updateCartCount();
+            }
+            alert('Added to cart: ' + name);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupAudiAddToCartButtons();
+});

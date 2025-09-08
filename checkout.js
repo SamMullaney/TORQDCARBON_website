@@ -40,6 +40,21 @@ document.addEventListener('DOMContentLoaded', function() {
             const itemPrice = calculateItemPrice(item);
             total += itemPrice;
             
+            if (item.type === 'preset') {
+                return `
+                <div class="cart-item">
+                    <div class="cart-item-header">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">$${itemPrice.toFixed(2)}</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="remove-item" onclick="removeFromCart(${index})">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+                </div>`;
+            }
+            
             return `
                 <div class="cart-item">
                     <div class="cart-item-header">
@@ -106,6 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function calculateItemPrice(item) {
+        if (item.type === 'preset') {
+            return typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
+        }
         let basePrice = 799.99;
         
         // Add heating cost if selected
@@ -213,6 +231,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         for (let i = 0; i < cart.length; i++) {
             const item = cart[i];
+            
+            if (item.type === 'preset') {
+                if (!item.name || (typeof item.price === 'undefined')) {
+                    return 'Invalid preset cart item';
+                }
+                continue;
+            }
             
             if (!item.base || !item.sides || !item.topbottom) {
                 return 'Invalid cart item data';

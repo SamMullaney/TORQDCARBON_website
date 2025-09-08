@@ -20,10 +20,22 @@ app.post('/create-checkout-session', async (req, res) => {
             return res.status(400).json({ error: 'Invalid cart data or cart is empty' });
         }
         
-        // Validate each cart item
+        // Validate each cart item (support both custom and preset)
         for (let i = 0; i < cart.length; i++) {
             const item = cart[i];
             
+            if (item.type === 'preset') {
+                if (!item.name || typeof item.price === 'undefined') {
+                    return res.status(400).json({ error: `Invalid preset item at index ${i}` });
+                }
+                const price = Number(item.price);
+                if (!Number.isFinite(price) || price <= 0 || price > 10000) {
+                    return res.status(400).json({ error: `Invalid preset item price at index ${i}` });
+                }
+                continue;
+            }
+            
+            // Custom item validation (existing)
             if (!item.base || !item.sides || !item.topbottom) {
                 return res.status(400).json({ error: `Invalid item data at index ${i}` });
             }
@@ -35,6 +47,21 @@ app.post('/create-checkout-session', async (req, res) => {
         
         // Create line items for Stripe
         const lineItems = cart.map((item, index) => {
+            if (item.type === 'preset') {
+                const price = Math.round(Number(item.price) * 100);
+                return {
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: item.name,
+                        },
+                        unit_amount: price,
+                    },
+                    quantity: 1,
+                };
+            }
+            
+            // Custom design pricing
             let basePrice = 799.99;
             if (item.heating === 'yes') {
                 basePrice += 50;
@@ -51,28 +78,28 @@ app.post('/create-checkout-session', async (req, res) => {
                     product_data: {
                         name: `Custom Steering Wheel - ${item.base}`,
                         description: `Base: ${item.base}, Sides: ${item.sides}, Top/Bottom: ${item.topbottom}, Badge: ${item.badge.toUpperCase()}, Airbag: ${item.airbag}, Top Stripe: ${item.topStripe === 'yes' ? 'Yes' : 'No'}, Heating: ${item.heating === 'yes' ? 'Yes' : 'No'}, Trim Color: ${item.trimColor}${item.additionalSpecs ? `, Additional Specs: ${item.additionalSpecs}` : ''}`,
-                        images: ['https://your-domain.com/steering-wheel-image.jpg'], // Add your product image URL
+                        images: ['https://your-domain.com/steering-wheel-image.jpg'],
                     },
-                    unit_amount: Math.round(basePrice * 100), // Convert to cents
+                    unit_amount: Math.round(basePrice * 100),
                 },
                 quantity: 1,
             };
         });
         
-                            // Create Stripe checkout session
-                    const session = await stripe.checkout.sessions.create({
-                        payment_method_types: ['card'],
-                        line_items: lineItems,
-                        mode: 'payment',
-                        success_url: `http://${req.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
-                        cancel_url: `http://${req.headers.host}/checkout.html`,
-                        metadata: {
-                            cart_items: JSON.stringify(cart),
-                            total_items: cart.length.toString(),
-                            created_at: new Date().toISOString(),
-                        },
-                        customer_email: req.body.email || undefined, // Optional: pre-fill email if provided
-                    });
+        // Create Stripe checkout session
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: lineItems,
+            mode: 'payment',
+            success_url: `http://${req.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `http://${req.headers.host}/checkout.html`,
+            metadata: {
+                cart_items: JSON.stringify(cart),
+                total_items: cart.length.toString(),
+                created_at: new Date().toISOString(),
+            },
+            customer_email: req.body.email || undefined,
+        });
         
         console.log('Checkout session created:', session.id);
         res.json({ sessionId: session.id });
