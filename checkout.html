@@ -66,6 +66,10 @@
                         <!-- Cart items will be populated by JavaScript -->
                     </div>
                     <div class="cart-summary">
+                        <div class="cart-discount" id="cart-discount-row" style="display:none;">
+                            <span>Creator Code Discount:</span>
+                            <span id="cart-discount">-$0.00</span>
+                        </div>
                         <div class="cart-total">
                             <span>Total:</span>
                             <span id="cart-total">$0.00</span>
@@ -76,6 +80,14 @@
                 <!-- Checkout Section -->
                 <div class="checkout-section">
                     <h2>Complete Your Order</h2>
+                    <div class="creator-code">
+                        <label for="creator-code-input">Have a creator code?</label>
+                        <div class="creator-code-row" style="display:flex; gap:8px; margin:8px 0 12px;">
+                            <input id="creator-code-input" type="text" placeholder="Enter code" style="flex:1; padding:10px; border-radius:6px; border:1px solid #333; background:#1a1a1a; color:#fff;">
+                            <button id="apply-creator-code" class="secondary-button" style="min-width:120px;">Apply</button>
+                        </div>
+                        <p id="creator-code-message" style="min-height:20px; color:#00ff88; margin:0;"></p>
+                    </div>
                     <div class="checkout-info">
                         <div class="info-item">
                             <i class="fas fa-shield-alt"></i>

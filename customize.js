@@ -42,6 +42,141 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     };
     
+    // --- Dynamic dependent options (per base wheel) ---
+    function parseBaseSelection(baseName) {
+        const lower = baseName.toLowerCase();
+        const type = lower.includes('comfort') ? 'comfort' : 'sport';
+        let generation = 'b9.5';
+        if (lower.includes('b8.5')) generation = 'b8.5';
+        else if (lower.includes('b9.5')) generation = 'b9.5';
+        else if (lower.includes('b9')) generation = 'b9';
+        return { generation: generation, type: type };
+    }
+    
+    function materialDisplayFromPath(imagePath) {
+        if (!imagePath) return 'None';
+        const lower = imagePath.toLowerCase();
+        // Perforated Leather variants
+        if (/(perf|perforated)[-_]?leather/.test(lower) || lower.includes('perfleather')) {
+            return 'Perforated Leather';
+        }
+        // Smooth Leather variants
+        if (lower.includes('smoothleather') || /(^|[^a-z])leather([^a-z]|$)/.test(lower)) {
+            return 'Smooth Leather';
+        }
+        // Alcantara (with common misspellings)
+        if (lower.includes('alcantara') || lower.includes('alcanatara') || lower.includes('alc')) {
+            return 'Alcantara';
+        }
+        // Forged Carbon variants
+        if (lower.includes('forgedcarbon') || lower.includes('forged-carbo') || lower.includes('forgedcarbo')) {
+            return 'Forged Carbon';
+        }
+        // Carbon Fiber variants
+        if (lower.includes('carbonfiber') || lower.includes('carbon-fiber')) {
+            return 'Carbon Fiber';
+        }
+        return 'Option';
+    }
+    
+    function makeOptionObjects(imagePaths) {
+        return imagePaths.map(p => ({ name: materialDisplayFromPath(p), image: p }));
+    }
+    
+    // DEBUG: enable to log asset probing
+    const DEBUG_ASSET_PROBES = true;
+    
+    // Canonical material tokens (normalized filenames)
+    const materialSlugs = {
+        sides: ['alcantara', 'smoothleather', 'perfleather', 'forgedcarbon', 'carbonfiber'],
+        topbottom: ['alcantara', 'smoothleather', 'perfleather', 'forgedcarbon', 'carbonfiber']
+    };
+    
+    // Only support your normalized naming patterns to avoid duplicates and mis-matches
+    // Primary: gen+type.material.part.png (e.g., b8.5sport.alcantara.sides.png)
+    // Also:    gen.type.material.part.png  (e.g., b9.5.sport.smoothleather.topbottom.png)
+    const filenamePatterns = [
+        ({mat, part, type, gen}) => `${gen}${type}.${mat}.${part}.png`,
+        ({mat, part, type, gen}) => `${gen}.${type}.${mat}.${part}.png`,
+    ];
+    
+    function buildCandidatePaths(generation, type, part) {
+        const mats = materialSlugs[part] || [];
+        const subdir = part === 'sides' ? 'sides' : 'topbottom';
+        const partToken = part === 'sides' ? 'sides' : 'topbottom';
+        const gen = generation; // e.g., b8.5, b9, b9.5
+        const candidates = [];
+        mats.forEach(mat => {
+            filenamePatterns.forEach(builder => {
+                candidates.push(`Customsides-topbottoms/${gen}/${subdir}/${builder({mat, part: partToken, type, gen})}`);
+            });
+        });
+        const unique = Array.from(new Set(candidates));
+        if (DEBUG_ASSET_PROBES) {
+            console.log(`[Assets] Candidates for ${generation} ${type} ${part}:`, unique);
+        }
+        return unique;
+    }
+    
+    function probeImages(paths) {
+        return Promise.all(paths.map(src => new Promise(resolve => {
+            const img = new Image();
+            img.onload = () => {
+                if (DEBUG_ASSET_PROBES) console.log('[Assets] Found:', src);
+                resolve(src);
+            };
+            img.onerror = () => {
+                if (DEBUG_ASSET_PROBES) console.warn('[Assets] Missing:', src);
+                resolve(null);
+            };
+            img.src = src;
+        })) ).then(results => results.filter(Boolean));
+    }
+    
+    // Manifest no longer seeds defaults; rely on Customsides-topbottoms exclusively
+    const dependentOptionsManifest = {
+        'b8.5': { sport: { sides: [], topbottom: [] }, comfort: { sides: [], topbottom: [] } },
+        'b9':   { sport: { sides: [], topbottom: [] }, comfort: { sides: [], topbottom: [] } },
+        'b9.5': { sport: { sides: [], topbottom: [] }, comfort: { sides: [], topbottom: [] } },
+    };
+    
+    function updateDependentOptionsForBase(selectedBaseName) {
+        const { generation, type } = parseBaseSelection(selectedBaseName);
+        const noneOption = { name: 'None', image: null };
+        // Start empty, then populate from Customsides-topbottoms
+        options.sides = [noneOption];
+        options.topbottom = [noneOption];
+        
+        const sideCandidates = buildCandidatePaths(generation, type, 'sides');
+        const topBottomCandidates = buildCandidatePaths(generation, type, 'topbottom');
+        
+        return Promise.all([
+            probeImages(sideCandidates),
+            probeImages(topBottomCandidates)
+        ]).then(([existingSides, existingTop]) => {
+            const existingSideSet = new Set();
+            const existingTopSet = new Set();
+            existingSides.forEach(p => {
+                if (!existingSideSet.has(p)) {
+                    options.sides.push({ name: materialDisplayFromPath(p), image: p });
+                    existingSideSet.add(p);
+                }
+            });
+            existingTop.forEach(p => {
+                if (!existingTopSet.has(p)) {
+                    options.topbottom.push({ name: materialDisplayFromPath(p), image: p });
+                    existingTopSet.add(p);
+                }
+            });
+            if (DEBUG_ASSET_PROBES) {
+                console.log(`[Assets] Final sides for ${generation} ${type}:`, options.sides.map(o => o.image).filter(Boolean));
+                console.log(`[Assets] Final topbottom for ${generation} ${type}:`, options.topbottom.map(o => o.image).filter(Boolean));
+            }
+        }).catch(err => {
+            console.warn('Image probing failed:', err);
+        });
+    }
+    
     // Cart functionality
     let cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
     
@@ -237,9 +372,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         console.log('Initializing customizer...');
         setupEventListeners();
-        populateOptions();
-        updateJukebox();
-        updateSummary();
+        // Initialize dependent options from default base
+        const initialBaseName = options.base[currentIndexes.base].name;
+        updateDependentOptionsForBase(initialBaseName).then(() => {
+            populateOptions();
+            updateJukebox();
+            updateSummary();
+        }).catch(err => {
+            console.error('Error initializing dependent options:', err);
+        });
     }
     
     function setupEventListeners() {
@@ -280,6 +421,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 lockCurrentSelection();
             });
         }
+        
+        // When clicking base options, update dependent sets
+        document.addEventListener('click', function(e) {
+            const optionItem = e.target.closest('.option-item');
+            if (!optionItem) return;
+            const part = optionItem.getAttribute('data-part');
+            if (part === 'base') {
+                const index = parseInt(optionItem.getAttribute('data-index'));
+                const baseName = options.base[index].name;
+                updateDependentOptionsForBase(baseName).then(() => {
+                    currentIndexes.sides = 0;
+                    currentIndexes.topbottom = 0;
+                    populateOptions();
+                    updateJukebox();
+                    updateSummary();
+                }).catch(err => {
+                    console.error('Error updating dependent options after base change:', err);
+                });
+            }
+        });
         
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {
@@ -352,7 +513,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const baseContainer = document.getElementById('base-options');
         if (baseContainer) {
             baseContainer.innerHTML = options.base.map((option, index) => `
-                <div class="option-item ${index === 0 ? 'active' : ''}" data-index="${index}" data-part="base">
+                <div class="option-item ${index === currentIndexes.base ? 'active' : ''}" data-index="${index}" data-part="base">
                     <div class="option-preview">
                         <img src="${option.image}" alt="${option.name}" onerror="this.style.display='none'">
                     </div>
@@ -365,7 +526,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const sidesContainer = document.getElementById('sides-options');
         if (sidesContainer) {
             sidesContainer.innerHTML = options.sides.map((option, index) => `
-                <div class="option-item ${index === 0 ? 'active' : ''}" data-index="${index}" data-part="sides">
+                <div class="option-item ${index === currentIndexes.sides ? 'active' : ''}" data-index="${index}" data-part="sides">
                     <div class="option-preview">
                         ${option.image ? `<img src="${option.image}" alt="${option.name}" onerror="this.style.display='none'">` : '<div class="none-option"></div>'}
                     </div>
@@ -378,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const topbottomContainer = document.getElementById('topbottom-options');
         if (topbottomContainer) {
             topbottomContainer.innerHTML = options.topbottom.map((option, index) => `
-                <div class="option-item ${index === 0 ? 'active' : ''}" data-index="${index}" data-part="topbottom">
+                <div class="option-item ${index === currentIndexes.topbottom ? 'active' : ''}" data-index="${index}" data-part="topbottom">
                     <div class="option-preview">
                         ${option.image ? `<img src="${option.image}" alt="${option.name}" onerror="this.style.display='none'">` : '<div class="none-option"></div>'}
                     </div>

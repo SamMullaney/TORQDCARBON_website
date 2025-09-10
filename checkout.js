@@ -4,11 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Stripe configuration - Update this to your live publishable key when deploying
     // For development: use test key, for production: use live key
-    const stripe = Stripe('pk_test_51S09SAR78C1ToqZL9GmXlwr7bQHdtzbZbJSgx8Aax8MWJZAJCYDiIGAjZB2zbKzZEz9yVud7RxTcbW2LKnuSXE2p00UN1aftmZ');
+    const stripe = Stripe('pk_live_51S09RoR0uCGRaMJlOCeAh6gx6OFuEwFSUip9IvVZEI4gv5dMfFnwk09awNFBhYeSXMpXTlibwXWcfgvU48Uzz7h700eMFogMWD');
     // TODO: Replace with live key: 'pk_live_YOUR_LIVE_PUBLISHABLE_KEY'
     
     // Cart data
     let cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
+    let creatorCode = null;
+    const VALID_CODE = 'Zayyxlcusive';
     
     // Initialize the page
     initCheckout();
@@ -16,11 +18,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function initCheckout() {
         displayCart();
         setupCheckoutButton();
+        setupCreatorCode();
     }
     
     function displayCart() {
         const cartContainer = document.getElementById('cart-items');
         const cartTotal = document.getElementById('cart-total');
+        const discountRow = document.getElementById('cart-discount-row');
+        const discountValue = document.getElementById('cart-discount');
         
         if (cart.length === 0) {
             cartContainer.innerHTML = `
@@ -116,10 +121,64 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }).join('');
         
+        // Apply creator code discount if valid
+        let discount = 0;
+        if (creatorCode && creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) {
+            discount = 50;
+        }
+        const finalTotal = Math.max(total - discount, 0);
+        
+        // Update UI
         cartContainer.innerHTML = cartHTML;
-        cartTotal.textContent = `$${total.toFixed(2)}`;
+        if (discountRow && discountValue) {
+            if (discount > 0) {
+                discountRow.style.display = '';
+                discountValue.textContent = `-$${discount.toFixed(2)}`;
+            } else {
+                discountRow.style.display = 'none';
+                discountValue.textContent = '-$0.00';
+            }
+        }
+        cartTotal.textContent = `$${finalTotal.toFixed(2)}`;
     }
     
+    function setupCreatorCode() {
+        const input = document.getElementById('creator-code-input');
+        const applyBtn = document.getElementById('apply-creator-code');
+        const message = document.getElementById('creator-code-message');
+        if (!input || !applyBtn) return;
+        
+        // Pre-fill if code stored in storage
+        const storedCode = localStorage.getItem('creatorCode');
+        if (storedCode) {
+            creatorCode = storedCode;
+            input.value = storedCode;
+            displayCart();
+        }
+        
+        applyBtn.addEventListener('click', function() {
+            const code = (input.value || '').trim();
+            if (!code) {
+                creatorCode = null;
+                localStorage.removeItem('creatorCode');
+                if (message) { message.style.color = '#ff6b6b'; message.textContent = 'Please enter a code.'; }
+                displayCart();
+                return;
+            }
+            if (code.toLowerCase() === VALID_CODE.toLowerCase()) {
+                creatorCode = code;
+                localStorage.setItem('creatorCode', code);
+                if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+                displayCart();
+            } else {
+                creatorCode = null;
+                localStorage.removeItem('creatorCode');
+                if (message) { message.style.color = '#ff6b6b'; message.textContent = 'Invalid code.'; }
+                displayCart();
+            }
+        });
+    }
+
     function calculateItemPrice(item) {
         if (item.type === 'preset') {
             return typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
@@ -259,7 +318,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     async function createCheckoutSession() {
         // Calculate total
-        const total = cart.reduce((sum, item) => sum + calculateItemPrice(item), 0);
+        const subtotal = cart.reduce((sum, item) => sum + calculateItemPrice(item), 0);
+        const discount = (creatorCode && creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) ? 50 : 0;
+        const total = Math.max(subtotal - discount, 0);
         
         try {
             const response = await fetch('/create-checkout-session', {
@@ -269,7 +330,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({
                     cart: cart,
-                    total: total
+                    total: total,
+                    creatorCode: creatorCode || null
                 })
             });
             

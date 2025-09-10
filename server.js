@@ -1,5 +1,12 @@
 const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_51S09SAR78C1ToqZLPQmppq7m61kK7Gx1SHhlG1gLdnfo7ERItiLbFf2AiyYc0V0VU4S4gTnGFpf1ar5l5zEkhROf00Njim9cyV');
+require('dotenv').config();
+// Require Stripe secret from environment only (no hardcoded fallback)
+const stripeSecret = process.env.STRIPE_SECRET_KEY;
+if (!stripeSecret) {
+    console.error('STRIPE_SECRET_KEY is not set. Please set it in your environment (never commit secrets).');
+    process.exit(1);
+}
+const stripe = require('stripe')(stripeSecret);
 const cors = require('cors');
 
 const app = express();
@@ -13,7 +20,7 @@ app.use(express.static('.')); // Serve static files from current directory
 // Create checkout session endpoint
 app.post('/create-checkout-session', async (req, res) => {
     try {
-        const { cart } = req.body;
+        const { cart, creatorCode } = req.body;
         
         // Validate request
         if (!cart || !Array.isArray(cart) || cart.length === 0) {
@@ -43,6 +50,13 @@ app.post('/create-checkout-session', async (req, res) => {
             if (!item.badge || !item.airbag || !item.topStripe || !item.heating || !item.trimColor) {
                 return res.status(400).json({ error: `Missing required specifications for item at index ${i}` });
             }
+        }
+        
+        // Determine discount
+        let discountCents = 0;
+        const VALID_CODE = 'Zayyxlcusive';
+        if (creatorCode && String(creatorCode).toLowerCase() === VALID_CODE.toLowerCase()) {
+            discountCents = 5000; // $50 in cents
         }
         
         // Create line items for Stripe
@@ -86,6 +100,20 @@ app.post('/create-checkout-session', async (req, res) => {
             };
         });
         
+        // Apply a discount by adding a negative amount as a separate line item if applicable
+        if (discountCents > 0) {
+            lineItems.push({
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: 'Creator Code Discount (Zayyxlcusive)'
+                    },
+                    unit_amount: -discountCents,
+                },
+                quantity: 1,
+            });
+        }
+        
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -97,6 +125,7 @@ app.post('/create-checkout-session', async (req, res) => {
                 cart_items: JSON.stringify(cart),
                 total_items: cart.length.toString(),
                 created_at: new Date().toISOString(),
+                creator_code: creatorCode || '',
             },
             customer_email: req.body.email || undefined,
         });
