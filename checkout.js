@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Stripe configuration - Update this to your live publishable key when deploying
     // For development: use test key, for production: use live key
     const stripe = Stripe('pk_live_51S09RoR0uCGRaMJlOCeAh6gx6OFuEwFSUip9IvVZEI4gv5dMfFnwk09awNFBhYeSXMpXTlibwXWcfgvU48Uzz7h700eMFogMWD');
+    const API_BASE = window.CHECKOUT_API_BASE || '';
     // TODO: Replace with live key: 'pk_live_YOUR_LIVE_PUBLISHABLE_KEY'
     
     // Cart data
@@ -226,6 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function setupCheckoutButton() {
         const checkoutButton = document.getElementById('checkout-button');
+        const errorBanner = document.getElementById('checkout-error');
         if (checkoutButton) {
             checkoutButton.addEventListener('click', async function() {
                 if (cart.length === 0) {
@@ -243,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Disable button and show loading
                 checkoutButton.disabled = true;
                 checkoutButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Checkout...';
+                if (errorBanner) { errorBanner.style.display = 'none'; errorBanner.textContent = ''; }
                 
                 try {
                     // Create checkout session
@@ -267,13 +270,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show user-friendly error message
                     let errorMessage = 'An error occurred while creating checkout. Please try again.';
                     
-                    if (error.message.includes('network')) {
+                    if (String(error).toLowerCase().includes('network')) {
                         errorMessage = 'Network error. Please check your internet connection and try again.';
-                    } else if (error.message.includes('session')) {
+                    } else if (String(error).toLowerCase().includes('session')) {
                         errorMessage = 'Unable to create checkout session. Please refresh the page and try again.';
                     }
                     
-                    alert(errorMessage);
+                    if (errorBanner) { errorBanner.style.display = ''; errorBanner.textContent = errorMessage; }
+                    else { alert(errorMessage); }
                     
                     // Re-enable button
                     checkoutButton.disabled = false;
@@ -323,7 +327,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const total = Math.max(subtotal - discount, 0);
         
         try {
-            const response = await fetch('/create-checkout-session', {
+            // Create checkout session
+            const response = await fetch(`${API_BASE}/create-checkout-session`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -338,6 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             
             if (!response.ok) {
+                console.error('Checkout session creation failed:', response.status, result);
                 throw new Error(result.error || 'Failed to create checkout session');
             }
             
