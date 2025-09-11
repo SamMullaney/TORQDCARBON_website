@@ -62,8 +62,14 @@ module.exports = async (req, res) => {
             };
         });
 
-        // NOTE: To support the creator code in production, configure Coupons/Promotion Codes in Stripe Dashboard
-        // and pass allow_promotion_codes: true or discounts: [{coupon: '...'}] here.
+        // Apply $50 creator code discount safely by reducing the first line item's unit_amount
+        if (creatorCode && String(creatorCode).toLowerCase() === 'zayyxlcusive') {
+            if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
+                const original = lineItems[0].price_data.unit_amount;
+                const discounted = Math.max(0, original - 5000);
+                lineItems[0].price_data.unit_amount = discounted;
+            }
+        }
 
         const origin = req.headers.origin || 'http://localhost:3000';
         const session = await stripe.checkout.sessions.create({
