@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Stripe configuration - Update this to your live publishable key when deploying
     // For development: use test key, for production: use live key
     const stripe = Stripe('pk_live_51S09RoR0uCGRaMJlOCeAh6gx6OFuEwFSUip9IvVZEI4gv5dMfFnwk09awNFBhYeSXMpXTlibwXWcfgvU48Uzz7h700eMFogMWD');
-    const API_BASE = window.CHECKOUT_API_BASE || '';
+    const API_BASE = (typeof window !== 'undefined' && window.CHECKOUT_API_BASE !== undefined)
+        ? window.CHECKOUT_API_BASE
+        : (location.hostname === 'localhost' || location.hostname === '127.0.0.1' ? '' : '/api');
     // TODO: Replace with live key: 'pk_live_YOUR_LIVE_PUBLISHABLE_KEY'
     
     // Cart data
@@ -350,6 +352,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return result;
             
         } catch (error) {
+            // If response was not JSON (e.g., HTML 404 page), try to surface that
+            try {
+                const resp = await fetch(`${API_BASE}/create-checkout-session`, { method: 'POST' });
+                const ct = resp.headers.get('content-type') || '';
+                if (!ct.includes('application/json')) {
+                    const text = await resp.text();
+                    console.error('Non-JSON response body:', text.slice(0, 200));
+                }
+            } catch (_) {}
             console.error('Error creating checkout session:', error);
             throw error;
         }
