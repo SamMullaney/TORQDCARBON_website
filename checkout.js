@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
     let creatorCode = null;
     const VALID_CODE = 'Zayyxlcusive';
+    const VALID_CODE2 = 'TORQD';
     
     // Initialize the page
     initCheckout();
@@ -126,8 +127,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Apply creator code discount if valid
         let discount = 0;
-        if (creatorCode && creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) {
+        if (creatorCode) {
+            if (creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) {
             discount = 50;
+            } else if (creatorCode.toLowerCase() === VALID_CODE2.toLowerCase()) {
+                discount = 75;
+            }
         }
         const finalTotal = Math.max(total - discount, 0);
         
@@ -172,6 +177,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 creatorCode = code;
                 localStorage.setItem('creatorCode', code);
                 if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+                displayCart();
+            } else if (code.toLowerCase() === VALID_CODE2.toLowerCase()) {
+                creatorCode = code;
+                localStorage.setItem('creatorCode', code);
+                if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $75 off'; }
                 displayCart();
             } else {
                 creatorCode = null;
@@ -325,8 +335,14 @@ document.addEventListener('DOMContentLoaded', function() {
     async function createCheckoutSession() {
         // Calculate total
         const subtotal = cart.reduce((sum, item) => sum + calculateItemPrice(item), 0);
-        const discount = (creatorCode && creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) ? 50 : 0;
-        const total = Math.max(subtotal - discount, 0);
+        let total = subtotal;
+        if (creatorCode) {
+            if (creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) {
+                total = Math.max(subtotal - 50, 0);
+            } else if (creatorCode.toLowerCase() === VALID_CODE2.toLowerCase()) {
+                total = Math.max(subtotal - 75, 0);
+            }
+        }
         
         try {
             // Create checkout session
@@ -365,7 +381,6 @@ document.addEventListener('DOMContentLoaded', function() {
             throw error;
         }
     }
-});
 
 // Global function to remove items from cart
 function removeFromCart(index) {
@@ -375,4 +390,6 @@ function removeFromCart(index) {
     
     // Reload the page to update the display
     location.reload();
-} 
+}
+
+});
