@@ -71,6 +71,15 @@ module.exports = async (req, res) => {
             }
         }
 
+		// Apply $75 creator code discount safely by reducing the first line item's unit_amount
+		if (creatorCode && String(creatorCode).toLowerCase() === 'torqd') {
+			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
+				const original = lineItems[0].price_data.unit_amount;
+				const discounted = Math.max(0, original - 7500);
+				lineItems[0].price_data.unit_amount = discounted;
+			}
+		}
+
         const origin = req.headers.origin || 'http://localhost:3000';
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
