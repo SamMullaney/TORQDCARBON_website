@@ -55,14 +55,17 @@ app.post('/create-checkout-session', async (req, res) => {
 
         // Determine discount in cents
         let discountCents = 0;
-        const VALID_CODE1 = 'Zayyxlcusive';
-        const VALID_CODE2 = 'TORQD';
-        if (creatorCode) {
+		const VALID_CODE1 = 'Zayyxlcusive';
+		const VALID_CODE2 = 'TORQD';
+		const VALID_CODE3 = 'SOYERICK';
+		if (creatorCode) {
             const codeLower = String(creatorCode).toLowerCase();
             if (codeLower === VALID_CODE1.toLowerCase()) {
                 discountCents = 5000; // $50 in cents
-            } else if (codeLower === VALID_CODE2.toLowerCase()) {
+			} else if (codeLower === VALID_CODE2.toLowerCase()) {
                 discountCents = 7500; // $75 in cents
+			} else if (codeLower === VALID_CODE3.toLowerCase()) {
+				discountCents = 5000; // $50 in cents
             }
         }
 

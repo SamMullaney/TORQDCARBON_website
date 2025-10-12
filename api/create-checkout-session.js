@@ -71,6 +71,15 @@ module.exports = async (req, res) => {
             }
         }
 
+		// Apply $50 creator code discount for SOYERICK
+		if (creatorCode && String(creatorCode).toLowerCase() === 'soyerick') {
+			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
+				const original = lineItems[0].price_data.unit_amount;
+				const discounted = Math.max(0, original - 5000);
+				lineItems[0].price_data.unit_amount = discounted;
+			}
+		}
+
 		// Apply $75 creator code discount safely by reducing the first line item's unit_amount
 		if (creatorCode && String(creatorCode).toLowerCase() === 'torqd') {
 			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
