@@ -194,6 +194,7 @@ body {
 .hero-image {
     flex: 1;
     display: flex;
+	flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -209,6 +210,29 @@ body {
 .hero-logo:hover {
     transform: scale(1.05);
     filter: drop-shadow(0 15px 30px rgba(0, 255, 136, 0.5));
+}
+
+/* Hero contact callout */
+.hero-contact-callout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.hero-contact-text {
+    color: #cccccc;
+    text-align: center;
+    max-width: 520px;
+}
+
+.hero-contact-button {
+    min-width: 260px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 /* CTA Button */
@@ -286,13 +310,13 @@ body {
     box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
     border-color: #00ff88;
 }
-
+/*
     justify-content: center;
     margin: -20px auto 1rem;
     font-size: 2rem;
     color: #00ff88;
 }
-
+*/
 .product-card h3 {
     color: #00ff88;
     margin-bottom: 1rem;
@@ -1037,12 +1061,11 @@ body {
 }
 
 /* Customization Widget Styles */
-
-
+/*
     border-radius: 15px;
     overflow: hidden;
 }
-
+*/
 
 
 .option-group {

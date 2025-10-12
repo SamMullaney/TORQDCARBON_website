@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const VALID_CODE = 'Zayyxlcusive';
 	const VALID_CODE2 = 'TORQD';
 	const VALID_CODE3 = 'SOYERICK';
+	const VALID_CODE4 = 'M3.Cay';
+	const VALID_CODE5 = 'N63.HEENZ';
     
     // Initialize the page
     initCheckout();
@@ -132,8 +134,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) {
 			discount = 50;
 			} else if (creatorCode.toLowerCase() === VALID_CODE2.toLowerCase()) {
-				discount = 75;
+				discount = 50;
 			} else if (creatorCode.toLowerCase() === VALID_CODE3.toLowerCase()) {
+				discount = 50;
+			} else if (creatorCode.toLowerCase() === VALID_CODE4.toLowerCase()) {
+				discount = 50;
+			} else if (creatorCode.toLowerCase() === VALID_CODE5.toLowerCase()) {
 				discount = 50;
 			}
 		}
@@ -184,9 +190,19 @@ document.addEventListener('DOMContentLoaded', function() {
 			} else if (code.toLowerCase() === VALID_CODE2.toLowerCase()) {
                 creatorCode = code;
                 localStorage.setItem('creatorCode', code);
-                if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $75 off'; }
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
                 displayCart();
 			} else if (code.toLowerCase() === VALID_CODE3.toLowerCase()) {
+				creatorCode = code;
+				localStorage.setItem('creatorCode', code);
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+				displayCart();
+			} else if (code.toLowerCase() === VALID_CODE4.toLowerCase()) {
+				creatorCode = code;
+				localStorage.setItem('creatorCode', code);
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+				displayCart();
+			} else if (code.toLowerCase() === VALID_CODE5.toLowerCase()) {
 				creatorCode = code;
 				localStorage.setItem('creatorCode', code);
 				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
@@ -348,8 +364,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) {
 				total = Math.max(subtotal - 50, 0);
 			} else if (creatorCode.toLowerCase() === VALID_CODE2.toLowerCase()) {
-				total = Math.max(subtotal - 75, 0);
+				total = Math.max(subtotal - 50, 0);
 			} else if (creatorCode.toLowerCase() === VALID_CODE3.toLowerCase()) {
+				total = Math.max(subtotal - 50, 0);
+			} else if (creatorCode.toLowerCase() === VALID_CODE4.toLowerCase()) {
+				total = Math.max(subtotal - 50, 0);
+			} else if (creatorCode.toLowerCase() === VALID_CODE5.toLowerCase()) {
 				total = Math.max(subtotal - 50, 0);
 			}
 		}
@@ -393,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 // Global function to remove items from cart
-function removeFromCart(index) {
+window.removeFromCart = function(index) {
     let cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
     cart.splice(index, 1);
     localStorage.setItem('torqdCart', JSON.stringify(cart));

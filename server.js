@@ -58,15 +58,22 @@ app.post('/create-checkout-session', async (req, res) => {
 		const VALID_CODE1 = 'Zayyxlcusive';
 		const VALID_CODE2 = 'TORQD';
 		const VALID_CODE3 = 'SOYERICK';
+		const VALID_CODE4 = 'M3.Cay';
+		const VALID_CODE5 = 'N63.HEENZ';
 		if (creatorCode) {
-            const codeLower = String(creatorCode).toLowerCase();
+			const codeLower = String(creatorCode).trim().toLowerCase();
             if (codeLower === VALID_CODE1.toLowerCase()) {
                 discountCents = 5000; // $50 in cents
 			} else if (codeLower === VALID_CODE2.toLowerCase()) {
-                discountCents = 7500; // $75 in cents
+				discountCents = 5000; // $50 in cents
 			} else if (codeLower === VALID_CODE3.toLowerCase()) {
 				discountCents = 5000; // $50 in cents
+			} else if (codeLower === VALID_CODE4.toLowerCase()) {
+				discountCents = 5000; // $50 in cents
+			} else if (codeLower === VALID_CODE5.toLowerCase()) {
+				discountCents = 5000; // $50 in cents
             }
+			console.log('[Express] creatorCode:', codeLower, 'discountCents:', discountCents);
         }
 
         // Create line items for Stripe

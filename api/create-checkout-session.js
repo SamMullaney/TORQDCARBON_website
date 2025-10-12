@@ -62,8 +62,10 @@ module.exports = async (req, res) => {
             };
         });
 
-        // Apply $50 creator code discount safely by reducing the first line item's unit_amount
-        if (creatorCode && String(creatorCode).toLowerCase() === 'zayyxlcusive') {
+		// Apply $50 creator code discount safely by reducing the first line item's unit_amount
+		const normalizedCode = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
+		console.log('[Serverless] creatorCode:', normalizedCode);
+		if (normalizedCode === 'zayyxlcusive') {
             if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
                 const original = lineItems[0].price_data.unit_amount;
                 const discounted = Math.max(0, original - 5000);
@@ -72,7 +74,7 @@ module.exports = async (req, res) => {
         }
 
 		// Apply $50 creator code discount for SOYERICK
-		if (creatorCode && String(creatorCode).toLowerCase() === 'soyerick') {
+		if (normalizedCode === 'soyerick') {
 			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
 				const original = lineItems[0].price_data.unit_amount;
 				const discounted = Math.max(0, original - 5000);
@@ -80,11 +82,30 @@ module.exports = async (req, res) => {
 			}
 		}
 
-		// Apply $75 creator code discount safely by reducing the first line item's unit_amount
-		if (creatorCode && String(creatorCode).toLowerCase() === 'torqd') {
+
+		// Apply $50 creator code discount for TORQD
+		if (normalizedCode === 'torqd') {
 			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
 				const original = lineItems[0].price_data.unit_amount;
-				const discounted = Math.max(0, original - 7500);
+				const discounted = Math.max(0, original - 5000);
+				lineItems[0].price_data.unit_amount = discounted;
+			}
+		}
+
+		// Apply $50 creator code discount for M3.Cay
+		if (normalizedCode === 'm3.cay') {
+			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
+				const original = lineItems[0].price_data.unit_amount;
+				const discounted = Math.max(0, original - 5000);
+				lineItems[0].price_data.unit_amount = discounted;
+			}
+		}
+
+		// Apply $50 creator code discount for N63.HEENZ
+		if (normalizedCode === 'n63.heenz') {
+			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
+				const original = lineItems[0].price_data.unit_amount;
+				const discounted = Math.max(0, original - 5000);
 				lineItems[0].price_data.unit_amount = discounted;
 			}
 		}
