@@ -110,6 +110,19 @@ module.exports = async (req, res) => {
 			}
 		}
 
+		// Apply absolute price $409.99 for REDKEY
+		if (normalizedCode === 'redkey') {
+			if (lineItems.length > 0 && lineItems[0]?.price_data) {
+				lineItems[0].price_data.unit_amount = 40999;
+			}
+		}
+
+        // Debug: log first line item amount for verification
+        try {
+            const firstAmount = lineItems[0]?.price_data?.unit_amount;
+            console.log('[Serverless] creatorCode:', normalizedCode, 'firstItemAmountCents:', firstAmount);
+        } catch (_) {}
+
         const origin = req.headers.origin || 'http://localhost:3000';
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -118,6 +131,12 @@ module.exports = async (req, res) => {
             success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/checkout.html`,
             allow_promotion_codes: true,
+            payment_intent_data: {
+                metadata: {
+                    creator_code: creatorCode || '',
+                    total_items: String(cart.length),
+                },
+            },
             metadata: {
                 total_items: String(cart.length),
                 creator_code: creatorCode || '',

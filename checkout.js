@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	const VALID_CODE3 = 'SOYERICK';
 	const VALID_CODE4 = 'M3.Cay';
 	const VALID_CODE5 = 'N63.HEENZ';
+	const VALID_CODE6 = 'REDKEY';
     
     // Initialize the page
     initCheckout();
@@ -130,25 +131,34 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Apply creator code discount if valid
         let discount = 0;
+        let redkeyActive = false;
 		if (creatorCode) {
-			if (creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) {
-			discount = 50;
-			} else if (creatorCode.toLowerCase() === VALID_CODE2.toLowerCase()) {
+            const codeLower = creatorCode.toLowerCase();
+            if (codeLower === VALID_CODE6.toLowerCase()) {
+                redkeyActive = true;
+            } else if (codeLower === VALID_CODE.toLowerCase()) {
 				discount = 50;
-			} else if (creatorCode.toLowerCase() === VALID_CODE3.toLowerCase()) {
+			} else if (codeLower === VALID_CODE2.toLowerCase()) {
 				discount = 50;
-			} else if (creatorCode.toLowerCase() === VALID_CODE4.toLowerCase()) {
+			} else if (codeLower === VALID_CODE3.toLowerCase()) {
 				discount = 50;
-			} else if (creatorCode.toLowerCase() === VALID_CODE5.toLowerCase()) {
+			} else if (codeLower === VALID_CODE4.toLowerCase()) {
+				discount = 50;
+			} else if (codeLower === VALID_CODE5.toLowerCase()) {
 				discount = 50;
 			}
 		}
-        const finalTotal = Math.max(total - discount, 0);
+        const firstItemPrice = cart.length > 0 ? calculateItemPrice(cart[0]) : 0;
+        const finalTotal = redkeyActive ? Math.max(total - firstItemPrice + 409.99, 0) : Math.max(total - discount, 0);
         
         // Update UI
         cartContainer.innerHTML = cartHTML;
         if (discountRow && discountValue) {
-            if (discount > 0) {
+            if (redkeyActive) {
+                const redkeyDiscount = Math.max(firstItemPrice - 409.99, 0);
+                discountRow.style.display = '';
+                discountValue.textContent = `-$${redkeyDiscount.toFixed(2)}`;
+            } else if (discount > 0) {
                 discountRow.style.display = '';
                 discountValue.textContent = `-$${discount.toFixed(2)}`;
             } else {
@@ -187,6 +197,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('creatorCode', code);
                 if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
                 displayCart();
+			} else if (code.toLowerCase() === VALID_CODE6.toLowerCase()) {
+				creatorCode = code;
+				localStorage.setItem('creatorCode', code);
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: price set to $409.99'; }
+				displayCart();
 			} else if (code.toLowerCase() === VALID_CODE2.toLowerCase()) {
                 creatorCode = code;
                 localStorage.setItem('creatorCode', code);
@@ -361,15 +376,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const subtotal = cart.reduce((sum, item) => sum + calculateItemPrice(item), 0);
         let total = subtotal;
 		if (creatorCode) {
-			if (creatorCode.toLowerCase() === VALID_CODE.toLowerCase()) {
+            const codeLower = creatorCode.toLowerCase();
+			if (codeLower === VALID_CODE6.toLowerCase()) {
+                const firstItemPrice = cart.length > 0 ? calculateItemPrice(cart[0]) : 0;
+                total = Math.max(subtotal - firstItemPrice + 409.99, 0);
+			} else if (codeLower === VALID_CODE.toLowerCase()) {
 				total = Math.max(subtotal - 50, 0);
-			} else if (creatorCode.toLowerCase() === VALID_CODE2.toLowerCase()) {
+			} else if (codeLower === VALID_CODE2.toLowerCase()) {
 				total = Math.max(subtotal - 50, 0);
-			} else if (creatorCode.toLowerCase() === VALID_CODE3.toLowerCase()) {
+			} else if (codeLower === VALID_CODE3.toLowerCase()) {
 				total = Math.max(subtotal - 50, 0);
-			} else if (creatorCode.toLowerCase() === VALID_CODE4.toLowerCase()) {
+			} else if (codeLower === VALID_CODE4.toLowerCase()) {
 				total = Math.max(subtotal - 50, 0);
-			} else if (creatorCode.toLowerCase() === VALID_CODE5.toLowerCase()) {
+			} else if (codeLower === VALID_CODE5.toLowerCase()) {
 				total = Math.max(subtotal - 50, 0);
 			}
 		}

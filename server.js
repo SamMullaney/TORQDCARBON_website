@@ -123,6 +123,19 @@ app.post('/create-checkout-session', async (req, res) => {
             };
         });
 
+        // If REDKEY, set first item's price to $409.99
+        if (creatorCode && String(creatorCode).trim().toLowerCase() === 'redkey') {
+            if (lineItems.length > 0 && lineItems[0]?.price_data) {
+                lineItems[0].price_data.unit_amount = 40999;
+            }
+        }
+
+        // Debug: log first line item amount for verification
+        try {
+            const firstAmount = lineItems[0]?.price_data?.unit_amount;
+            console.log('[Express] creatorCode:', String(creatorCode || '').trim().toLowerCase(), 'firstItemAmountCents:', firstAmount);
+        } catch (_) {}
+
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -130,6 +143,12 @@ app.post('/create-checkout-session', async (req, res) => {
             mode: 'payment',
             success_url: `http://${req.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `http://${req.headers.host}/checkout.html`,
+            payment_intent_data: {
+                metadata: {
+                    creator_code: creatorCode || '',
+                    total_items: cart.length.toString(),
+                }
+            },
             metadata: {
                 cart_items: JSON.stringify(cart),
                 total_items: cart.length.toString(),
