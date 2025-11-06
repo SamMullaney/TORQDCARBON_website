@@ -18,6 +18,10 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Invalid cart data or cart is empty' });
         }
 
+        // Normalize and precompute validity for adding product metadata
+        const normalizedForMetadata = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
+        const creatorCodeIsValidForMetadata = ['zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','redkey'].includes(normalizedForMetadata);
+
         const lineItems = cart.map((item, index) => {
             // Preset item flow
             if (item.type === 'preset') {
@@ -30,6 +34,7 @@ module.exports = async (req, res) => {
                         currency: 'usd',
                         product_data: {
                             name: item.variant ? `${item.name} - ${item.variant}` : item.name,
+                            ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
                         },
                         unit_amount: unit,
                     },
@@ -55,6 +60,7 @@ module.exports = async (req, res) => {
                     product_data: {
                         name: `Custom Steering Wheel - ${item.base}`,
                         description: `Base: ${item.base}, Sides: ${item.sides}, Top/Bottom: ${item.topbottom}, Badge: ${String(item.badge || '').toUpperCase()}, Airbag: ${item.airbag}, Top Stripe: ${item.topStripe === 'yes' ? 'Yes' : 'No'}, Heating: ${item.heating === 'yes' ? 'Yes' : 'No'}, Trim Color: ${item.trimColor}${item.additionalSpecs ? `, Additional Specs: ${item.additionalSpecs}` : ''}`,
+                        ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
                     },
                     unit_amount: unit,
                 },

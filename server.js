@@ -60,6 +60,9 @@ app.post('/create-checkout-session', async (req, res) => {
 		const VALID_CODE3 = 'SOYERICK';
 		const VALID_CODE4 = 'M3.Cay';
 		const VALID_CODE5 = 'N63.HEENZ';
+		// Normalize for metadata and validation
+		const normalizedCodeForMetadata = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
+		const creatorCodeIsValidForMetadata = ['zayyxlcusive','torqd','soyerick','m3.cay','n63.heenz','redkey'].includes(normalizedCodeForMetadata);
 		if (creatorCode) {
 			const codeLower = String(creatorCode).trim().toLowerCase();
             if (codeLower === VALID_CODE1.toLowerCase()) {
@@ -92,6 +95,7 @@ app.post('/create-checkout-session', async (req, res) => {
                         currency: 'usd',
                         product_data: {
                             name: item.variant ? `${item.name} - ${item.variant}` : item.name,
+                            ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
                         },
                         unit_amount: price,
                     },
@@ -116,6 +120,7 @@ app.post('/create-checkout-session', async (req, res) => {
                         name: `Custom Steering Wheel - ${item.base}`,
                         description: `Base: ${item.base}, Sides: ${item.sides}, Top/Bottom: ${item.topbottom}, Badge: ${item.badge.toUpperCase()}, Airbag: ${item.airbag}, Top Stripe: ${item.topStripe === 'yes' ? 'Yes' : 'No'}, Heating: ${item.heating === 'yes' ? 'Yes' : 'No'}, Trim Color: ${item.trimColor}${item.additionalSpecs ? `, Additional Specs: ${item.additionalSpecs}` : ''}`,
                         images: ['https://your-domain.com/steering-wheel-image.jpg'],
+                        ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
                     },
                     unit_amount: unitAmount,
                 },
