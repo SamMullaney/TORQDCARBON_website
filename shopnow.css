@@ -1,0 +1,19 @@
+/* Shop Now Page - Skeleton */
+.shopnow-main {
+    padding: 80px 20px;
+    padding-top: 150px;
+}
+.shopnow-main .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+.shopnow-main h1 {
+    color: #00ff88;
+    margin-bottom: 12px;
+}
+.shopnow-main .coming-soon {
+    color: #cccccc;
+}
+
+
