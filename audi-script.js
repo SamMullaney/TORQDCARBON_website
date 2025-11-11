@@ -96,6 +96,34 @@ function changeFlattopImage(direction) {
     document.getElementById("flattop-image").src = flattopImages[currentFlattopImageIndex];
 }
 
+// --- b8.5 Forged Red Preset Image Carousel ---
+let currentB85ForgedImageIndex = 0;
+const b85ForgedImages = ["images/b8.5forgedredpreset.JPG", "images/b8.5forgedredpreset(1).JPG"];
+
+function changeB85ForgedRedImage(direction) {
+    currentB85ForgedImageIndex += direction;
+    if (currentB85ForgedImageIndex < 0) {
+        currentB85ForgedImageIndex = b85ForgedImages.length - 1;
+    } else if (currentB85ForgedImageIndex >= b85ForgedImages.length) {
+        currentB85ForgedImageIndex = 0;
+    }
+    document.getElementById("b85forged-image").src = b85ForgedImages[currentB85ForgedImageIndex];
+}
+
+// --- b9 Flat Bottom Skeleton Preset Red Image Carousel ---
+let currentB9SkeletonImageIndex = 0;
+const b9SkeletonImages = ["images/b9flatbottomskeleton.JPG"];
+
+function changeB9SkeletonImage(direction) {
+    currentB9SkeletonImageIndex += direction;
+    if (currentB9SkeletonImageIndex < 0) {
+        currentB9SkeletonImageIndex = b9SkeletonImages.length - 1;
+    } else if (currentB9SkeletonImageIndex >= b9SkeletonImages.length) {
+        currentB9SkeletonImageIndex = 0;
+    }
+    document.getElementById("b9skeleton-image").src = b9SkeletonImages[currentB9SkeletonImageIndex];
+}
+
 // --- Toggle Descriptions & Models ---
 function toggleAudiDescription() {
     const description = document.getElementById("audi-description");
@@ -190,6 +218,34 @@ function toggleFlattopDescription() {
 
 function toggleFlattopModels() {
     const models = document.getElementById("flattop-models");
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    button.classList.toggle("active");
+}
+
+function toggleB85ForgedDescription() {
+    const description = document.getElementById("b85forged-description");
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    button.classList.toggle("active");
+}
+
+function toggleB85ForgedModels() {
+    const models = document.getElementById("b85forged-models");
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    button.classList.toggle("active");
+}
+
+function toggleB9SkeletonDescription() {
+    const description = document.getElementById("b9skeleton-description");
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    button.classList.toggle("active");
+}
+
+function toggleB9SkeletonModels() {
+    const models = document.getElementById("b9skeleton-models");
     const button = models.previousElementSibling;
     models.classList.toggle("active");
     button.classList.toggle("active");
