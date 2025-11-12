@@ -72,6 +72,54 @@
     <section class="audi-products-section">
         <div class="container">
             <div class="audi-products-grid">
+                <!-- Custom Request: Don't See Your Car (Questionnaire) -->
+                <div class="audi-product-item">
+                    <div class="audi-product-image">
+                        <img src="images/dontseeyourcar.JPG" alt="Don't see your car? Custom Request" class="audi-product-img">
+                    </div>
+                    <div class="audi-product-info">
+                        <h3>Don't See Your Car? Custom Request</h3>
+                        <div class="questionnaire-grid">
+                            <div class="q-field">
+                                <label for="anycar-ymm">Year, Make, Model</label>
+                                <input id="anycar-ymm" type="text" placeholder="e.g., 2016 Audi A4" />
+                            </div>
+                            <div class="q-field">
+                                <label for="anycar-email">Email</label>
+                                <input id="anycar-email" type="email" placeholder="you@example.com" />
+                            </div>
+                            <div class="q-field">
+                                <label for="anycar-sides">Side Grip Material</label>
+                                <select id="anycar-sides">
+                                    <option value="">Select</option>
+                                    <option>perforated leather</option>
+                                    <option>alcantara</option>
+                                    <option>carbon fiber</option>
+                                    <option>smooth leather</option>
+                                </select>
+                            </div>
+                            <div class="q-field">
+                                <label for="anycar-topbottom">Top & Bottom Grip Material</label>
+                                <select id="anycar-topbottom">
+                                    <option value="">Select</option>
+                                    <option>perforated leather</option>
+                                    <option>alcantara</option>
+                                    <option>carbon fiber</option>
+                                    <option>smooth leather</option>
+                                    <option>forged leather</option>
+                                </select>
+                            </div>
+                            <div class="q-field q-span">
+                                <label for="anycar-notes">Additional Modifications (optional)</label>
+                                <input id="anycar-notes" type="text" placeholder="LEDs, logo, color accents, etc." />
+                            </div>
+                        </div>
+                        <div id="anycar-error" class="q-error" style="display:none;"></div>
+                        <p class="audi-product-price">$749.99</p>
+                        <button id="anycar-add" class="cta-button">Add to Cart</button>
+                    </div>
+                </div>
+
                 <!-- BMW: The G -->
                 <div class="bmw-product-item">
                     <div class="bmw-product-image">
@@ -97,7 +145,7 @@
                         <div class="bmw-description-content" id="bmw-models">
                             <p>G series models and any model with the M sport package after 2019</p>
                         </div>
-                        <p class="bmw-product-price">$799.99</p>
+                        <p class="bmw-product-price">$849.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
                     </div>
                 </div>
@@ -157,6 +205,13 @@
                         <div class="audi-description-content" id="audi-models">
                             <p>A4, A5, A6, A7, A8, Q5, RS5, RS7, S5, S4, S6, S7, (2008-Present)</p>
                         </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
+                        </div>
                         <p class="audi-product-price">$799.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
                     </div>
@@ -186,6 +241,13 @@
                         </button>
                         <div class="audi-description-content" id="carbonking-models">
                             <p>b8.5-b9 Audi models with matching airbag</p>
+                        </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
                         </div>
                         <p class="audi-product-price">$819.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
@@ -217,6 +279,13 @@
                         <div class="audi-description-content" id="perfectdaily-models">
                             <p>b8.5-b9 Audi models with matching airbag</p>
                         </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
+                        </div>
                         <p class="audi-product-price">$799.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
                     </div>
@@ -246,6 +315,13 @@
                         </button>
                         <div class="audi-description-content" id="sleeper-models">
                             <p>b8.5-b9 Audi models with the matching airbag</p>
+                        </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
                         </div>
                         <p class="audi-product-price">$799.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
@@ -277,6 +353,13 @@
                         <div class="audi-description-content" id="autoban-models">
                             <p>b8.5-b9 Audi models</p>
                         </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
+                        </div>
                         <p class="audi-product-price">$799.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
                     </div>
@@ -306,6 +389,13 @@
                         </button>
                         <div class="audi-description-content" id="spyder-models">
                             <p>b8.5-b9 Audi models with matching airbag</p>
+                        </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
                         </div>
                         <p class="audi-product-price">$799.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
@@ -337,6 +427,13 @@
                         <div class="audi-description-content" id="flattop-models">
                             <p>b9-b9.5 Audi models with matching aibag</p>
                         </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
+                        </div>
                         <p class="audi-product-price">$799.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
                     </div>
@@ -359,13 +456,20 @@
                             <i class="fas fa-chevron-down"></i> Product Details
                         </button>
                         <div class="audi-description-content" id="b85forged-description">
-                            <p>Features red stitching, Alcantara side grips, forged carbin fiber with red accents, a red 12 o'clock stripe, and non-magnetic paddle shifter covers in forged carbon fiber with red accents!</p>
+                            <p>Features red stitching, Alcantara side grips, forged carbin fiber with red accents, a red 12 o'clock stripe, and non-magnetic paddle shifter covered in forged carbon fiber with red accents!</p>
                         </div>
                         <button class="audi-description-toggle" onclick="toggleB85ForgedModels()">
                             <i class="fas fa-chevron-down"></i> Models wheel fits
                         </button>
                         <div class="audi-description-content" id="b85forged-models">
                             <p>b8.5 models and under</p>
+                        </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
                         </div>
                         <p class="audi-product-price">$649.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
@@ -434,6 +538,13 @@
                         <div class="audi-description-content" id="b9smodelred-models">
                             <p>fits b9 models and under</p>
                         </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
+                        </div>
                         <p class="audi-product-price">$649.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
                     </div>
@@ -463,6 +574,13 @@
                         </button>
                         <div class="audi-description-content" id="b9flatblue-models">
                             <p>b9 models</p>
+                        </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
                         </div>
                         <p class="audi-product-price">$649.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
@@ -524,6 +642,13 @@
                         <div class="audi-description-content" id="shop-b9ckp-models">
                             <p>b9 models</p>
                         </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
+                        </div>
                         <p class="audi-product-price">$749.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
                     </div>
@@ -553,6 +678,13 @@
                         </button>
                         <div class="audi-description-content" id="shop-b9comfortred-models">
                             <p>b9 models</p>
+                        </div>
+                        <div class="preset-variant" style="margin: 0 0 1rem 0;">
+                            <label style="display:block; color:#cccccc; font-size:0.9rem; margin-bottom:6px;">Trim Level</label>
+                            <select class="preset-variant-select" style="width:100%; padding:10px; border-radius:8px; background:#1a1a1a; color:#fff; border:1px solid #333;">
+                                <option value="S">S</option>
+                                <option value="RS">RS</option>
+                            </select>
                         </div>
                         <p class="audi-product-price">$549.99</p>
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
@@ -618,9 +750,25 @@
                         <button class="cta-button add-to-cart-btn">Add to Cart</button>
                     </div>
                 </div>
+                <div class="container">
+                    <div class="audi-products-grid">
+                        <div class="audi-product-item">
+                            <div class="audi-product-image">
+                                <img src="images/stickers.JPG" alt="TORQD CARBON Stickers" class="audi-product-img">
+                            </div>
+                            <div class="audi-product-info">
+                                <h3>TORQD CARBON Stickers</h3>
+                                <p class="audi-product-price">$6.99</p>
+                                <button class="cta-button add-to-cart-btn">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+
 
     <!-- Footer -->
     <footer class="footer">

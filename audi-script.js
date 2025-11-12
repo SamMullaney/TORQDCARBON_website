@@ -170,7 +170,7 @@ function changeB9CarbonKingPresetImage(direction) {
 
 // --- b9 Comfort Style Skeleton Red (single image) ---
 let currentB9ComfortRedIndex = 0;
-const b9ComfortRedImages = ["images/b9comfortstyleskeletonred.jpg"];
+const b9ComfortRedImages = ["images/b9comfortstyleskeletonred.png"];
 
 function changeB9ComfortSkeletonRedImage(direction) {
     currentB9ComfortRedIndex += direction;

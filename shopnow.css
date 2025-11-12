@@ -16,4 +16,45 @@
     color: #cccccc;
 }
 
+/* Questionnaire compact layout */
+.questionnaire-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.q-field label {
+    display: block;
+    color: #cccccc;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+.q-field input, .q-field select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+}
+.q-field.q-span {
+    grid-column: 1 / -1;
+}
+.q-error {
+    background: #2a1a1a;
+    border: 1px solid #883333;
+    color: #ff6b6b;
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin: 6px 0 8px;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .questionnaire-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
