@@ -124,6 +124,34 @@ function changeB9SkeletonImage(direction) {
     document.getElementById("b9skeleton-image").src = b9SkeletonImages[currentB9SkeletonImageIndex];
 }
 
+// --- b9 Flat Bottom S Model Preset Red Carousel ---
+let currentB9SModelRedIndex = 0;
+const b9SModelRedImages = ["images/b9FlatBottomSModelPresetRed.JPG"];
+
+function changeB9SModelRedImage(direction) {
+    currentB9SModelRedIndex += direction;
+    if (currentB9SModelRedIndex < 0) {
+        currentB9SModelRedIndex = b9SModelRedImages.length - 1;
+    } else if (currentB9SModelRedIndex >= b9SModelRedImages.length) {
+        currentB9SModelRedIndex = 0;
+    }
+    document.getElementById("b9smodelred-image").src = b9SModelRedImages[currentB9SModelRedIndex];
+}
+
+// --- b9 Flat Bottom Preset Blue Carousel ---
+let currentB9FlatBlueIndex = 0;
+const b9FlatBlueImages = ["images/b9flatbottompresetblue.JPG"];
+
+function changeB9FlatBlueImage(direction) {
+    currentB9FlatBlueIndex += direction;
+    if (currentB9FlatBlueIndex < 0) {
+        currentB9FlatBlueIndex = b9FlatBlueImages.length - 1;
+    } else if (currentB9FlatBlueIndex >= b9FlatBlueImages.length) {
+        currentB9FlatBlueIndex = 0;
+    }
+    document.getElementById("b9flatblue-image").src = b9FlatBlueImages[currentB9FlatBlueIndex];
+}
+
 // --- Toggle Descriptions & Models ---
 function toggleAudiDescription() {
     const description = document.getElementById("audi-description");
@@ -251,6 +279,33 @@ function toggleB9SkeletonModels() {
     button.classList.toggle("active");
 }
 
+function toggleB9SModelRedDescription() {
+    const description = document.getElementById("b9smodelred-description");
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    button.classList.toggle("active");
+}
+
+function toggleB9SModelRedModels() {
+    const models = document.getElementById("b9smodelred-models");
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    button.classList.toggle("active");
+}
+
+function toggleB9FlatBlueDescription() {
+    const description = document.getElementById("b9flatblue-description");
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    button.classList.toggle("active");
+}
+
+function toggleB9FlatBlueModels() {
+    const models = document.getElementById("b9flatblue-models");
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    button.classList.toggle("active");
+}
 // --- Add to Cart for Audi Presets ---
 function setupAudiAddToCartButtons() {
     const productItems = document.querySelectorAll('.audi-product-item');
