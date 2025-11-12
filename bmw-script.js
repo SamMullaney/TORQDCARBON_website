@@ -26,6 +26,48 @@ function changeBmwGImage(direction) {
     document.getElementById("bmw-image").src = bmwGImages[currentBmwGImageIndex];
 }
 
+// --- BMW G preset tricolor (single image) ---
+let currentBmwGTricolorIndex = 0;
+const bmwGTricolorImages = ['images/bmwgpresettricolor.jpg'];
+function changeBmwGTricolorImage(direction) {
+    currentBmwGTricolorIndex += direction;
+    if (currentBmwGTricolorIndex < 0) {
+        currentBmwGTricolorIndex = bmwGTricolorImages.length - 1;
+    } else if (currentBmwGTricolorIndex >= bmwGTricolorImages.length) {
+        currentBmwGTricolorIndex = 0;
+    }
+    const img = document.getElementById('bmw-gtricolor-image') || document.getElementById('shop-bmw-gtricolor-image');
+    if (img) img.src = bmwGTricolorImages[currentBmwGTricolorIndex];
+}
+
+// --- BMW F Series Signature Preset (single image) ---
+let currentBmwFSignatureIndex = 0;
+const bmwFSignatureImages = ['images/bmwfseriessignaturepreset.JPG'];
+function changeBmwFSignatureImage(direction) {
+    currentBmwFSignatureIndex += direction;
+    if (currentBmwFSignatureIndex < 0) {
+        currentBmwFSignatureIndex = bmwFSignatureImages.length - 1;
+    } else if (currentBmwFSignatureIndex >= bmwFSignatureImages.length) {
+        currentBmwFSignatureIndex = 0;
+    }
+    const img = document.getElementById('bmw-fsignature-image') || document.getElementById('shop-bmw-fsignature-image');
+    if (img) img.src = bmwFSignatureImages[currentBmwFSignatureIndex];
+}
+
+// --- e92 Signature Preset (single image) ---
+let currentE92SignatureIndex = 0;
+const e92SignatureImages = ['images/e92signaturepreset.JPG'];
+function changeE92SignatureImage(direction) {
+    currentE92SignatureIndex += direction;
+    if (currentE92SignatureIndex < 0) {
+        currentE92SignatureIndex = e92SignatureImages.length - 1;
+    } else if (currentE92SignatureIndex >= e92SignatureImages.length) {
+        currentE92SignatureIndex = 0;
+    }
+    const img = document.getElementById('e92-signature-image') || document.getElementById('shop-e92-signature-image');
+    if (img) img.src = e92SignatureImages[currentE92SignatureIndex];
+}
+
 // --- Toggle Descriptions & Models ---
 function toggleBmwBasicDescription() {
     const description = document.getElementById("bmw-basic-description");
@@ -55,6 +97,53 @@ function toggleBmwModels() {
     button.classList.toggle("active");
 }
 
+function toggleBmwGTricolorDescription() {
+    const el = document.getElementById('bmw-gtricolor-description') || document.getElementById('shop-bmw-gtricolor-description');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwGTricolorModels() {
+    const el = document.getElementById('bmw-gtricolor-models') || document.getElementById('shop-bmw-gtricolor-models');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwFSignatureDescription() {
+    const el = document.getElementById('bmw-fsignature-description') || document.getElementById('shop-bmw-fsignature-description');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwFSignatureModels() {
+    const el = document.getElementById('bmw-fsignature-models') || document.getElementById('shop-bmw-fsignature-models');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleE92SignatureDescription() {
+    const el = document.getElementById('e92-signature-description') || document.getElementById('shop-e92-signature-description');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleE92SignatureModels() {
+    const el = document.getElementById('e92-signature-models') || document.getElementById('shop-e92-signature-models');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
 // --- Add to Cart for BMW Presets ---
 function setupBmwAddToCartButtons() {
     const productItems = document.querySelectorAll('.bmw-product-item');

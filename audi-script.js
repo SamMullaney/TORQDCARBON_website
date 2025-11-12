@@ -152,6 +152,37 @@ function changeB9FlatBlueImage(direction) {
     document.getElementById("b9flatblue-image").src = b9FlatBlueImages[currentB9FlatBlueIndex];
 }
 
+// --- b9 Carbon King Preset (single image) ---
+let currentB9CkpIndex = 0;
+const b9CkpImages = ["images/b9carbonkingpreset.jpg"];
+
+function changeB9CarbonKingPresetImage(direction) {
+    currentB9CkpIndex += direction;
+    if (currentB9CkpIndex < 0) {
+        currentB9CkpIndex = b9CkpImages.length - 1;
+    } else if (currentB9CkpIndex >= b9CkpImages.length) {
+        currentB9CkpIndex = 0;
+    }
+    // Support shopnow and audi pages IDs
+    const img = document.getElementById("b9ckp-image") || document.getElementById("shop-b9ckp-image");
+    if (img) img.src = b9CkpImages[currentB9CkpIndex];
+}
+
+// --- b9 Comfort Style Skeleton Red (single image) ---
+let currentB9ComfortRedIndex = 0;
+const b9ComfortRedImages = ["images/b9comfortstyleskeletonred.jpg"];
+
+function changeB9ComfortSkeletonRedImage(direction) {
+    currentB9ComfortRedIndex += direction;
+    if (currentB9ComfortRedIndex < 0) {
+        currentB9ComfortRedIndex = b9ComfortRedImages.length - 1;
+    } else if (currentB9ComfortRedIndex >= b9ComfortRedImages.length) {
+        currentB9ComfortRedIndex = 0;
+    }
+    const img = document.getElementById("b9comfortred-image") || document.getElementById("shop-b9comfortred-image");
+    if (img) img.src = b9ComfortRedImages[currentB9ComfortRedIndex];
+}
+
 // --- Toggle Descriptions & Models ---
 function toggleAudiDescription() {
     const description = document.getElementById("audi-description");
@@ -160,6 +191,37 @@ function toggleAudiDescription() {
     button.classList.toggle("active");
 }
 
+function toggleB9CarbonKingPresetDescription() {
+    const description = document.getElementById("b9ckp-description") || document.getElementById("shop-b9ckp-description");
+    if (!description) return;
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleB9CarbonKingPresetModels() {
+    const models = document.getElementById("b9ckp-models") || document.getElementById("shop-b9ckp-models");
+    if (!models) return;
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleB9ComfortSkeletonRedDescription() {
+    const description = document.getElementById("b9comfortred-description") || document.getElementById("shop-b9comfortred-description");
+    if (!description) return;
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleB9ComfortSkeletonRedModels() {
+    const models = document.getElementById("b9comfortred-models") || document.getElementById("shop-b9comfortred-models");
+    if (!models) return;
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
 function toggleAudiModels() {
     const models = document.getElementById("audi-models");
     const button = models.previousElementSibling;
