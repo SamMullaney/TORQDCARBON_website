@@ -7,12 +7,17 @@
     background: #0f0f0f;
 }
 
+.audi-products-section, .audi-products-grid {
+    overflow: visible;
+}
+
 .audi-products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    visibility: visible;
 }
 
 .audi-product-item {
@@ -24,6 +29,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    visibility: visible;
 }
 
 .audi-product-item:hover {
@@ -49,6 +55,7 @@
     object-fit: cover;
     border-radius: 0;
     transition: transform 0.3s ease;
+    opacity: 1;
 }
 
 .audi-product-item:hover .audi-product-img {
@@ -167,6 +174,9 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
         padding: 0 1rem;
+    }
+    .audi-product-item {
+        min-height: 420px;
     }
     
     .audi-product-item .audi-product-image {
