@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/upload-wheel-image.js": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "api/create-checkout-session.js": {
+      "maxDuration": 30,
+      "memory": 1024
+    }
+  }
+}
+

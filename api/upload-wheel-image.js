@@ -2,13 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const formidable = require('formidable');
 const fs = require('fs').promises;
 
-export const config = {
-    api: {
-        bodyParser: false, // Disable default body parser to handle multipart/form-data
-    },
-};
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -32,19 +26,26 @@ export default async function handler(req, res) {
 
         const [fields, files] = await new Promise((resolve, reject) => {
             form.parse(req, (err, fields, files) => {
-                if (err) reject(err);
+                if (err) {
+                    console.error('Formidable parse error:', err);
+                    reject(err);
+                }
                 resolve([fields, files]);
             });
         });
 
+        console.log('Files received:', Object.keys(files));
         const file = files.file?.[0] || files.file;
 
         if (!file) {
+            console.error('No file found in upload');
             return res.status(400).json({ error: 'No file uploaded' });
         }
 
+        console.log('File path:', file.filepath);
         // Read file buffer
         const fileBuffer = await fs.readFile(file.filepath);
+        console.log('File buffer size:', fileBuffer.length);
 
         // Upload to Stripe
         const stripeFile = await stripe.files.create({
@@ -56,10 +57,10 @@ export default async function handler(req, res) {
             purpose: 'dispute_evidence',
         });
 
+        console.log('Stripe file created:', stripeFile.id);
         res.status(200).json({ fileId: stripeFile.id });
     } catch (error) {
         console.error('Error uploading file:', error);
         res.status(500).json({ error: 'Failed to upload file', details: error.message });
     }
-}
-
+};
