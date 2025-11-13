@@ -288,6 +288,12 @@
         font-size: 0.8rem;
     }
 }
+
+.audi-products-section {
+    position: relative;
+    z-index: 10;
+}
+
 /* Cache bust: 1757295374 - Added Audi product description dropdown with arrow */
 /* Cache bust: 1757299798 - Made Audi page function like BMW with models dropdown */
 /* Cache bust: 1757299986 - Fixed Audi models dropdown placement and price */
