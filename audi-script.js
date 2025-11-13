@@ -1,6 +1,6 @@
 // --- Audi B8-B8.5 Image Carousel ---
 let currentAudiImageIndex = 0;
-const audiImages = ["images/b8-b8.5 preset1.JPG", "images/b8-b8.5 preset2.JPG", "images/b8-b8.5 preset3.JPG"];
+const audiImages = ["images/b8-b8.5%20preset1.JPG", "images/b8-b8.5%20preset2.JPG", "images/b8-b8.5%20preset3.JPG"];
 
 function changeAudiImage(direction) {
     currentAudiImageIndex += direction;
@@ -170,7 +170,7 @@ function changeB9CarbonKingPresetImage(direction) {
 
 // --- b9 Comfort Style Skeleton Red (single image) ---
 let currentB9ComfortRedIndex = 0;
-const b9ComfortRedImages = ["images/b9comfortstyleskeletonred.png"];
+const b9ComfortRedImages = ["images/b9comfortstyleskeletonred.PNG"];
 
 function changeB9ComfortSkeletonRedImage(direction) {
     currentB9ComfortRedIndex += direction;
