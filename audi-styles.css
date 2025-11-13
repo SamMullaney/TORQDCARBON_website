@@ -290,7 +290,7 @@
 
 .audi-products-section {
     position: relative;
-    z-index: 10;
+    z-index: 100;
 }
 
 /* Cache bust: 1757295374 - Added Audi product description dropdown with arrow */
