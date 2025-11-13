@@ -5,10 +5,9 @@
 .audi-products-section {
     padding: 80px 0;
     background: #0f0f0f;
-}
-
-.audi-products-section, .audi-products-grid {
-    overflow: visible;
+    position: relative;
+    z-index: 100;       /* high enough to sit above other elements */
+    overflow: visible;   /* ensure children are not clipped */
 }
 
 .audi-products-grid {
@@ -17,7 +16,8 @@
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    visibility: visible;
+    overflow: visible;
+    align-content: start;
 }
 
 .audi-product-item {
@@ -28,7 +28,9 @@
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    visibility: visible;
+    position: relative;
+    min-height: 420px;   /* safe default for mobile */
+    isolation: isolate;
 }
 
 .audi-product-item:hover {
@@ -39,22 +41,22 @@
 
 .audi-product-item .audi-product-image {
     height: 300px;
-    background: #2a2a2a;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
 }
 
 .audi-product-item .audi-product-img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 0;
     transition: transform 0.3s ease;
-    opacity: 1;
 }
 
 .audi-product-item:hover .audi-product-img {
@@ -92,7 +94,7 @@
 
 .audi-product-item .audi-product-button {
     background: #00ff88;
-    color: #000000;
+    color: #000;
     border: none;
     padding: 12px 24px;
     border-radius: 25px;
@@ -133,7 +135,7 @@
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    z-index: 10;
+    z-index: 2; /* ensure arrows sit above products */
     transition: all 0.3s ease;
     opacity: 0.8;
 }
@@ -144,85 +146,18 @@
     opacity: 1;
 }
 
-.audi-nav-left {
-    left: 10px;
-}
-
-.audi-nav-right {
-    right: 10px;
-}
+.audi-nav-left { left: 10px; }
+.audi-nav-right { right: 10px; }
 
 /* Audi Placeholder styling */
-.audi-product-item.audi-placeholder {
-    opacity: 0.7;
-}
-
-.audi-product-item.audi-placeholder:hover {
-    opacity: 0.9;
-}
-
-.audi-placeholder-image {
-    font-size: 4rem;
-    color: #00ff88;
-    opacity: 0.7;
-}
-
-/* Audi Mobile responsive */
-@media (max-width: 768px) {
-    .audi-products-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        padding: 0 1rem;
-    }
-    .audi-product-item {
-        min-height: 420px;
-    }
-    
-    .audi-product-item .audi-product-image {
-        height: 200px;
-    }
-    
-    .audi-product-item .audi-product-info {
-        padding: 1rem;
-    }
-    
-    .audi-product-item .audi-product-info h3 {
-        font-size: 1.1rem;
-    }
-    
-    .audi-product-item .audi-product-price {
-        font-size: 1.3rem;
-    }
-    
-    .audi-nav-arrow {
-        width: 30px;
-        height: 30px;
-        font-size: 12px;
-    }
-    
-    .audi-nav-left {
-        left: 5px;
-    }
-    
-    .audi-nav-right {
-        right: 5px;
-    }
-}
-
-@media (max-width: 480px) {
-    .audi-products-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .audi-product-item .audi-product-image {
-        height: 250px;
-    }
-}
+.audi-product-item.audi-placeholder { opacity: 0.7; }
+.audi-product-item.audi-placeholder:hover { opacity: 0.9; }
+.audi-placeholder-image { font-size: 4rem; color: #00ff88; opacity: 0.7; }
 
 /* Audi Product Description Dropdown */
 .audi-description-toggle {
     background: #333;
-    color: #ffffff;
+    color: #fff;
     border: 1px solid #555;
     padding: 8px 16px;
     border-radius: 20px;
@@ -241,18 +176,13 @@
     color: #00ff88;
 }
 
-.audi-description-toggle i {
-    font-size: 0.8rem;
-    transition: transform 0.3s ease;
-}
-
-.audi-description-toggle.active i {
-    transform: rotate(180deg);
-}
+.audi-description-toggle i { font-size: 0.8rem; transition: transform 0.3s ease; }
+.audi-description-toggle.active i { transform: rotate(180deg); }
 
 .audi-description-content {
     max-height: 0;
     overflow: hidden;
+    will-change: max-height;
     transition: max-height 0.3s ease;
     background: #2a2a2a;
     border-radius: 10px;
@@ -271,87 +201,7 @@
     margin: 0;
 }
 
-/* Audi Mobile responsive for description */
-@media (max-width: 768px) {
-    .audi-description-toggle {
-        font-size: 0.8rem;
-        padding: 6px 12px;
-    }
-    
-    .audi-description-content.active {
-        max-height: 150px;
-        padding: 0.8rem;
-    }
-    
-    .audi-description-content p {
-        font-size: 0.8rem;
-    }
-}
-
-.audi-products-section {
-    position: relative;
-    z-index: 100;
-}
-
-/* Cache bust: 1757295374 - Added Audi product description dropdown with arrow */
-/* Cache bust: 1757299798 - Made Audi page function like BMW with models dropdown */
-/* Cache bust: 1757299986 - Fixed Audi models dropdown placement and price */
-/* Cache bust: 1757302404 - Added 6 new Audi presets with full functionality */
-/* Cache bust: 1757302559 - Final clean implementation of 6 new Audi presets */
-
-/* Carbon King image positioning fix */
-#carbonking-image {
-    transform: translateY(-20px);
-}
-/* Cache bust: 1757303632 - Fixed Carbon King image position and removed placeholders */
-
-/* === Mobile visibility + stacking fixes (replace debug block) === */
-.audi-products-section {
-    position: relative;
-    z-index: 1;
-    overflow: visible;
-}
-
-.audi-products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    overflow: visible;
-    align-content: start;
-}
-
-.audi-product-item {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    min-height: 360px;
-    isolation: isolate;
-}
-
-.audi-product-item .audi-product-image {
-    height: 300px;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.audi-product-item .audi-product-img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.audi-nav-arrow { z-index: 2; }
-
-.audi-description-content {
-    overflow: hidden;
-    will-change: max-height;
-}
-
+/* Mobile Responsive */
 @media (max-width: 768px) {
     .audi-products-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -360,10 +210,24 @@
     }
     .audi-product-item { min-height: 420px; }
     .audi-product-item .audi-product-image { height: 220px; }
+    .audi-product-item .audi-product-info { padding: 1rem; }
+    .audi-product-item .audi-product-info h3 { font-size: 1.1rem; }
+    .audi-product-item .audi-product-price { font-size: 1.3rem; }
+    .audi-nav-arrow { width: 30px; height: 30px; font-size: 12px; }
 }
 
 @media (max-width: 480px) {
     .audi-products-grid { grid-template-columns: 1fr; }
-    .audi-product-item { min-height: 400px; }
+    .audi-product-item { min-height: 440px; }
     .audi-product-item .audi-product-image { height: 240px; }
+    .audi-description-content.active { max-height: 150px; padding: 0.8rem; }
+    .audi-description-content p { font-size: 0.8rem; }
 }
+
+/* Carbon King image positioning fix */
+#carbonking-image { transform: translateY(-20px); }
+
+/* Brand hero adjustment to prevent overlap */
+.brand-hero { position: relative; z-index: 0; }
+.audi-products-section .container { overflow: visible; }
+
