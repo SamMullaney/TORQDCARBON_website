@@ -57,4 +57,30 @@
     }
 }
 
+/* Mobile forcing rules - ensure products render on all devices */
+@media (max-width: 768px) {
+    .audi-products-section,
+    .audi-products-section .container,
+    .audi-products-grid,
+    .audi-product-item,
+    .bmw-products-section,
+    .bmw-products-section .container,
+    .bmw-products-grid,
+    .bmw-product-item {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .audi-products-grid,
+    .bmw-products-grid {
+        display: grid !important;
+    }
+    
+    .audi-product-item,
+    .bmw-product-item {
+        display: flex !important;
+        min-height: 400px;
+    }
+}
 
