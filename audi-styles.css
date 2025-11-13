@@ -262,24 +262,23 @@
     margin: 0;
 }
 
-/* Audi Mobile responsive for description */
+/* Mobile forcing rules - ensure products render on all devices */
 @media (max-width: 768px) {
-    .audi-description-toggle {
-        font-size: 0.8rem;
-        padding: 6px 12px;
+    .audi-products-section,
+    .audi-products-section .container,
+    .audi-products-grid,
+    .audi-product-item {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
-    .audi-description-content.active {
-        max-height: 150px;
-        padding: 0.8rem;
+    .audi-products-grid {
+        display: grid !important;
     }
     
-    .audi-description-content p {
-        font-size: 0.8rem;
+    .audi-product-item {
+        display: flex !important;
+        min-height: 400px;
     }
-}
-
-/* Carbon King image positioning fix */
-#carbonking-image {
-    transform: translateY(-20px);
 }
