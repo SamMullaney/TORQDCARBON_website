@@ -1,5 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const formidable = require('formidable');
+const { formidable } = require('formidable');
 const fs = require('fs').promises;
 
 module.exports = async function handler(req, res) {
