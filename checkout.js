@@ -371,7 +371,40 @@ document.addEventListener('DOMContentLoaded', function() {
         return null; // No validation errors
     }
     
+    async function uploadImageToStripe(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('purpose', 'dispute_evidence');
+
+        const response = await fetch(`${API_BASE}/upload-wheel-image`, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to upload image to Stripe');
+        }
+
+        const result = await response.json();
+        return result.fileId;
+    }
+
     async function createCheckoutSession() {
+        // Validate vehicle info
+        const vehicleYMM = document.getElementById('vehicle-ymm').value.trim();
+        const wheelImageInput = document.getElementById('wheel-image');
+        const wheelImage = wheelImageInput.files[0];
+
+        if (!vehicleYMM) {
+            alert('Please enter your vehicle Year, Make, and Model');
+            return;
+        }
+
+        if (!wheelImage) {
+            alert('Please upload a photo of your current steering wheel');
+            return;
+        }
+
         // Calculate total
         const subtotal = cart.reduce((sum, item) => sum + calculateItemPrice(item), 0);
         let total = subtotal;
@@ -394,6 +427,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
         
         try {
+            // Upload image first
+            const wheelImageFileId = await uploadImageToStripe(wheelImage);
+
             // Create checkout session
             const response = await fetch(`${API_BASE}/create-checkout-session`, {
                 method: 'POST',
@@ -403,7 +439,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     cart: cart,
                     total: total,
-                    creatorCode: creatorCode || null
+                    creatorCode: creatorCode || null,
+                    vehicleYMM: vehicleYMM,
+                    wheelImageFileId: wheelImageFileId
                 })
             });
             
@@ -417,16 +455,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return result;
             
         } catch (error) {
-            // If response was not JSON (e.g., HTML 404 page), try to surface that
-            try {
-                const resp = await fetch(`${API_BASE}/create-checkout-session`, { method: 'POST' });
-                const ct = resp.headers.get('content-type') || '';
-                if (!ct.includes('application/json')) {
-                    const text = await resp.text();
-                    console.error('Non-JSON response body:', text.slice(0, 200));
-                }
-            } catch (_) {}
             console.error('Error creating checkout session:', error);
+            alert('An error occurred while creating checkout. Please try again.');
             throw error;
         }
     }
