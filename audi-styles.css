@@ -231,3 +231,16 @@
 .brand-hero { position: relative; z-index: 0; }
 .audi-products-section .container { overflow: visible; }
 
+body.audi-page .audi-products-section {
+    z-index: 999 !important;  /* just below navbar (1000), above everything else */
+}
+
+/* Ensure hero doesn't interfere */
+body.audi-page .brand-hero {
+    z-index: 1;
+}
+
+/* Ensure no container clips the grid */
+body.audi-page .container {
+    overflow: visible !important;
+}
