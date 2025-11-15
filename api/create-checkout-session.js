@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
 
         // Normalize and precompute validity for adding product metadata
         const normalizedForMetadata = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
-        const creatorCodeIsValidForMetadata = ['zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','redkey'].includes(normalizedForMetadata);
+        const creatorCodeIsValidForMetadata = ['zayyxclusive','soyerick','torqd','m3.cay','n63.heenz','redkey'].includes(normalizedForMetadata);
 
         const lineItems = cart.map((item, index) => {
             // Preset item flow
@@ -99,7 +99,7 @@ module.exports = async (req, res) => {
 		// Apply $50 creator code discount safely by reducing the first line item's unit_amount
 		const normalizedCode = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
 		console.log('[Serverless] creatorCode:', normalizedCode);
-		if (normalizedCode === 'zayyxlcusive') {
+		if (normalizedCode === 'zayyxclusive') {
             if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
                 const original = lineItems[0].price_data.unit_amount;
                 const discounted = Math.max(0, original - 5000);
