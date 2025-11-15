@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cart data
     let cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
     let creatorCode = null;
-    const VALID_CODE = 'Zayyxlcusive';
+    const VALID_CODE = 'Zayyxclusive';
 	const VALID_CODE2 = 'TORQD';
 	const VALID_CODE3 = 'SOYERICK';
 	const VALID_CODE4 = 'M3.Cay';
