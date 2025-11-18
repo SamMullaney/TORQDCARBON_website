@@ -431,6 +431,61 @@ body {
     transform: scale(1.05);
 }
 
+/* Fullscreen Image Button */
+.fullscreen-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.fullscreen-btn i {
+    pointer-events: none;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(0, 255, 136, 0.8);
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.fullscreen-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.fullscreen-overlay.visible {
+    display: flex;
+}
+
+.fullscreen-overlay img {
+    max-width: 95vw;
+    max-height: 95vh;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+body.fullscreen-open {
+    overflow: hidden;
+}
+
 /* About Section */
 .about-section {
     padding: 100px 0;
