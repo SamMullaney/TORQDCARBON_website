@@ -79,7 +79,8 @@ app.post('/create-checkout-session', async (req, res) => {
             }
         }
 
-        const normalizedCode = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
+        const creatorCodeDisplay = creatorCode ? String(creatorCode).trim() : '';
+        const normalizedCode = creatorCodeDisplay.toLowerCase();
         const percentDiscountCodes = ['zayyxclusive', 'zayyxlcusive', 'torqd', 'soyerick', 'm3.cay', 'n63.heenz'];
         const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
         const redkeyActive = normalizedCode === 'redkey';
@@ -108,10 +109,14 @@ app.post('/create-checkout-session', async (req, res) => {
                 let price = Math.round(Number(item.price) * 100);
 
                 // Build description with YMM
-                let description = '';
+                const descriptionParts = [];
                 if (vehicleYMM) {
-                    description = `Vehicle: ${vehicleYMM}`;
+                    descriptionParts.push(`Vehicle: ${vehicleYMM}`);
                 }
+                if (creatorCodeDisplay) {
+                    descriptionParts.push(`Creator Code: ${creatorCodeDisplay}`);
+                }
+                const description = descriptionParts.join(' | ');
 
                 return {
                     unitAmount: price,
@@ -141,6 +146,9 @@ app.post('/create-checkout-session', async (req, res) => {
             let customDescription = `Base: ${item.base}, Sides: ${item.sides}, Top/Bottom: ${item.topbottom}, Badge: ${item.badge.toUpperCase()}, Airbag: ${item.airbag}, Top Stripe: ${item.topStripe === 'yes' ? 'Yes' : 'No'}, Heating: ${item.heating === 'yes' ? 'Yes' : 'No'}, Trim Color: ${item.trimColor}${item.additionalSpecs ? `, Additional Specs: ${item.additionalSpecs}` : ''}`;
             if (vehicleYMM) {
                 customDescription += ` | Vehicle: ${vehicleYMM}`;
+            }
+            if (creatorCodeDisplay) {
+                customDescription += ` | Creator Code: ${creatorCodeDisplay}`;
             }
 
             return {
@@ -188,6 +196,9 @@ app.post('/create-checkout-session', async (req, res) => {
         }
         if (wheelImageFileLink) {
             paymentDescription += ` | Wheel Image: ${wheelImageFileLink.url}`;
+        }
+        if (creatorCodeDisplay) {
+            paymentDescription += ` | Creator Code: ${creatorCodeDisplay}`;
         }
 
         // Create Stripe checkout session
