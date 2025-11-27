@@ -19,7 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	const VALID_CODE4 = 'M3.Cay';
 	const VALID_CODE5 = 'N63.HEENZ';
 	const VALID_CODE6 = 'REDKEY';
-    const PERCENT_CODE_SET = new Set([VALID_CODE, VALID_CODE2, VALID_CODE3, VALID_CODE4, VALID_CODE5].map(code => code.toLowerCase()));
+    const VALID_CODE7 = 'panda';
+    const VALID_CODE8 = 'Jake';
+    const VALID_CODE9 = 'Maxxi';
+    const VALID_CODE10 = 'Doubt';
+    const PERCENT_CODE_SET = new Set([VALID_CODE, VALID_CODE2, VALID_CODE3, VALID_CODE4, VALID_CODE5, VALID_CODE7, VALID_CODE8, VALID_CODE9, VALID_CODE10].map(code => code.toLowerCase()));
     PERCENT_CODE_SET.add('zayyxlcusive'); // retain legacy spelling used elsewhere
     const PERCENT_DISCOUNT_RATE = 0.05;
     
@@ -213,6 +217,26 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
 				displayCart();
 			} else if (code.toLowerCase() === VALID_CODE5.toLowerCase()) {
+				creatorCode = code;
+				localStorage.setItem('creatorCode', code);
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
+				displayCart();
+            } else if (code.toLowerCase() === VALID_CODE7.toLowerCase()) {
+				creatorCode = code;
+				localStorage.setItem('creatorCode', code);
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
+				displayCart();
+            } else if (code.toLowerCase() === VALID_CODE8.toLowerCase()) {
+				creatorCode = code;
+				localStorage.setItem('creatorCode', code);
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
+				displayCart();
+            } else if (code.toLowerCase() === VALID_CODE9.toLowerCase()) {
+				creatorCode = code;
+				localStorage.setItem('creatorCode', code);
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
+				displayCart();
+            } else if (code.toLowerCase() === VALID_CODE10.toLowerCase()) {
 				creatorCode = code;
 				localStorage.setItem('creatorCode', code);
 				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }

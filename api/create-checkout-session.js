@@ -33,10 +33,10 @@ module.exports = async (req, res) => {
         // Normalize and precompute validity for adding product metadata / discounts
         const creatorCodeDisplay = creatorCode ? String(creatorCode).trim() : '';
         const normalizedCode = creatorCodeDisplay.toLowerCase();
-        const percentDiscountCodes = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz'];
+        const percentDiscountCodes = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt'];
         const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
         const redkeyActive = normalizedCode === 'redkey';
-        const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','redkey'].includes(normalizedCode);
+        const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt','redkey'].includes(normalizedCode);
 
         const preparedItems = cart.map((item, index) => {
             // Preset item flow
