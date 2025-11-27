@@ -79,30 +79,15 @@ app.post('/create-checkout-session', async (req, res) => {
             }
         }
 
-        // Determine discount in cents
-        let discountCents = 0;
-		const VALID_CODE1 = 'Zayyxlcusive';
-		const VALID_CODE2 = 'TORQD';
-		const VALID_CODE3 = 'SOYERICK';
-		const VALID_CODE4 = 'M3.Cay';
-		const VALID_CODE5 = 'N63.HEENZ';
+        const normalizedCode = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
+        const percentDiscountCodes = ['zayyxclusive', 'zayyxlcusive', 'torqd', 'soyerick', 'm3.cay', 'n63.heenz'];
+        const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
+        const redkeyActive = normalizedCode === 'redkey';
 		// Normalize for metadata and validation
-		const normalizedCodeForMetadata = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
-		const creatorCodeIsValidForMetadata = ['zayyxlcusive','torqd','soyerick','m3.cay','n63.heenz','redkey'].includes(normalizedCodeForMetadata);
-		if (creatorCode) {
-			const codeLower = String(creatorCode).trim().toLowerCase();
-            if (codeLower === VALID_CODE1.toLowerCase()) {
-                discountCents = 5000; // $50 in cents
-			} else if (codeLower === VALID_CODE2.toLowerCase()) {
-				discountCents = 5000; // $50 in cents
-			} else if (codeLower === VALID_CODE3.toLowerCase()) {
-				discountCents = 5000; // $50 in cents
-			} else if (codeLower === VALID_CODE4.toLowerCase()) {
-				discountCents = 5000; // $50 in cents
-			} else if (codeLower === VALID_CODE5.toLowerCase()) {
-				discountCents = 5000; // $50 in cents
-            }
-			console.log('[Express] creatorCode:', codeLower, 'discountCents:', discountCents);
+		const normalizedCodeForMetadata = normalizedCode;
+		const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','torqd','soyerick','m3.cay','n63.heenz','redkey'].includes(normalizedCodeForMetadata);
+        if (creatorCode) {
+            console.log('[Express] creatorCode:', normalizedCode, 'percentActive:', percentDiscountActive, 'redkeyActive:', redkeyActive);
         }
 
         // Create file link for the wheel image if provided
@@ -118,15 +103,9 @@ app.post('/create-checkout-session', async (req, res) => {
         }
 
         // Create line items for Stripe
-        const lineItems = cart.map((item, index) => {
+        const preparedItems = cart.map((item, index) => {
             if (item.type === 'preset') {
                 let price = Math.round(Number(item.price) * 100);
-
-                // Apply discount to first item if discount exists
-                if (discountCents > 0 && index === 0) {
-                    price = Math.max(price - discountCents, 0);
-                    discountCents = 0;
-                }
 
                 // Build description with YMM
                 let description = '';
@@ -135,17 +114,20 @@ app.post('/create-checkout-session', async (req, res) => {
                 }
 
                 return {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: item.variant ? `${item.name} - ${item.variant}` : item.name,
-                            ...(description && { description }),
-                            ...(wheelImageFileLink && { images: [wheelImageFileLink.url] }),
-                            ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
+                    unitAmount: price,
+                    lineItem: {
+                        price_data: {
+                            currency: 'usd',
+                            product_data: {
+                                name: item.variant ? `${item.name} - ${item.variant}` : item.name,
+                                ...(description && { description }),
+                                ...(wheelImageFileLink && { images: [wheelImageFileLink.url] }),
+                                ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
+                            },
+                            unit_amount: price,
                         },
-                        unit_amount: price,
-                    },
-                    quantity: 1,
+                        quantity: 1,
+                    }
                 };
             }
 
@@ -154,10 +136,6 @@ app.post('/create-checkout-session', async (req, res) => {
             if (item.heating === 'yes') basePrice += 50;
 
             let unitAmount = Math.round(basePrice * 100);
-            if (discountCents > 0 && index === 0) {
-                unitAmount = Math.max(unitAmount - discountCents, 0);
-                discountCents = 0;
-            }
 
             // Build description with all details + YMM
             let customDescription = `Base: ${item.base}, Sides: ${item.sides}, Top/Bottom: ${item.topbottom}, Badge: ${item.badge.toUpperCase()}, Airbag: ${item.airbag}, Top Stripe: ${item.topStripe === 'yes' ? 'Yes' : 'No'}, Heating: ${item.heating === 'yes' ? 'Yes' : 'No'}, Trim Color: ${item.trimColor}${item.additionalSpecs ? `, Additional Specs: ${item.additionalSpecs}` : ''}`;
@@ -166,31 +144,41 @@ app.post('/create-checkout-session', async (req, res) => {
             }
 
             return {
-                price_data: {
-                    currency: 'usd',
-                    product_data: {
-                        name: `Custom Steering Wheel - ${item.base}`,
-                        description: customDescription,
-                        ...(wheelImageFileLink && { images: [wheelImageFileLink.url] }),
-                        ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
+                unitAmount,
+                lineItem: {
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: `Custom Steering Wheel - ${item.base}`,
+                            description: customDescription,
+                            ...(wheelImageFileLink && { images: [wheelImageFileLink.url] }),
+                            ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
+                        },
+                        unit_amount: unitAmount,
                     },
-                    unit_amount: unitAmount,
-                },
-                quantity: 1,
+                    quantity: 1,
+                }
             };
         });
 
-        // If REDKEY, set first item's price to $409.99
-        if (creatorCode && String(creatorCode).trim().toLowerCase() === 'redkey') {
-            if (lineItems.length > 0 && lineItems[0]?.price_data) {
+        const lineItems = preparedItems.map(item => item.lineItem);
+
+        if (lineItems.length > 0) {
+            if (redkeyActive) {
                 lineItems[0].price_data.unit_amount = 40999;
+            } else if (percentDiscountActive) {
+                const subtotalCents = preparedItems.reduce((sum, item) => sum + item.unitAmount, 0);
+                const percentDiscountCents = Math.round(subtotalCents * 0.05);
+                if (percentDiscountCents > 0) {
+                    lineItems[0].price_data.unit_amount = Math.max(lineItems[0].price_data.unit_amount - percentDiscountCents, 0);
+                }
             }
         }
 
         // Debug: log first line item amount for verification
         try {
             const firstAmount = lineItems[0]?.price_data?.unit_amount;
-            console.log('[Express] creatorCode:', String(creatorCode || '').trim().toLowerCase(), 'firstItemAmountCents:', firstAmount);
+            console.log('[Express] creatorCode:', normalizedCode, 'firstItemAmountCents:', firstAmount);
         } catch (_) {}
 
         // Build payment intent description with YMM and image link

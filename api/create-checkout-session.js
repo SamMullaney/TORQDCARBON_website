@@ -30,11 +30,14 @@ module.exports = async (req, res) => {
             }
         }
 
-        // Normalize and precompute validity for adding product metadata
-        const normalizedForMetadata = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
-        const creatorCodeIsValidForMetadata = ['zayyxclusive','soyerick','torqd','m3.cay','n63.heenz','redkey'].includes(normalizedForMetadata);
+        // Normalize and precompute validity for adding product metadata / discounts
+        const normalizedCode = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
+        const percentDiscountCodes = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz'];
+        const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
+        const redkeyActive = normalizedCode === 'redkey';
+        const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','redkey'].includes(normalizedCode);
 
-        const lineItems = cart.map((item, index) => {
+        const preparedItems = cart.map((item, index) => {
             // Preset item flow
             if (item.type === 'preset') {
                 const unit = Math.round(Number(item.price) * 100);
@@ -47,19 +50,21 @@ module.exports = async (req, res) => {
                 if (vehicleYMM) {
                     description = `Vehicle: ${vehicleYMM}`;
                 }
-                
                 return {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: item.variant ? `${item.name} - ${item.variant}` : item.name,
-                            ...(description && { description }),
-                            ...(wheelImageFileLink && { images: [wheelImageFileLink.url] }),
-                            ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
+                    unitAmount: unit,
+                    lineItem: {
+                        price_data: {
+                            currency: 'usd',
+                            product_data: {
+                                name: item.variant ? `${item.name} - ${item.variant}` : item.name,
+                                ...(description && { description }),
+                                ...(wheelImageFileLink && { images: [wheelImageFileLink.url] }),
+                                ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
+                            },
+                            unit_amount: unit,
                         },
-                        unit_amount: unit,
-                    },
-                    quantity: 1,
+                        quantity: 1,
+                    }
                 };
             }
 
@@ -82,74 +87,36 @@ module.exports = async (req, res) => {
             }
 
             return {
-                price_data: {
-                    currency: 'usd',
-                    product_data: {
-                        name: `Custom Steering Wheel - ${item.base}`,
-                        description: customDescription,
-                        ...(wheelImageFileLink && { images: [wheelImageFileLink.url] }),
-                        ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
+                unitAmount: unit,
+                lineItem: {
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: `Custom Steering Wheel - ${item.base}`,
+                            description: customDescription,
+                            ...(wheelImageFileLink && { images: [wheelImageFileLink.url] }),
+                            ...(creatorCodeIsValidForMetadata ? { metadata: { creator_code: String(creatorCode) } } : {})
+                        },
+                        unit_amount: unit,
                     },
-                    unit_amount: unit,
-                },
-                quantity: 1,
+                    quantity: 1,
+                }
             };
         });
 
-		// Apply $50 creator code discount safely by reducing the first line item's unit_amount
-		const normalizedCode = creatorCode ? String(creatorCode).trim().toLowerCase() : '';
-		console.log('[Serverless] creatorCode:', normalizedCode);
-		if (normalizedCode === 'zayyxclusive') {
-            if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
-                const original = lineItems[0].price_data.unit_amount;
-                const discounted = Math.max(0, original - 5000);
-                lineItems[0].price_data.unit_amount = discounted;
+        const lineItems = preparedItems.map(item => item.lineItem);
+
+        if (lineItems.length > 0) {
+            if (redkeyActive) {
+                lineItems[0].price_data.unit_amount = 40999;
+            } else if (percentDiscountActive) {
+                const subtotalCents = preparedItems.reduce((sum, item) => sum + item.unitAmount, 0);
+                const percentDiscountCents = Math.round(subtotalCents * 0.05);
+                if (percentDiscountCents > 0) {
+                    lineItems[0].price_data.unit_amount = Math.max(lineItems[0].price_data.unit_amount - percentDiscountCents, 0);
+                }
             }
         }
-
-		// Apply $50 creator code discount for SOYERICK
-		if (normalizedCode === 'soyerick') {
-			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
-				const original = lineItems[0].price_data.unit_amount;
-				const discounted = Math.max(0, original - 5000);
-				lineItems[0].price_data.unit_amount = discounted;
-			}
-		}
-
-
-		// Apply $50 creator code discount for TORQD
-		if (normalizedCode === 'torqd') {
-			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
-				const original = lineItems[0].price_data.unit_amount;
-				const discounted = Math.max(0, original - 5000);
-				lineItems[0].price_data.unit_amount = discounted;
-			}
-		}
-
-		// Apply $50 creator code discount for M3.Cay
-		if (normalizedCode === 'm3.cay') {
-			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
-				const original = lineItems[0].price_data.unit_amount;
-				const discounted = Math.max(0, original - 5000);
-				lineItems[0].price_data.unit_amount = discounted;
-			}
-		}
-
-		// Apply $50 creator code discount for N63.HEENZ
-		if (normalizedCode === 'n63.heenz') {
-			if (lineItems.length > 0 && lineItems[0]?.price_data?.unit_amount) {
-				const original = lineItems[0].price_data.unit_amount;
-				const discounted = Math.max(0, original - 5000);
-				lineItems[0].price_data.unit_amount = discounted;
-			}
-		}
-
-		// Apply absolute price $409.99 for REDKEY
-		if (normalizedCode === 'redkey') {
-			if (lineItems.length > 0 && lineItems[0]?.price_data) {
-				lineItems[0].price_data.unit_amount = 40999;
-			}
-		}
 
         // Debug: log first line item amount for verification
         try {

@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	const VALID_CODE4 = 'M3.Cay';
 	const VALID_CODE5 = 'N63.HEENZ';
 	const VALID_CODE6 = 'REDKEY';
+    const PERCENT_CODE_SET = new Set([VALID_CODE, VALID_CODE2, VALID_CODE3, VALID_CODE4, VALID_CODE5].map(code => code.toLowerCase()));
+    PERCENT_CODE_SET.add('zayyxlcusive'); // retain legacy spelling used elsewhere
+    const PERCENT_DISCOUNT_RATE = 0.05;
     
     // Initialize the page
     initCheckout();
@@ -130,26 +133,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }).join('');
         
         // Apply creator code discount if valid
-        let discount = 0;
+        let percentDiscount = 0;
         let redkeyActive = false;
 		if (creatorCode) {
             const codeLower = creatorCode.toLowerCase();
             if (codeLower === VALID_CODE6.toLowerCase()) {
                 redkeyActive = true;
-            } else if (codeLower === VALID_CODE.toLowerCase()) {
-				discount = 50;
-			} else if (codeLower === VALID_CODE2.toLowerCase()) {
-				discount = 50;
-			} else if (codeLower === VALID_CODE3.toLowerCase()) {
-				discount = 50;
-			} else if (codeLower === VALID_CODE4.toLowerCase()) {
-				discount = 50;
-			} else if (codeLower === VALID_CODE5.toLowerCase()) {
-				discount = 50;
+            } else if (PERCENT_CODE_SET.has(codeLower)) {
+				percentDiscount = total * PERCENT_DISCOUNT_RATE;
 			}
 		}
         const firstItemPrice = cart.length > 0 ? calculateItemPrice(cart[0]) : 0;
-        const finalTotal = redkeyActive ? Math.max(total - firstItemPrice + 409.99, 0) : Math.max(total - discount, 0);
+        const finalTotal = redkeyActive ? Math.max(total - firstItemPrice + 409.99, 0) : Math.max(total - percentDiscount, 0);
         
         // Update UI
         cartContainer.innerHTML = cartHTML;
@@ -158,9 +153,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const redkeyDiscount = Math.max(firstItemPrice - 409.99, 0);
                 discountRow.style.display = '';
                 discountValue.textContent = `-$${redkeyDiscount.toFixed(2)}`;
-            } else if (discount > 0) {
+            } else if (percentDiscount > 0) {
                 discountRow.style.display = '';
-                discountValue.textContent = `-$${discount.toFixed(2)}`;
+                discountValue.textContent = `-5% ($${percentDiscount.toFixed(2)})`;
             } else {
                 discountRow.style.display = 'none';
                 discountValue.textContent = '-$0.00';
@@ -195,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (code.toLowerCase() === VALID_CODE.toLowerCase()) {
                 creatorCode = code;
                 localStorage.setItem('creatorCode', code);
-                if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+                if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
                 displayCart();
 			} else if (code.toLowerCase() === VALID_CODE6.toLowerCase()) {
 				creatorCode = code;
@@ -205,22 +200,22 @@ document.addEventListener('DOMContentLoaded', function() {
 			} else if (code.toLowerCase() === VALID_CODE2.toLowerCase()) {
                 creatorCode = code;
                 localStorage.setItem('creatorCode', code);
-				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
                 displayCart();
 			} else if (code.toLowerCase() === VALID_CODE3.toLowerCase()) {
 				creatorCode = code;
 				localStorage.setItem('creatorCode', code);
-				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
 				displayCart();
 			} else if (code.toLowerCase() === VALID_CODE4.toLowerCase()) {
 				creatorCode = code;
 				localStorage.setItem('creatorCode', code);
-				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
 				displayCart();
 			} else if (code.toLowerCase() === VALID_CODE5.toLowerCase()) {
 				creatorCode = code;
 				localStorage.setItem('creatorCode', code);
-				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: $50 off'; }
+				if (message) { message.style.color = '#00ff88'; message.textContent = 'Code applied: 5% off'; }
 				displayCart();
 			} else {
                 creatorCode = null;
@@ -408,21 +403,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // Calculate total
         const subtotal = cart.reduce((sum, item) => sum + calculateItemPrice(item), 0);
         let total = subtotal;
+        let percentDiscount = 0;
+        let redkeyActive = false;
 		if (creatorCode) {
             const codeLower = creatorCode.toLowerCase();
 			if (codeLower === VALID_CODE6.toLowerCase()) {
+                redkeyActive = true;
                 const firstItemPrice = cart.length > 0 ? calculateItemPrice(cart[0]) : 0;
                 total = Math.max(subtotal - firstItemPrice + 409.99, 0);
-			} else if (codeLower === VALID_CODE.toLowerCase()) {
-				total = Math.max(subtotal - 50, 0);
-			} else if (codeLower === VALID_CODE2.toLowerCase()) {
-				total = Math.max(subtotal - 50, 0);
-			} else if (codeLower === VALID_CODE3.toLowerCase()) {
-				total = Math.max(subtotal - 50, 0);
-			} else if (codeLower === VALID_CODE4.toLowerCase()) {
-				total = Math.max(subtotal - 50, 0);
-			} else if (codeLower === VALID_CODE5.toLowerCase()) {
-				total = Math.max(subtotal - 50, 0);
+			} else if (PERCENT_CODE_SET.has(codeLower)) {
+				percentDiscount = subtotal * PERCENT_DISCOUNT_RATE;
+                total = Math.max(subtotal - percentDiscount, 0);
 			}
 		}
         
