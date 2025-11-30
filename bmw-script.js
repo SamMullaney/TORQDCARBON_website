@@ -42,7 +42,7 @@ function changeBmwGTricolorImage(direction) {
 
 // --- BMW F Series Signature Preset (single image) ---
 let currentBmwFSignatureIndex = 0;
-const bmwFSignatureImages = ['images/bmwfseriessignaturepreset.JPG'];
+const bmwFSignatureImages = ['images/e92signaturepreset.JPG'];
 function changeBmwFSignatureImage(direction) {
     currentBmwFSignatureIndex += direction;
     if (currentBmwFSignatureIndex < 0) {
@@ -56,7 +56,7 @@ function changeBmwFSignatureImage(direction) {
 
 // --- e92 Signature Preset (single image) ---
 let currentE92SignatureIndex = 0;
-const e92SignatureImages = ['images/e92signaturepreset.JPG'];
+const e92SignatureImages = ['images/bmwfseriessignaturepreset.JPG'];
 function changeE92SignatureImage(direction) {
     currentE92SignatureIndex += direction;
     if (currentE92SignatureIndex < 0) {
