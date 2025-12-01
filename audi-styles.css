@@ -253,7 +253,7 @@
 }
 
 .audi-description-content.active {
-    max-height: 200px;
+    max-height: 1000px; /* ensure entire description stays visible */
     padding: 1rem;
 }
 

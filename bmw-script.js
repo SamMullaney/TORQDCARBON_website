@@ -68,6 +68,48 @@ function changeE92SignatureImage(direction) {
     if (img) img.src = e92SignatureImages[currentE92SignatureIndex];
 }
 
+// --- BMW F Series M Steering Wheel (Short Gripped Perforated Leather) ---
+let currentBmwFSeriesMIndex = 0;
+const bmwFSeriesMImages = ['images/bmwfseriesmsteeringwheel.JPG'];
+function changeBmwFSeriesMImage(direction) {
+    currentBmwFSeriesMIndex += direction;
+    if (currentBmwFSeriesMIndex < 0) {
+        currentBmwFSeriesMIndex = bmwFSeriesMImages.length - 1;
+    } else if (currentBmwFSeriesMIndex >= bmwFSeriesMImages.length) {
+        currentBmwFSeriesMIndex = 0;
+    }
+    const img = document.getElementById('bmw-fseriesm-image') || document.getElementById('shop-bmw-fseriesm-image');
+    if (img) img.src = bmwFSeriesMImages[currentBmwFSeriesMIndex];
+}
+
+// --- BMW Yuke Blackout Preset ---
+let currentBmwYukeBlackoutIndex = 0;
+const bmwYukeBlackoutImages = ['images/bmwyukeblackoutpreset.JPG'];
+function changeBmwYukeBlackoutImage(direction) {
+    currentBmwYukeBlackoutIndex += direction;
+    if (currentBmwYukeBlackoutIndex < 0) {
+        currentBmwYukeBlackoutIndex = bmwYukeBlackoutImages.length - 1;
+    } else if (currentBmwYukeBlackoutIndex >= bmwYukeBlackoutImages.length) {
+        currentBmwYukeBlackoutIndex = 0;
+    }
+    const img = document.getElementById('bmw-yukeblackout-image') || document.getElementById('shop-bmw-yukeblackout-image');
+    if (img) img.src = bmwYukeBlackoutImages[currentBmwYukeBlackoutIndex];
+}
+
+// --- BMW F Series Red Stitched Signature Skeleton Preset ---
+let currentBmwFRedSkeletonIndex = 0;
+const bmwFRedSkeletonImages = ['images/bmwfseriesredstitchedsignatureskeletonpreset.JPG'];
+function changeBmwFRedSkeletonImage(direction) {
+    currentBmwFRedSkeletonIndex += direction;
+    if (currentBmwFRedSkeletonIndex < 0) {
+        currentBmwFRedSkeletonIndex = bmwFRedSkeletonImages.length - 1;
+    } else if (currentBmwFRedSkeletonIndex >= bmwFRedSkeletonImages.length) {
+        currentBmwFRedSkeletonIndex = 0;
+    }
+    const img = document.getElementById('bmw-fredskeleton-image') || document.getElementById('shop-bmw-fredskeleton-image');
+    if (img) img.src = bmwFRedSkeletonImages[currentBmwFRedSkeletonIndex];
+}
+
 // --- Toggle Descriptions & Models ---
 function toggleBmwBasicDescription() {
     const description = document.getElementById("bmw-basic-description");
@@ -139,6 +181,54 @@ function toggleE92SignatureDescription() {
 
 function toggleE92SignatureModels() {
     const el = document.getElementById('e92-signature-models') || document.getElementById('shop-e92-signature-models');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwFSeriesMDescription() {
+    const el = document.getElementById('bmw-fseriesm-description') || document.getElementById('shop-bmw-fseriesm-description');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwFSeriesMModels() {
+    const el = document.getElementById('bmw-fseriesm-models') || document.getElementById('shop-bmw-fseriesm-models');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwYukeBlackoutDescription() {
+    const el = document.getElementById('bmw-yukeblackout-description') || document.getElementById('shop-bmw-yukeblackout-description');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwYukeBlackoutModels() {
+    const el = document.getElementById('bmw-yukeblackout-models') || document.getElementById('shop-bmw-yukeblackout-models');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwFRedSkeletonDescription() {
+    const el = document.getElementById('bmw-fredskeleton-description') || document.getElementById('shop-bmw-fredskeleton-description');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwFRedSkeletonModels() {
+    const el = document.getElementById('bmw-fredskeleton-models') || document.getElementById('shop-bmw-fredskeleton-models');
     if (!el) return;
     const button = el.previousElementSibling;
     el.classList.toggle('active');

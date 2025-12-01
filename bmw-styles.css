@@ -256,7 +256,7 @@
 }
 
 .bmw-description-content.active {
-    max-height: 200px;
+    max-height: 1000px; /* allow full copy to display */
     padding: 1rem;
 }
 
@@ -275,7 +275,7 @@
     }
     
     .bmw-description-content.active {
-        max-height: 150px;
+        max-height: 1000px;
         padding: 0.8rem;
     }
     
