@@ -152,6 +152,36 @@ function changeB9FlatBlueImage(direction) {
     document.getElementById("b9flatblue-image").src = b9FlatBlueImages[currentB9FlatBlueIndex];
 }
 
+// --- Audi B8.5 German F1 Steering Wheel Carousel ---
+let currentAudiGermanF1Index = 0;
+const audiGermanF1Images = ["images/AudiB8.5GermanF1SteeringWheel.JPG"];
+
+function changeAudiGermanF1Image(direction) {
+    currentAudiGermanF1Index += direction;
+    if (currentAudiGermanF1Index < 0) {
+        currentAudiGermanF1Index = audiGermanF1Images.length - 1;
+    } else if (currentAudiGermanF1Index >= audiGermanF1Images.length) {
+        currentAudiGermanF1Index = 0;
+    }
+    const img = document.getElementById("audi-germanf1-image") || document.getElementById("shop-audi-germanf1-image");
+    if (img) img.src = audiGermanF1Images[currentAudiGermanF1Index];
+}
+
+// --- Audi B8.5/C7 Blue Comfort Preset Carousel ---
+let currentAudiBlueComfortIndex = 0;
+const audiBlueComfortImages = ["images/AudiB8.5:C7BlueComfortpreset.JPG"];
+
+function changeAudiBlueComfortImage(direction) {
+    currentAudiBlueComfortIndex += direction;
+    if (currentAudiBlueComfortIndex < 0) {
+        currentAudiBlueComfortIndex = audiBlueComfortImages.length - 1;
+    } else if (currentAudiBlueComfortIndex >= audiBlueComfortImages.length) {
+        currentAudiBlueComfortIndex = 0;
+    }
+    const img = document.getElementById("audi-bluecomfort-image") || document.getElementById("shop-audi-bluecomfort-image");
+    if (img) img.src = audiBlueComfortImages[currentAudiBlueComfortIndex];
+}
+
 // --- b9 Carbon King Preset (single image) ---
 let currentB9CkpIndex = 0;
 const b9CkpImages = ["images/b9carbonkingpreset.jpg"];
@@ -367,6 +397,38 @@ function toggleB9FlatBlueModels() {
     const button = models.previousElementSibling;
     models.classList.toggle("active");
     button.classList.toggle("active");
+}
+
+function toggleAudiGermanF1Description() {
+    const description = document.getElementById("audi-germanf1-description") || document.getElementById("shop-audi-germanf1-description");
+    if (!description) return;
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleAudiGermanF1Models() {
+    const models = document.getElementById("audi-germanf1-models") || document.getElementById("shop-audi-germanf1-models");
+    if (!models) return;
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleAudiBlueComfortDescription() {
+    const description = document.getElementById("audi-bluecomfort-description") || document.getElementById("shop-audi-bluecomfort-description");
+    if (!description) return;
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleAudiBlueComfortModels() {
+    const models = document.getElementById("audi-bluecomfort-models") || document.getElementById("shop-audi-bluecomfort-models");
+    if (!models) return;
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    if (button) button.classList.toggle("active");
 }
 // --- Add to Cart for Audi Presets ---
 function setupAudiAddToCartButtons() {

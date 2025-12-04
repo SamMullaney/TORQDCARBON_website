@@ -68,6 +68,20 @@ function changeE92SignatureImage(direction) {
     if (img) img.src = e92SignatureImages[currentE92SignatureIndex];
 }
 
+// --- BMW F Series Simple Preset ---
+let currentBmwSimplePresetIndex = 0;
+const bmwSimplePresetImages = ['images/BMWFseriessimplepreset.JPG'];
+function changeBmwSimplePresetImage(direction) {
+    currentBmwSimplePresetIndex += direction;
+    if (currentBmwSimplePresetIndex < 0) {
+        currentBmwSimplePresetIndex = bmwSimplePresetImages.length - 1;
+    } else if (currentBmwSimplePresetIndex >= bmwSimplePresetImages.length) {
+        currentBmwSimplePresetIndex = 0;
+    }
+    const img = document.getElementById('bmw-simplepreset-image') || document.getElementById('shop-bmw-simplepreset-image');
+    if (img) img.src = bmwSimplePresetImages[currentBmwSimplePresetIndex];
+}
+
 // --- BMW F Series M Steering Wheel (Short Gripped Perforated Leather) ---
 let currentBmwFSeriesMIndex = 0;
 const bmwFSeriesMImages = ['images/bmwfseriesmsteeringwheel.JPG'];
@@ -181,6 +195,22 @@ function toggleE92SignatureDescription() {
 
 function toggleE92SignatureModels() {
     const el = document.getElementById('e92-signature-models') || document.getElementById('shop-e92-signature-models');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwSimplePresetDescription() {
+    const el = document.getElementById('bmw-simplepreset-description') || document.getElementById('shop-bmw-simplepreset-description');
+    if (!el) return;
+    const button = el.previousElementSibling;
+    el.classList.toggle('active');
+    if (button) button.classList.toggle('active');
+}
+
+function toggleBmwSimplePresetModels() {
+    const el = document.getElementById('bmw-simplepreset-models') || document.getElementById('shop-bmw-simplepreset-models');
     if (!el) return;
     const button = el.previousElementSibling;
     el.classList.toggle('active');
