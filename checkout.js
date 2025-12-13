@@ -479,7 +479,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     total: total,
                     creatorCode: creatorCode || null,
                     vehicleYMM: merchOnly ? '' : vehicleYMM,
-                    wheelImageFileId: wheelImageFileId
+                    wheelImageFileId: wheelImageFileId,
+                    merchOnlyCart: merchOnly
                 })
             });
             

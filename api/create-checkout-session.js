@@ -76,7 +76,7 @@ module.exports = async (req, res) => {
             if (!item) return false;
             if (item.type === 'merch') return true;
             const name = (item.name || '').toLowerCase();
-            return name.includes('torqd tee');
+            return name.includes('torqd tee') || name.includes('tee') || name.includes('shirt');
         };
 
         const preparedItems = cart.map((item, index) => {
