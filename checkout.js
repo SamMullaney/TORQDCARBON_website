@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!item) return false;
         if (item.type === 'merch') return true;
         const name = (item.name || '').toLowerCase();
-        return name.includes('torqd tee');
+        return name.includes('torqd tee') || name.includes('tee') || name.includes('shirt');
     }
 
     function normalizeCartForMerch(cartData) {
@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function merchOnlyCartActive() {
-        return false;
+        if (!Array.isArray(cart) || cart.length === 0) return false;
+        return cart.every(isMerchItem);
     }
 
     function initCheckout() {
@@ -429,18 +430,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function createCheckoutSession() {
+        const merchOnly = merchOnlyCartActive();
         // Validate vehicle info
         const vehicleYMMInput = document.getElementById('vehicle-ymm');
         const wheelImageInput = document.getElementById('wheel-image');
         const vehicleYMM = vehicleYMMInput ? vehicleYMMInput.value.trim() : '';
         const wheelImage = wheelImageInput && wheelImageInput.files ? wheelImageInput.files[0] : null;
 
-        if (!vehicleYMM) {
+        if (!merchOnly && !vehicleYMM) {
             alert('Please enter your vehicle Year, Make, and Model');
             return;
         }
 
-        if (!wheelImage) {
+        if (!merchOnly && !wheelImage) {
             alert('Please upload a photo of your current steering wheel');
             return;
         }
@@ -463,8 +465,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
         
         try {
-            // Upload image first
-            const wheelImageFileId = await uploadImageToStripe(wheelImage);
+            // Upload image first when needed
+            const wheelImageFileId = merchOnly ? null : await uploadImageToStripe(wheelImage);
 
             // Create checkout session
             const response = await fetch(`${API_BASE}/create-checkout-session`, {
@@ -476,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     cart: cart,
                     total: total,
                     creatorCode: creatorCode || null,
-                    vehicleYMM: vehicleYMM,
+                    vehicleYMM: merchOnly ? '' : vehicleYMM,
                     wheelImageFileId: wheelImageFileId
                 })
             });
@@ -504,14 +506,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const section = document.querySelector('.vehicle-info-section');
         const vehicleInput = document.getElementById('vehicle-ymm');
         const wheelInput = document.getElementById('wheel-image');
+        const merchOnly = merchOnlyCartActive();
+
         if (section) {
-            section.style.display = '';
+            section.style.display = merchOnly ? 'none' : '';
         }
         if (vehicleInput) {
-            vehicleInput.setAttribute('required', 'required');
+            if (merchOnly) {
+                vehicleInput.removeAttribute('required');
+                vehicleInput.value = '';
+            } else {
+                vehicleInput.setAttribute('required', 'required');
+            }
         }
         if (wheelInput) {
-            wheelInput.setAttribute('required', 'required');
+            if (merchOnly) {
+                wheelInput.removeAttribute('required');
+                wheelInput.value = '';
+            } else {
+                wheelInput.setAttribute('required', 'required');
+            }
         }
     }
 
