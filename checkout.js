@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Cart data
     let cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
+    cart = normalizeCartForMerch(cart);
     let creatorCode = null;
     const VALID_CODE = 'Zayyxclusive';
 	const VALID_CODE2 = 'TORQD';
@@ -30,6 +31,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the page
     initCheckout();
     
+    function isMerchItem(item) {
+        if (!item) return false;
+        if (item.type === 'merch') return true;
+        const name = (item.name || '').toLowerCase();
+        return name.includes('torqd tee');
+    }
+
+    function normalizeCartForMerch(cartData) {
+        if (!Array.isArray(cartData)) return [];
+        return cartData;
+    }
+
+    function merchOnlyCartActive() {
+        return false;
+    }
+
     function initCheckout() {
         displayCart();
         setupCheckoutButton();
@@ -52,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             `;
             cartTotal.textContent = '$0.00';
+            updateVehicleInfoSection();
             return;
         }
         
@@ -60,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const itemPrice = calculateItemPrice(item);
             total += itemPrice;
             
-            if (item.type === 'preset') {
+            if (item.type === 'preset' || item.type === 'merch') {
                 return `
                 <div class="cart-item">
                     <div class="cart-item-header">
@@ -166,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         cartTotal.textContent = `$${finalTotal.toFixed(2)}`;
+        updateVehicleInfoSection();
     }
     
     function setupCreatorCode() {
@@ -251,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function calculateItemPrice(item) {
-        if (item.type === 'preset') {
+        if (item.type === 'preset' || item.type === 'merch') {
             return typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
         }
         let basePrice = 799.99;
@@ -338,11 +357,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error('Checkout error:', error);
                     
                     // Show user-friendly error message
-                    let errorMessage = 'An error occurred while creating checkout. Please try again.';
+                    let errorMessage = (error && error.message) ? error.message : 'An error occurred while creating checkout. Please try again.';
+                    const lowerError = (errorMessage || '').toLowerCase();
                     
-                    if (String(error).toLowerCase().includes('network')) {
+                    if (lowerError.includes('network')) {
                         errorMessage = 'Network error. Please check your internet connection and try again.';
-                    } else if (String(error).toLowerCase().includes('session')) {
+                    } else if (lowerError.includes('session')) {
                         errorMessage = 'Unable to create checkout session. Please refresh the page and try again.';
                     }
                     
@@ -365,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < cart.length; i++) {
             const item = cart[i];
             
-            if (item.type === 'preset') {
+            if (item.type === 'preset' || item.type === 'merch') {
                 if (!item.name || (typeof item.price === 'undefined')) {
                     return 'Invalid preset cart item';
                 }
@@ -410,9 +430,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function createCheckoutSession() {
         // Validate vehicle info
-        const vehicleYMM = document.getElementById('vehicle-ymm').value.trim();
+        const vehicleYMMInput = document.getElementById('vehicle-ymm');
         const wheelImageInput = document.getElementById('wheel-image');
-        const wheelImage = wheelImageInput.files[0];
+        const vehicleYMM = vehicleYMMInput ? vehicleYMMInput.value.trim() : '';
+        const wheelImage = wheelImageInput && wheelImageInput.files ? wheelImageInput.files[0] : null;
 
         if (!vehicleYMM) {
             alert('Please enter your vehicle Year, Make, and Model');
@@ -464,7 +485,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (!response.ok) {
                 console.error('Checkout session creation failed:', response.status, result);
-                throw new Error(result.error || 'Failed to create checkout session');
+                const detailedMessage = result && result.errorCode
+                    ? `${result.error} [${result.errorCode}] ${result.item ? JSON.stringify(result.item) : ''}`
+                    : (result.error || 'Failed to create checkout session');
+                throw new Error(detailedMessage);
             }
             
             return result;
@@ -473,6 +497,21 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error creating checkout session:', error);
             alert('An error occurred while creating checkout. Please try again.');
             throw error;
+        }
+    }
+
+    function updateVehicleInfoSection() {
+        const section = document.querySelector('.vehicle-info-section');
+        const vehicleInput = document.getElementById('vehicle-ymm');
+        const wheelInput = document.getElementById('wheel-image');
+        if (section) {
+            section.style.display = '';
+        }
+        if (vehicleInput) {
+            vehicleInput.setAttribute('required', 'required');
+        }
+        if (wheelInput) {
+            wheelInput.setAttribute('required', 'required');
         }
     }
 

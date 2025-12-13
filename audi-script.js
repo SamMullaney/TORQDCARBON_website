@@ -182,6 +182,51 @@ function changeAudiBlueComfortImage(direction) {
     if (img) img.src = audiBlueComfortImages[currentAudiBlueComfortIndex];
 }
 
+// --- Audi B8.5/C7 Yellow Perforated Preset Carousel ---
+let currentAudiYellowPerforatedIndex = 0;
+const audiYellowPerforatedImages = ["images/audib8.5:c7yellowperforatedpreset.JPG"];
+
+function changeAudiYellowPerforatedImage(direction) {
+    currentAudiYellowPerforatedIndex += direction;
+    if (currentAudiYellowPerforatedIndex < 0) {
+        currentAudiYellowPerforatedIndex = audiYellowPerforatedImages.length - 1;
+    } else if (currentAudiYellowPerforatedIndex >= audiYellowPerforatedImages.length) {
+        currentAudiYellowPerforatedIndex = 0;
+    }
+    const img = document.getElementById("audi-yellowperforated-image") || document.getElementById("shop-audi-yellowperforated-image");
+    if (img) img.src = audiYellowPerforatedImages[currentAudiYellowPerforatedIndex];
+}
+
+// --- Audi B8.5 Carbon Fiber Plain Preset Carousel ---
+let currentAudiCarbonPlainIndex = 0;
+const audiCarbonPlainImages = ["images/audib8.5carbonfiberplainpreset.JPG"];
+
+function changeAudiCarbonPlainImage(direction) {
+    currentAudiCarbonPlainIndex += direction;
+    if (currentAudiCarbonPlainIndex < 0) {
+        currentAudiCarbonPlainIndex = audiCarbonPlainImages.length - 1;
+    } else if (currentAudiCarbonPlainIndex >= audiCarbonPlainImages.length) {
+        currentAudiCarbonPlainIndex = 0;
+    }
+    const img = document.getElementById("audi-carbonplain-image") || document.getElementById("shop-audi-carbonplain-image");
+    if (img) img.src = audiCarbonPlainImages[currentAudiCarbonPlainIndex];
+}
+
+// --- The TORQD Tee Carousel ---
+let currentTorqdTeeIndex = 0;
+const torqdTeeImages = ["images/shirt1.JPG", "images/shirt2.JPG"];
+
+function changeTorqdTeeImage(direction) {
+    currentTorqdTeeIndex += direction;
+    if (currentTorqdTeeIndex < 0) {
+        currentTorqdTeeIndex = torqdTeeImages.length - 1;
+    } else if (currentTorqdTeeIndex >= torqdTeeImages.length) {
+        currentTorqdTeeIndex = 0;
+    }
+    const img = document.getElementById("torqd-tee-image") || document.getElementById("shop-torqd-tee-image");
+    if (img) img.src = torqdTeeImages[currentTorqdTeeIndex];
+}
+
 // --- b9 Carbon King Preset (single image) ---
 let currentB9CkpIndex = 0;
 const b9CkpImages = ["images/b9carbonkingpreset.jpg"];
@@ -399,6 +444,14 @@ function toggleB9FlatBlueModels() {
     button.classList.toggle("active");
 }
 
+function toggleTorqdTeeDescription() {
+    const description = document.getElementById("torqd-tee-description") || document.getElementById("shop-torqd-tee-description");
+    if (!description) return;
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
 function toggleAudiGermanF1Description() {
     const description = document.getElementById("audi-germanf1-description") || document.getElementById("shop-audi-germanf1-description");
     if (!description) return;
@@ -430,6 +483,38 @@ function toggleAudiBlueComfortModels() {
     models.classList.toggle("active");
     if (button) button.classList.toggle("active");
 }
+
+function toggleAudiYellowPerforatedDescription() {
+    const description = document.getElementById("audi-yellowperforated-description") || document.getElementById("shop-audi-yellowperforated-description");
+    if (!description) return;
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleAudiYellowPerforatedModels() {
+    const models = document.getElementById("audi-yellowperforated-models") || document.getElementById("shop-audi-yellowperforated-models");
+    if (!models) return;
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleAudiCarbonPlainDescription() {
+    const description = document.getElementById("audi-carbonplain-description") || document.getElementById("shop-audi-carbonplain-description");
+    if (!description) return;
+    const button = description.previousElementSibling;
+    description.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
+
+function toggleAudiCarbonPlainModels() {
+    const models = document.getElementById("audi-carbonplain-models") || document.getElementById("shop-audi-carbonplain-models");
+    if (!models) return;
+    const button = models.previousElementSibling;
+    models.classList.toggle("active");
+    if (button) button.classList.toggle("active");
+}
 // --- Add to Cart for Audi Presets ---
 function setupAudiAddToCartButtons() {
     const productItems = document.querySelectorAll('.audi-product-item');
@@ -446,11 +531,17 @@ function setupAudiAddToCartButtons() {
 
         button.addEventListener('click', function() {
             const cart = JSON.parse(localStorage.getItem('torqdCart')) || [];
+            let variant = 'Sport';
+            if (variantSelect) {
+                const variantValue = variantSelect.value;
+                const variantLabel = variantSelect.getAttribute('data-variant-label');
+                variant = variantLabel ? `${variantLabel}: ${variantValue}` : variantValue;
+            }
             const presetItem = {
                 type: 'preset',
                 name: name,
                 price: price,
-                variant: variantSelect ? variantSelect.value : 'Sport'
+                variant: variant
             };
             cart.push(presetItem);
             localStorage.setItem('torqdCart', JSON.stringify(cart));

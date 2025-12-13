@@ -5,6 +5,38 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
+    const summarizeItem = (item) => {
+        if (!item) return {};
+        return {
+            type: item.type,
+            name: item.name,
+            price: item.price,
+            base: item.base,
+            sides: item.sides,
+            topbottom: item.topbottom,
+            badge: item.badge,
+            airbag: item.airbag,
+            topStripe: item.topStripe,
+            heating: item.heating,
+            trimColor: item.trimColor,
+            variant: item.variant
+        };
+    };
+
+    const isCustomWheelItem = (item) => {
+        if (!item) return false;
+        return Boolean(
+            item.base &&
+            item.sides &&
+            item.topbottom &&
+            item.badge &&
+            item.airbag &&
+            typeof item.topStripe !== 'undefined' &&
+            typeof item.heating !== 'undefined' &&
+            item.trimColor
+        );
+    };
+
     try {
         const secret = process.env.STRIPE_SECRET_KEY;
         if (!secret || !secret.startsWith('sk_')) {
@@ -12,7 +44,7 @@ module.exports = async (req, res) => {
         }
         const stripe = new Stripe(secret);
 
-        const { cart, creatorCode, vehicleYMM, wheelImageFileId } = req.body || {};
+        const { cart, creatorCode, vehicleYMM, wheelImageFileId, merchOnlyCart } = req.body || {};
 
         if (!Array.isArray(cart) || cart.length === 0) {
             return res.status(400).json({ error: 'Invalid cart data or cart is empty' });
@@ -33,23 +65,33 @@ module.exports = async (req, res) => {
         // Normalize and precompute validity for adding product metadata / discounts
         const creatorCodeDisplay = creatorCode ? String(creatorCode).trim() : '';
         const normalizedCode = creatorCodeDisplay.toLowerCase();
+        const merchOnly = Boolean(merchOnlyCart) || (cart.length > 0 && cart.every(isMerchItem));
+        const normalizedVehicleYMM = vehicleYMM || (merchOnly ? 'Merch Only Order' : '');
         const percentDiscountCodes = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt'];
         const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
         const redkeyActive = normalizedCode === 'redkey';
         const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt','redkey'].includes(normalizedCode);
 
+        const isMerchItem = (item) => {
+            if (!item) return false;
+            if (item.type === 'merch') return true;
+            const name = (item.name || '').toLowerCase();
+            return name.includes('torqd tee');
+        };
+
         const preparedItems = cart.map((item, index) => {
             // Preset item flow
-            if (item.type === 'preset') {
+            const customWheel = isCustomWheelItem(item);
+            if (merchOnly || item.type === 'preset' || isMerchItem(item) || !customWheel) {
                 const unit = Math.round(Number(item.price) * 100);
                 if (!Number.isFinite(unit) || unit <= 0 || unit > 1000000) {
-                    throw new Error(`Invalid preset item price at index ${index}`);
+                    throw new Error(`INVALID_PRESET_PRICE index=${index} details=${JSON.stringify(summarizeItem(item))}`);
                 }
                 
                 // Build description with YMM
                 const descriptionParts = [];
-                if (vehicleYMM) {
-                    descriptionParts.push(`Vehicle: ${vehicleYMM}`);
+                if (normalizedVehicleYMM) {
+                    descriptionParts.push(`Vehicle: ${normalizedVehicleYMM}`);
                 }
                 if (creatorCodeDisplay) {
                     descriptionParts.push(`Creator Code: ${creatorCodeDisplay}`);
@@ -74,10 +116,9 @@ module.exports = async (req, res) => {
             }
 
             // Custom design flow
-            if (!item.base || !item.sides || !item.topbottom) {
-                throw new Error(`Invalid custom item data at index ${index}`);
+            if (!customWheel) {
+                throw new Error(`INVALID_CUSTOM_ITEM index=${index} details=${JSON.stringify(summarizeItem(item))}`);
             }
-
             let basePrice = 799.99;
             if (item.heating === 'yes') basePrice += 50;
             const unit = Math.round(basePrice * 100);
@@ -87,8 +128,8 @@ module.exports = async (req, res) => {
 
             // Build description with all details + YMM
             let customDescription = `Base: ${item.base}, Sides: ${item.sides}, Top/Bottom: ${item.topbottom}, Badge: ${String(item.badge || '').toUpperCase()}, Airbag: ${item.airbag}, Top Stripe: ${item.topStripe === 'yes' ? 'Yes' : 'No'}, Heating: ${item.heating === 'yes' ? 'Yes' : 'No'}, Trim Color: ${item.trimColor}${item.additionalSpecs ? `, Additional Specs: ${item.additionalSpecs}` : ''}`;
-            if (vehicleYMM) {
-                customDescription += ` | Vehicle: ${vehicleYMM}`;
+            if (normalizedVehicleYMM) {
+                customDescription += ` | Vehicle: ${normalizedVehicleYMM}`;
             }
             if (creatorCodeDisplay) {
                 customDescription += ` | Creator Code: ${creatorCodeDisplay}`;
@@ -134,8 +175,8 @@ module.exports = async (req, res) => {
 
         // Build payment intent description with YMM and image link
         let paymentDescription = `Order for ${cart.length} item(s)`;
-        if (vehicleYMM) {
-            paymentDescription += ` | Vehicle: ${vehicleYMM}`;
+        if (normalizedVehicleYMM) {
+            paymentDescription += ` | Vehicle: ${normalizedVehicleYMM}`;
         }
         if (wheelImageFileLink) {
             paymentDescription += ` | Wheel Image: ${wheelImageFileLink.url}`;
@@ -157,14 +198,14 @@ module.exports = async (req, res) => {
                 metadata: {
                     creator_code: creatorCode || '',
                     total_items: String(cart.length),
-                    vehicle_ymm: vehicleYMM || '',
+                    vehicle_ymm: normalizedVehicleYMM || '',
                     wheel_image_file_id: wheelImageFileId || '',
                 },
             },
             metadata: {
                 total_items: String(cart.length),
                 creator_code: creatorCode || '',
-                vehicle_ymm: vehicleYMM || '',
+                vehicle_ymm: normalizedVehicleYMM || '',
                 wheel_image_file_id: wheelImageFileId || '',
             },
         });

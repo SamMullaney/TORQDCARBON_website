@@ -20,6 +20,45 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('.')); // Serve static files from current directory
 
+function isMerchItem(item) {
+    if (!item) return false;
+    if (item.type === 'merch') return true;
+    const name = (item.name || '').toLowerCase();
+    return name.includes('torqd tee');
+}
+
+function isCustomWheelItem(item) {
+    if (!item) return false;
+    return Boolean(
+        item.base &&
+        item.sides &&
+        item.topbottom &&
+        item.badge &&
+        item.airbag &&
+        typeof item.topStripe !== 'undefined' &&
+        typeof item.heating !== 'undefined' &&
+        item.trimColor
+    );
+}
+
+function summarizeItem(item) {
+    if (!item) return {};
+    return {
+        type: item.type,
+        name: item.name,
+        price: item.price,
+        base: item.base,
+        sides: item.sides,
+        topbottom: item.topbottom,
+        badge: item.badge,
+        airbag: item.airbag,
+        topStripe: item.topStripe,
+        heating: item.heating,
+        trimColor: item.trimColor,
+        variant: item.variant
+    };
+}
+
 // Upload wheel image to Stripe
 app.post('/upload-wheel-image', upload.single('file'), async (req, res) => {
     try {
@@ -47,40 +86,46 @@ app.post('/upload-wheel-image', upload.single('file'), async (req, res) => {
 // Create checkout session endpoint
 app.post('/create-checkout-session', async (req, res) => {
     try {
-        const { cart, creatorCode, vehicleYMM, wheelImageFileId } = req.body;
+        const { cart, creatorCode, vehicleYMM, wheelImageFileId, merchOnlyCart } = req.body;
 
         // Validate request
         if (!cart || !Array.isArray(cart) || cart.length === 0) {
             return res.status(400).json({ error: 'Invalid cart data or cart is empty' });
         }
 
+        const merchOnly = Boolean(merchOnlyCart) || (cart.length > 0 && cart.every(isMerchItem));
+
         // Validate each cart item (support both custom and preset)
         for (let i = 0; i < cart.length; i++) {
             const item = cart[i];
+            const customWheel = isCustomWheelItem(item);
 
-            if (item.type === 'preset') {
+            if (merchOnly || item.type === 'preset' || isMerchItem(item) || !customWheel) {
                 if (!item.name || typeof item.price === 'undefined') {
-                    return res.status(400).json({ error: `Invalid preset item at index ${i}` });
+                    const payload = { error: `Invalid preset item at index ${i}`, errorCode: 'INVALID_PRESET_STRUCTURE', index: i, item: summarizeItem(item) };
+                    console.error('[Express] Invalid preset structure', payload);
+                    return res.status(400).json(payload);
                 }
                 const price = Number(item.price);
                 if (!Number.isFinite(price) || price <= 0 || price > 10000) {
-                    return res.status(400).json({ error: `Invalid preset item price at index ${i}` });
+                    const payload = { error: `Invalid preset item price at index ${i}`, errorCode: 'INVALID_PRESET_PRICE', index: i, item: summarizeItem(item), price };
+                    console.error('[Express] Invalid preset price', payload);
+                    return res.status(400).json(payload);
                 }
                 continue;
             }
 
             // Custom item validation (existing)
-            if (!item.base || !item.sides || !item.topbottom) {
-                return res.status(400).json({ error: `Invalid item data at index ${i}` });
-            }
-
-            if (!item.badge || !item.airbag || !item.topStripe || !item.heating || !item.trimColor) {
-                return res.status(400).json({ error: `Missing required specifications for item at index ${i}` });
+            if (!customWheel) {
+                const payload = { error: `Invalid item data at index ${i}`, errorCode: 'INVALID_CUSTOM_ITEM', index: i, item: summarizeItem(item) };
+                console.error('[Express] Invalid custom wheel structure', payload);
+                return res.status(400).json(payload);
             }
         }
 
         const creatorCodeDisplay = creatorCode ? String(creatorCode).trim() : '';
         const normalizedCode = creatorCodeDisplay.toLowerCase();
+        const normalizedVehicleYMM = vehicleYMM || (merchOnly ? 'Merch Only Order' : '');
         const percentDiscountCodes = ['zayyxclusive', 'zayyxlcusive', 'torqd', 'soyerick', 'm3.cay', 'n63.heenz', 'panda', 'jake', 'maxxi', 'doubt'];
         const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
         const redkeyActive = normalizedCode === 'redkey';
@@ -105,13 +150,14 @@ app.post('/create-checkout-session', async (req, res) => {
 
         // Create line items for Stripe
         const preparedItems = cart.map((item, index) => {
-            if (item.type === 'preset') {
+            const customWheel = isCustomWheelItem(item);
+            if (merchOnly || item.type === 'preset' || isMerchItem(item) || !customWheel) {
                 let price = Math.round(Number(item.price) * 100);
 
                 // Build description with YMM
                 const descriptionParts = [];
-                if (vehicleYMM) {
-                    descriptionParts.push(`Vehicle: ${vehicleYMM}`);
+                if (normalizedVehicleYMM) {
+                    descriptionParts.push(`Vehicle: ${normalizedVehicleYMM}`);
                 }
                 if (creatorCodeDisplay) {
                     descriptionParts.push(`Creator Code: ${creatorCodeDisplay}`);
@@ -144,8 +190,8 @@ app.post('/create-checkout-session', async (req, res) => {
 
             // Build description with all details + YMM
             let customDescription = `Base: ${item.base}, Sides: ${item.sides}, Top/Bottom: ${item.topbottom}, Badge: ${item.badge.toUpperCase()}, Airbag: ${item.airbag}, Top Stripe: ${item.topStripe === 'yes' ? 'Yes' : 'No'}, Heating: ${item.heating === 'yes' ? 'Yes' : 'No'}, Trim Color: ${item.trimColor}${item.additionalSpecs ? `, Additional Specs: ${item.additionalSpecs}` : ''}`;
-            if (vehicleYMM) {
-                customDescription += ` | Vehicle: ${vehicleYMM}`;
+            if (normalizedVehicleYMM) {
+                customDescription += ` | Vehicle: ${normalizedVehicleYMM}`;
             }
             if (creatorCodeDisplay) {
                 customDescription += ` | Creator Code: ${creatorCodeDisplay}`;
@@ -191,8 +237,8 @@ app.post('/create-checkout-session', async (req, res) => {
 
         // Build payment intent description with YMM and image link
         let paymentDescription = `Order for ${cart.length} item(s)`;
-        if (vehicleYMM) {
-            paymentDescription += ` | Vehicle: ${vehicleYMM}`;
+        if (normalizedVehicleYMM) {
+            paymentDescription += ` | Vehicle: ${normalizedVehicleYMM}`;
         }
         if (wheelImageFileLink) {
             paymentDescription += ` | Wheel Image: ${wheelImageFileLink.url}`;
@@ -213,7 +259,7 @@ app.post('/create-checkout-session', async (req, res) => {
                 metadata: {
                     creator_code: creatorCode || '',
                     total_items: cart.length.toString(),
-                    vehicle_ymm: vehicleYMM || '',
+                    vehicle_ymm: normalizedVehicleYMM || '',
                     wheel_image_file_id: wheelImageFileId || '',
                 }
             },
@@ -222,7 +268,7 @@ app.post('/create-checkout-session', async (req, res) => {
                 total_items: cart.length.toString(),
                 created_at: new Date().toISOString(),
                 creator_code: creatorCode || '',
-                vehicle_ymm: vehicleYMM || '',
+                vehicle_ymm: normalizedVehicleYMM || '',
                 wheel_image_file_id: wheelImageFileId || '',
             },
             customer_email: req.body.email || undefined,
