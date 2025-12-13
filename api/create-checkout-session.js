@@ -1,41 +1,49 @@
 const Stripe = require('stripe');
 
+// Helpers hoisted outside handler to avoid any TDZ surprises
+function summarizeItem(item) {
+    if (!item) return {};
+    return {
+        type: item.type,
+        name: item.name,
+        price: item.price,
+        base: item.base,
+        sides: item.sides,
+        topbottom: item.topbottom,
+        badge: item.badge,
+        airbag: item.airbag,
+        topStripe: item.topStripe,
+        heating: item.heating,
+        trimColor: item.trimColor,
+        variant: item.variant
+    };
+}
+
+function isCustomWheelItem(item) {
+    if (!item) return false;
+    return Boolean(
+        item.base &&
+        item.sides &&
+        item.topbottom &&
+        item.badge &&
+        item.airbag &&
+        typeof item.topStripe !== 'undefined' &&
+        typeof item.heating !== 'undefined' &&
+        item.trimColor
+    );
+}
+
+function isMerch(item) {
+    if (!item) return false;
+    if (item.type === 'merch') return true;
+    const name = (item.name || '').toLowerCase();
+    return name.includes('torqd tee') || name.includes('tee') || name.includes('shirt');
+}
+
 module.exports = async (req, res) => {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
-
-    const summarizeItem = (item) => {
-        if (!item) return {};
-        return {
-            type: item.type,
-            name: item.name,
-            price: item.price,
-            base: item.base,
-            sides: item.sides,
-            topbottom: item.topbottom,
-            badge: item.badge,
-            airbag: item.airbag,
-            topStripe: item.topStripe,
-            heating: item.heating,
-            trimColor: item.trimColor,
-            variant: item.variant
-        };
-    };
-
-    const isCustomWheelItem = (item) => {
-        if (!item) return false;
-        return Boolean(
-            item.base &&
-            item.sides &&
-            item.topbottom &&
-            item.badge &&
-            item.airbag &&
-            typeof item.topStripe !== 'undefined' &&
-            typeof item.heating !== 'undefined' &&
-            item.trimColor
-        );
-    };
 
     try {
         const secret = process.env.STRIPE_SECRET_KEY;
@@ -48,6 +56,18 @@ module.exports = async (req, res) => {
 
         if (!Array.isArray(cart) || cart.length === 0) {
             return res.status(400).json({ error: 'Invalid cart data or cart is empty' });
+        }
+
+        const merchOnly = Boolean(merchOnlyCart) || (cart.length > 0 && cart.every(isMerch));
+
+        // Enforce vehicle/photo only when NOT merch-only
+        if (!merchOnly) {
+            if (!vehicleYMM) {
+                return res.status(400).json({ error: 'Missing vehicle YMM', errorCode: 'MISSING_YMM' });
+            }
+            if (!wheelImageFileId) {
+                return res.status(400).json({ error: 'Missing wheel image', errorCode: 'MISSING_WHEEL_IMAGE' });
+            }
         }
 
         // Create file link for the wheel image if provided
@@ -65,24 +85,16 @@ module.exports = async (req, res) => {
         // Normalize and precompute validity for adding product metadata / discounts
         const creatorCodeDisplay = creatorCode ? String(creatorCode).trim() : '';
         const normalizedCode = creatorCodeDisplay.toLowerCase();
-        const merchOnly = Boolean(merchOnlyCart) || (cart.length > 0 && cart.every(isMerchItem));
         const normalizedVehicleYMM = vehicleYMM || (merchOnly ? 'Merch Only Order' : '');
         const percentDiscountCodes = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt'];
         const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
         const redkeyActive = normalizedCode === 'redkey';
         const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt','redkey'].includes(normalizedCode);
 
-        const isMerchItem = (item) => {
-            if (!item) return false;
-            if (item.type === 'merch') return true;
-            const name = (item.name || '').toLowerCase();
-            return name.includes('torqd tee') || name.includes('tee') || name.includes('shirt');
-        };
-
         const preparedItems = cart.map((item, index) => {
             // Preset item flow
             const customWheel = isCustomWheelItem(item);
-            if (merchOnly || item.type === 'preset' || isMerchItem(item) || !customWheel) {
+            if (merchOnly || item.type === 'preset' || isMerch(item) || !customWheel) {
                 const unit = Math.round(Number(item.price) * 100);
                 if (!Number.isFinite(unit) || unit <= 0 || unit > 1000000) {
                     throw new Error(`INVALID_PRESET_PRICE index=${index} details=${JSON.stringify(summarizeItem(item))}`);
