@@ -86,10 +86,10 @@ module.exports = async (req, res) => {
         const creatorCodeDisplay = creatorCode ? String(creatorCode).trim() : '';
         const normalizedCode = creatorCodeDisplay.toLowerCase();
         const normalizedVehicleYMM = vehicleYMM || (merchOnly ? 'Merch Only Order' : '');
-        const percentDiscountCodes = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt'];
+        const percentDiscountCodes = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt','fears'];
         const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
         const redkeyActive = normalizedCode === 'redkey';
-        const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt','redkey'].includes(normalizedCode);
+        const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','soyerick','torqd','m3.cay','n63.heenz','panda','jake','maxxi','doubt','fears','redkey'].includes(normalizedCode);
 
         const preparedItems = cart.map((item, index) => {
             // Preset item flow

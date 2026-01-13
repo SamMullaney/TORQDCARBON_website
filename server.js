@@ -126,12 +126,12 @@ app.post('/create-checkout-session', async (req, res) => {
         const creatorCodeDisplay = creatorCode ? String(creatorCode).trim() : '';
         const normalizedCode = creatorCodeDisplay.toLowerCase();
         const normalizedVehicleYMM = vehicleYMM || (merchOnly ? 'Merch Only Order' : '');
-        const percentDiscountCodes = ['zayyxclusive', 'zayyxlcusive', 'torqd', 'soyerick', 'm3.cay', 'n63.heenz', 'panda', 'jake', 'maxxi', 'doubt'];
+        const percentDiscountCodes = ['zayyxclusive', 'zayyxlcusive', 'torqd', 'soyerick', 'm3.cay', 'n63.heenz', 'panda', 'jake', 'maxxi', 'doubt', 'fears'];
         const percentDiscountActive = percentDiscountCodes.includes(normalizedCode);
         const redkeyActive = normalizedCode === 'redkey';
 		// Normalize for metadata and validation
 		const normalizedCodeForMetadata = normalizedCode;
-		const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','torqd','soyerick','m3.cay','n63.heenz','panda','jake','maxxi','doubt','redkey'].includes(normalizedCodeForMetadata);
+		const creatorCodeIsValidForMetadata = ['zayyxclusive','zayyxlcusive','torqd','soyerick','m3.cay','n63.heenz','panda','jake','maxxi','doubt','fears','redkey'].includes(normalizedCodeForMetadata);
         if (creatorCode) {
             console.log('[Express] creatorCode:', normalizedCode, 'percentActive:', percentDiscountActive, 'redkeyActive:', redkeyActive);
         }
